@@ -11,8 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Cursor Effect Container -->
-    <div class="cursor-glow"></div>
+    <!-- Cursor Flow Trail -->
     <div class="cursor-trail"></div>
 
     <!-- Background Effects -->
@@ -184,9 +183,9 @@
         <div class="control-group">
             <div class="control-label">Theme</div>
             <div class="control-input">
-                <div class="color-swatch" style="background: linear-gradient(135deg, #6366f1, #ec4899);" title="Glassy" onclick="applyTheme('glassy')"></div>
-                <div class="color-swatch" style="background: #000000;" title="Midnight" onclick="applyTheme('midnight')"></div>
-                <div class="color-swatch" style="background: linear-gradient(135deg, #a855f7, #ec4899);" title="Neon" onclick="applyTheme('neon')"></div>
+                <div class="color-swatch active" data-theme="glassy" style="background: linear-gradient(135deg, #6366f1, #ec4899);" title="Glassy" onclick="applyTheme('glassy')"></div>
+                <div class="color-swatch" data-theme="midnight" style="background: #000000;" title="Midnight" onclick="applyTheme('midnight')"></div>
+                <div class="color-swatch" data-theme="neon" style="background: linear-gradient(135deg, #a855f7, #ec4899);" title="Neon" onclick="applyTheme('neon')"></div>
             </div>
         </div>
         <div class="control-group">

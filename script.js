@@ -34,42 +34,35 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ===================================
-    // Cursor Effects - Streak/Whisk
+    // Cursor Effects - Flow Trail
     // ===================================
-    const cursorGlow = document.querySelector('.cursor-glow');
     const cursorTrail = document.querySelector('.cursor-trail');
     let mouseX = 0;
     let mouseY = 0;
     let lastX = 0;
     let lastY = 0;
-    let particles = [];
 
-    // Track mouse position
+    // Track mouse position and create flow particles
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
 
-        // Update glow position immediately
-        if (cursorGlow) {
-            cursorGlow.style.left = `${mouseX}px`;
-            cursorGlow.style.top = `${mouseY}px`;
-        }
-
-        // Create streak particles
+        // Calculate movement distance
         const dx = mouseX - lastX;
         const dy = mouseY - lastY;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance > 5 && cursorTrail) { // Only create particles when moving
-            createStreakParticle(mouseX, mouseY);
+        // Create flow particles when moving (more frequent for smoother trail)
+        if (distance > 3 && cursorTrail) {
+            createFlowParticle(mouseX, mouseY, dx, dy);
         }
 
         lastX = mouseX;
         lastY = mouseY;
     });
 
-    // Create streak particle effect
-    function createStreakParticle(x, y) {
+    // Create flow particle effect
+    function createFlowParticle(x, y, dx, dy) {
         const particle = document.createElement('div');
         particle.className = 'cursor-particle';
         particle.style.left = `${x}px`;
@@ -80,26 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Remove particle after animation
         setTimeout(() => {
             particle.remove();
-        }, 600);
+        }, 800);
     }
-
-    // Change cursor on interactive elements
-    const interactiveElements = document.querySelectorAll('a, button, .feature-card, .welcome-option');
-    interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            if (cursorGlow) {
-                cursorGlow.style.width = '50px';
-                cursorGlow.style.height = '50px';
-            }
-        });
-
-        el.addEventListener('mouseleave', () => {
-            if (cursorGlow) {
-                cursorGlow.style.width = '30px';
-                cursorGlow.style.height = '30px';
-            }
-        });
-    });
 
     // ===================================
     // Navigation Scroll Effect
@@ -554,7 +529,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Auto-hide cursor effects on touch devices
     // ===================================
     if ('ontouchstart' in window) {
-        if (cursorGlow) cursorGlow.style.display = 'none';
         if (cursorTrail) cursorTrail.style.display = 'none';
     }
 
@@ -581,6 +555,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const step = this.closest('.welcome-step').dataset.step;
             const value = this.dataset.value;
             welcomeData[`step${step}`] = value;
+
+            // Apply theme if this is step 4 (theme selection)
+            if (step === '4' && (value === 'glassy' || value === 'midnight' || value === 'neon')) {
+                applyTheme(value);
+            }
         });
     });
 
@@ -680,7 +659,7 @@ function toggleSidebar() {
 // ===================================
 // Customization Functions (Global)
 // ===================================
-function applyTheme(themeName) {
+function applyTheme(themeName, silent = false) {
     const root = document.documentElement;
 
     switch(themeName) {
@@ -701,8 +680,20 @@ function applyTheme(themeName) {
             break;
     }
 
+    // Update active state on theme swatches
+    document.querySelectorAll('.color-swatch').forEach(swatch => {
+        if (swatch.dataset.theme === themeName) {
+            swatch.classList.add('active');
+        } else {
+            swatch.classList.remove('active');
+        }
+    });
+
     localStorage.setItem('hyperplanner_theme', themeName);
-    showNotification(`${themeName.charAt(0).toUpperCase() + themeName.slice(1)} theme applied!`, 'success');
+
+    if (!silent) {
+        showNotification(`${themeName.charAt(0).toUpperCase() + themeName.slice(1)} theme applied!`, 'success');
+    }
 }
 
 function adjustBlur(value) {
@@ -712,10 +703,10 @@ function adjustBlur(value) {
 }
 
 function adjustGlow(value) {
-    const cursorGlow = document.querySelector('.cursor-glow');
-    if (cursorGlow) {
+    const cursorTrail = document.querySelector('.cursor-trail');
+    if (cursorTrail) {
         const opacity = value / 100;
-        cursorGlow.style.opacity = opacity;
+        cursorTrail.style.opacity = opacity;
     }
     localStorage.setItem('hyperplanner_glow', value);
 }
@@ -727,8 +718,17 @@ function resetCustomization() {
     root.style.setProperty('--bg-primary', '#0f0f1a');
     root.style.setProperty('--blur-md', '16px');
 
-    const cursorGlow = document.querySelector('.cursor-glow');
-    if (cursorGlow) cursorGlow.style.opacity = '1';
+    const cursorTrail = document.querySelector('.cursor-trail');
+    if (cursorTrail) cursorTrail.style.opacity = '1';
+
+    // Reset theme swatches to glassy (default)
+    document.querySelectorAll('.color-swatch').forEach(swatch => {
+        if (swatch.dataset.theme === 'glassy') {
+            swatch.classList.add('active');
+        } else {
+            swatch.classList.remove('active');
+        }
+    });
 
     // Reset sliders
     document.querySelectorAll('.slider-control input[type="range"]').forEach(slider => {
@@ -752,9 +752,19 @@ window.addEventListener('load', () => {
     const savedBlur = localStorage.getItem('hyperplanner_blur');
     const savedGlow = localStorage.getItem('hyperplanner_glow');
 
-    if (savedTheme) applyTheme(savedTheme);
-    if (savedBlur) adjustBlur(savedBlur);
-    if (savedGlow) adjustGlow(savedGlow);
+    if (savedTheme) applyTheme(savedTheme, true);
+    if (savedBlur) {
+        adjustBlur(savedBlur);
+        // Update blur slider value
+        const blurSlider = document.querySelector('input[type="range"][oninput*="adjustBlur"]');
+        if (blurSlider) blurSlider.value = savedBlur;
+    }
+    if (savedGlow) {
+        adjustGlow(savedGlow);
+        // Update glow slider value
+        const glowSlider = document.querySelector('input[type="range"][oninput*="adjustGlow"]');
+        if (glowSlider) glowSlider.value = savedGlow;
+    }
 });
 
 // ===================================
