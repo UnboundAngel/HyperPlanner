@@ -34,42 +34,35 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ===================================
-    // Cursor Effects - Streak/Whisk
+    // Cursor Effects - Flow Trail
     // ===================================
-    const cursorGlow = document.querySelector('.cursor-glow');
     const cursorTrail = document.querySelector('.cursor-trail');
     let mouseX = 0;
     let mouseY = 0;
     let lastX = 0;
     let lastY = 0;
-    let particles = [];
 
-    // Track mouse position
+    // Track mouse position and create flow particles
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
 
-        // Update glow position immediately
-        if (cursorGlow) {
-            cursorGlow.style.left = `${mouseX}px`;
-            cursorGlow.style.top = `${mouseY}px`;
-        }
-
-        // Create streak particles
+        // Calculate movement distance
         const dx = mouseX - lastX;
         const dy = mouseY - lastY;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance > 5 && cursorTrail) { // Only create particles when moving
-            createStreakParticle(mouseX, mouseY);
+        // Create flow particles when moving (more frequent for smoother trail)
+        if (distance > 3 && cursorTrail) {
+            createFlowParticle(mouseX, mouseY, dx, dy);
         }
 
         lastX = mouseX;
         lastY = mouseY;
     });
 
-    // Create streak particle effect
-    function createStreakParticle(x, y) {
+    // Create flow particle effect
+    function createFlowParticle(x, y, dx, dy) {
         const particle = document.createElement('div');
         particle.className = 'cursor-particle';
         particle.style.left = `${x}px`;
@@ -80,26 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Remove particle after animation
         setTimeout(() => {
             particle.remove();
-        }, 600);
+        }, 800);
     }
-
-    // Change cursor on interactive elements
-    const interactiveElements = document.querySelectorAll('a, button, .feature-card, .welcome-option');
-    interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            if (cursorGlow) {
-                cursorGlow.style.width = '50px';
-                cursorGlow.style.height = '50px';
-            }
-        });
-
-        el.addEventListener('mouseleave', () => {
-            if (cursorGlow) {
-                cursorGlow.style.width = '30px';
-                cursorGlow.style.height = '30px';
-            }
-        });
-    });
 
     // ===================================
     // Navigation Scroll Effect
@@ -554,7 +529,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Auto-hide cursor effects on touch devices
     // ===================================
     if ('ontouchstart' in window) {
-        if (cursorGlow) cursorGlow.style.display = 'none';
         if (cursorTrail) cursorTrail.style.display = 'none';
     }
 
@@ -581,6 +555,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const step = this.closest('.welcome-step').dataset.step;
             const value = this.dataset.value;
             welcomeData[`step${step}`] = value;
+
+            // Apply theme if this is step 4 (theme selection)
+            if (step === '4' && (value === 'glassy' || value === 'midnight' || value === 'neon')) {
+                applyTheme(value);
+            }
         });
     });
 
@@ -680,7 +659,7 @@ function toggleSidebar() {
 // ===================================
 // Customization Functions (Global)
 // ===================================
-function applyTheme(themeName) {
+function applyTheme(themeName, silent = false) {
     const root = document.documentElement;
 
     switch(themeName) {
@@ -701,8 +680,20 @@ function applyTheme(themeName) {
             break;
     }
 
+    // Update active state on theme swatches
+    document.querySelectorAll('.color-swatch').forEach(swatch => {
+        if (swatch.dataset.theme === themeName) {
+            swatch.classList.add('active');
+        } else {
+            swatch.classList.remove('active');
+        }
+    });
+
     localStorage.setItem('hyperplanner_theme', themeName);
-    showNotification(`${themeName.charAt(0).toUpperCase() + themeName.slice(1)} theme applied!`, 'success');
+
+    if (!silent) {
+        showNotification(`${themeName.charAt(0).toUpperCase() + themeName.slice(1)} theme applied!`, 'success');
+    }
 }
 
 function adjustBlur(value) {
@@ -712,10 +703,10 @@ function adjustBlur(value) {
 }
 
 function adjustGlow(value) {
-    const cursorGlow = document.querySelector('.cursor-glow');
-    if (cursorGlow) {
+    const cursorTrail = document.querySelector('.cursor-trail');
+    if (cursorTrail) {
         const opacity = value / 100;
-        cursorGlow.style.opacity = opacity;
+        cursorTrail.style.opacity = opacity;
     }
     localStorage.setItem('hyperplanner_glow', value);
 }
@@ -727,8 +718,17 @@ function resetCustomization() {
     root.style.setProperty('--bg-primary', '#0f0f1a');
     root.style.setProperty('--blur-md', '16px');
 
-    const cursorGlow = document.querySelector('.cursor-glow');
-    if (cursorGlow) cursorGlow.style.opacity = '1';
+    const cursorTrail = document.querySelector('.cursor-trail');
+    if (cursorTrail) cursorTrail.style.opacity = '1';
+
+    // Reset theme swatches to glassy (default)
+    document.querySelectorAll('.color-swatch').forEach(swatch => {
+        if (swatch.dataset.theme === 'glassy') {
+            swatch.classList.add('active');
+        } else {
+            swatch.classList.remove('active');
+        }
+    });
 
     // Reset sliders
     document.querySelectorAll('.slider-control input[type="range"]').forEach(slider => {
@@ -752,9 +752,19 @@ window.addEventListener('load', () => {
     const savedBlur = localStorage.getItem('hyperplanner_blur');
     const savedGlow = localStorage.getItem('hyperplanner_glow');
 
-    if (savedTheme) applyTheme(savedTheme);
-    if (savedBlur) adjustBlur(savedBlur);
-    if (savedGlow) adjustGlow(savedGlow);
+    if (savedTheme) applyTheme(savedTheme, true);
+    if (savedBlur) {
+        adjustBlur(savedBlur);
+        // Update blur slider value
+        const blurSlider = document.querySelector('input[type="range"][oninput*="adjustBlur"]');
+        if (blurSlider) blurSlider.value = savedBlur;
+    }
+    if (savedGlow) {
+        adjustGlow(savedGlow);
+        // Update glow slider value
+        const glowSlider = document.querySelector('input[type="range"][oninput*="adjustGlow"]');
+        if (glowSlider) glowSlider.value = savedGlow;
+    }
 });
 
 // ===================================
@@ -768,6 +778,356 @@ if ('serviceWorker' in navigator) {
         //     .catch(error => console.log('SW registration failed:', error));
     });
 }
+
+// ===================================
+// Authentication Functions
+// ===================================
+
+// Toggle password visibility
+function togglePasswordVisibility(inputId) {
+    const input = document.getElementById(inputId);
+    const toggleBtn = input.parentElement.querySelector('.password-toggle');
+    const eyeIcon = toggleBtn.querySelector('.eye-icon');
+    const eyeOffIcon = toggleBtn.querySelector('.eye-off-icon');
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        eyeIcon.classList.add('hidden');
+        eyeOffIcon.classList.remove('hidden');
+    } else {
+        input.type = 'password';
+        eyeIcon.classList.remove('hidden');
+        eyeOffIcon.classList.add('hidden');
+    }
+}
+
+// Email validation
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
+
+// Password strength checker
+function checkPasswordStrength(password) {
+    let strength = 0;
+    if (password.length >= 8) strength++;
+    if (password.match(/[a-z]/)) strength++;
+    if (password.match(/[A-Z]/)) strength++;
+    if (password.match(/[0-9]/)) strength++;
+    if (password.match(/[^a-zA-Z0-9]/)) strength++;
+
+    if (strength <= 2) return 'weak';
+    if (strength <= 3) return 'medium';
+    return 'strong';
+}
+
+// Update password strength indicator
+function updatePasswordStrength(password) {
+    const strengthFill = document.getElementById('strength-fill');
+    const strengthText = document.getElementById('strength-text');
+
+    if (!strengthFill || !strengthText) return;
+
+    const strength = checkPasswordStrength(password);
+    const strengthSpan = strengthText.querySelector('span');
+
+    // Remove all strength classes
+    strengthFill.classList.remove('weak', 'medium', 'strong');
+    strengthText.classList.remove('weak', 'medium', 'strong');
+
+    if (password.length === 0) {
+        strengthSpan.textContent = '-';
+        return;
+    }
+
+    // Add appropriate class and text
+    strengthFill.classList.add(strength);
+    strengthText.classList.add(strength);
+    strengthSpan.textContent = strength.charAt(0).toUpperCase() + strength.slice(1);
+}
+
+// Show forgot password form
+function showForgotPassword(event) {
+    event.preventDefault();
+
+    const signinForm = document.getElementById('signinForm');
+    const forgotForm = document.getElementById('forgotForm');
+    const authTabs = document.getElementById('authTabs');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalSubtitle = document.getElementById('modalSubtitle');
+
+    signinForm.classList.add('hidden');
+    forgotForm.classList.remove('hidden');
+    authTabs.style.display = 'none';
+
+    modalTitle.textContent = 'Reset Password';
+    modalSubtitle.textContent = 'Enter your email to receive a reset link';
+}
+
+// Back to sign in
+function backToSignIn(event) {
+    event.preventDefault();
+
+    const signinForm = document.getElementById('signinForm');
+    const forgotForm = document.getElementById('forgotForm');
+    const authTabs = document.getElementById('authTabs');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalSubtitle = document.getElementById('modalSubtitle');
+
+    forgotForm.classList.add('hidden');
+    signinForm.classList.remove('hidden');
+    authTabs.style.display = '';
+
+    modalTitle.textContent = 'Welcome Back';
+    modalSubtitle.textContent = 'Sign in to sync across devices and unlock all features';
+}
+
+// Handle sign in
+function handleSignIn(event) {
+    event.preventDefault();
+
+    const emailInput = document.getElementById('signin-email');
+    const passwordInput = document.getElementById('signin-password');
+    const submitBtn = document.getElementById('signin-submit');
+    const emailHelp = document.getElementById('signin-email-help');
+
+    // Validate email
+    if (!validateEmail(emailInput.value)) {
+        emailInput.classList.add('error');
+        emailHelp.classList.remove('hidden');
+        emailHelp.classList.add('error');
+        emailHelp.querySelector('.help-text').textContent = 'Please enter a valid email address';
+        return;
+    }
+
+    // Validate password
+    if (passwordInput.value.length < 6) {
+        passwordInput.classList.add('error');
+        showNotification('Password is too short', 'error');
+        return;
+    }
+
+    // Show loading state
+    submitBtn.classList.add('loading');
+    emailInput.classList.remove('error');
+    passwordInput.classList.remove('error');
+    emailHelp.classList.add('hidden');
+
+    // Simulate API call
+    setTimeout(() => {
+        submitBtn.classList.remove('loading');
+
+        // In production, this would make an actual API call
+        // For now, show success message
+        showNotification('Sign in successful! Welcome back!', 'success');
+
+        // Close modal after a delay
+        setTimeout(() => {
+            const modal = document.getElementById('signInModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+
+            // Clear form
+            emailInput.value = '';
+            passwordInput.value = '';
+        }, 1500);
+    }, 1500);
+}
+
+// Handle sign up
+function handleSignUp(event) {
+    event.preventDefault();
+
+    const nameInput = document.getElementById('signup-name');
+    const emailInput = document.getElementById('signup-email');
+    const passwordInput = document.getElementById('signup-password');
+    const submitBtn = document.getElementById('signup-submit');
+    const emailHelp = document.getElementById('signup-email-help');
+
+    let isValid = true;
+
+    // Validate name
+    if (nameInput.value.trim().length < 2) {
+        nameInput.classList.add('error');
+        showNotification('Please enter your name', 'error');
+        isValid = false;
+    }
+
+    // Validate email
+    if (!validateEmail(emailInput.value)) {
+        emailInput.classList.add('error');
+        emailHelp.classList.remove('hidden');
+        emailHelp.classList.add('error');
+        emailHelp.querySelector('.help-icon').textContent = '✗';
+        emailHelp.querySelector('.help-text').textContent = 'Invalid email address';
+        isValid = false;
+    }
+
+    // Validate password
+    if (passwordInput.value.length < 8) {
+        passwordInput.classList.add('error');
+        showNotification('Password must be at least 8 characters', 'error');
+        isValid = false;
+    }
+
+    if (!isValid) return;
+
+    // Show loading state
+    submitBtn.classList.add('loading');
+    nameInput.classList.remove('error');
+    emailInput.classList.remove('error');
+    passwordInput.classList.remove('error');
+
+    // Simulate API call
+    setTimeout(() => {
+        submitBtn.classList.remove('loading');
+
+        // In production, this would make an actual API call
+        showNotification('Account created successfully! Welcome to HyperPlanner!', 'success');
+
+        // Close modal and redirect
+        setTimeout(() => {
+            const modal = document.getElementById('signInModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+
+            // Clear form
+            nameInput.value = '';
+            emailInput.value = '';
+            passwordInput.value = '';
+
+            // Reset password strength
+            updatePasswordStrength('');
+        }, 1500);
+    }, 1500);
+}
+
+// Handle forgot password
+function handleForgotPassword(event) {
+    event.preventDefault();
+
+    const emailInput = document.getElementById('forgot-email');
+    const submitBtn = document.getElementById('forgot-submit');
+
+    // Validate email
+    if (!validateEmail(emailInput.value)) {
+        emailInput.classList.add('error');
+        showNotification('Please enter a valid email address', 'error');
+        return;
+    }
+
+    // Show loading state
+    submitBtn.classList.add('loading');
+    emailInput.classList.remove('error');
+
+    // Simulate API call
+    setTimeout(() => {
+        submitBtn.classList.remove('loading');
+
+        showNotification('Password reset link sent! Check your email.', 'success');
+
+        // Clear form and go back to sign in
+        setTimeout(() => {
+            emailInput.value = '';
+            backToSignIn(event);
+        }, 2000);
+    }, 1500);
+}
+
+// Handle Google OAuth
+function handleGoogleAuth(event) {
+    event.preventDefault();
+
+    const btn = event.currentTarget;
+    btn.style.opacity = '0.7';
+    btn.style.pointerEvents = 'none';
+
+    // In production, this would redirect to Google OAuth
+    // window.location.href = '/auth/google';
+
+    showNotification('Redirecting to Google...', 'info');
+
+    setTimeout(() => {
+        // Simulate OAuth redirect
+        showNotification('Google OAuth integration coming soon!', 'info');
+        btn.style.opacity = '';
+        btn.style.pointerEvents = '';
+    }, 1500);
+}
+
+// Handle GitHub OAuth
+function handleGitHubAuth(event) {
+    event.preventDefault();
+
+    const btn = event.currentTarget;
+    btn.style.opacity = '0.7';
+    btn.style.pointerEvents = 'none';
+
+    // In production, this would redirect to GitHub OAuth
+    // window.location.href = '/auth/github';
+
+    showNotification('Redirecting to GitHub...', 'info');
+
+    setTimeout(() => {
+        // Simulate OAuth redirect
+        showNotification('GitHub OAuth integration coming soon!', 'info');
+        btn.style.opacity = '';
+        btn.style.pointerEvents = '';
+    }, 1500);
+}
+
+// Set up real-time validation
+document.addEventListener('DOMContentLoaded', () => {
+    // Email validation for sign-in
+    const signinEmail = document.getElementById('signin-email');
+    if (signinEmail) {
+        signinEmail.addEventListener('input', (e) => {
+            const emailHelp = document.getElementById('signin-email-help');
+            if (validateEmail(e.target.value)) {
+                e.target.classList.remove('error');
+                e.target.classList.add('success');
+                emailHelp.classList.add('hidden');
+            } else {
+                e.target.classList.remove('success');
+            }
+        });
+    }
+
+    // Email validation for sign-up
+    const signupEmail = document.getElementById('signup-email');
+    if (signupEmail) {
+        signupEmail.addEventListener('input', (e) => {
+            const emailHelp = document.getElementById('signup-email-help');
+            if (validateEmail(e.target.value)) {
+                e.target.classList.remove('error');
+                e.target.classList.add('success');
+                emailHelp.classList.remove('hidden', 'error');
+                emailHelp.classList.add('success');
+                emailHelp.querySelector('.help-icon').textContent = '✓';
+                emailHelp.querySelector('.help-text').textContent = 'Email is valid';
+            } else {
+                e.target.classList.remove('success');
+                emailHelp.classList.add('hidden');
+            }
+        });
+    }
+
+    // Password strength for sign-up
+    const signupPassword = document.getElementById('signup-password');
+    if (signupPassword) {
+        signupPassword.addEventListener('input', (e) => {
+            updatePasswordStrength(e.target.value);
+            e.target.classList.remove('error');
+        });
+    }
+
+    // Clear error states on focus
+    document.querySelectorAll('.form-group input').forEach(input => {
+        input.addEventListener('focus', () => {
+            input.classList.remove('error');
+        });
+    });
+});
 
 // ===================================
 // Analytics Placeholder

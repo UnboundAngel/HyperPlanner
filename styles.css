@@ -98,9 +98,9 @@ body {
         rgba(245, 158, 11, 0.08) 0%,
         transparent 70%
     );
-    animation: gradientShift 20s ease infinite;
     pointer-events: none;
     z-index: -2;
+    transition: transform 0.3s ease-out;
 }
 
 .bg-mesh {
@@ -117,47 +117,24 @@ body {
     z-index: -1;
 }
 
-@keyframes gradientShift {
-    0%, 100% { transform: translate(0, 0); }
-    33% { transform: translate(5%, -5%); }
-    66% { transform: translate(-5%, 5%); }
-}
-
-/* Cursor Effects - Streak/Whisk */
-.cursor-glow {
-    position: fixed;
-    width: 30px;
-    height: 30px;
-    background: radial-gradient(
-        circle,
-        rgba(99, 102, 241, 0.6) 0%,
-        rgba(236, 72, 153, 0.4) 50%,
-        transparent 100%
-    );
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    z-index: 9999;
-    opacity: 0;
-    border-radius: 50%;
-    transition: opacity 0.3s ease;
-}
-
+/* Cursor Effects - Flow Trail */
 .cursor-trail {
     position: fixed;
     pointer-events: none;
     z-index: 9998;
-    opacity: 0;
+    opacity: 1;
 }
 
-/* Cursor streak particle */
+/* Cursor flow particle */
 .cursor-particle {
     position: absolute;
-    width: 4px;
-    height: 4px;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.8), rgba(236, 72, 153, 0.8));
+    width: 8px;
+    height: 8px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.6), rgba(236, 72, 153, 0.4));
     border-radius: 50%;
     pointer-events: none;
-    animation: fadeParticle 0.6s ease-out forwards;
+    animation: fadeParticle 0.8s ease-out forwards;
+    box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
 }
 
 @keyframes fadeParticle {
@@ -167,13 +144,8 @@ body {
     }
     100% {
         opacity: 0;
-        transform: scale(0.3);
+        transform: scale(0.2);
     }
-}
-
-body:hover .cursor-glow,
-body:hover .cursor-trail {
-    opacity: 1;
 }
 
 /* Navigation */
@@ -1243,6 +1215,193 @@ body:hover .cursor-trail {
     border-color: rgba(255, 255, 255, 0.2);
 }
 
+/* Password Input Wrapper */
+.password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input-wrapper input {
+    padding-right: 40px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 40px;
+    background: none;
+    border: none;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition-fast);
+}
+
+.password-toggle:hover {
+    color: var(--text-primary);
+}
+
+.password-toggle .eye-icon,
+.password-toggle .eye-off-icon {
+    transition: opacity var(--transition-fast);
+}
+
+/* Form Help Text */
+.form-help {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    margin-top: var(--spacing-xs);
+    font-size: 0.8125rem;
+    color: var(--text-tertiary);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-help.error {
+    color: #ef4444;
+}
+
+.form-help.success {
+    color: var(--success);
+}
+
+.help-icon {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.help-text {
+    flex: 1;
+}
+
+/* Password Strength Indicator */
+.password-strength {
+    margin-top: var(--spacing-sm);
+}
+
+.strength-bar {
+    height: 4px;
+    background: var(--glass);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: var(--spacing-xs);
+}
+
+.strength-fill {
+    height: 100%;
+    width: 0%;
+    transition: all var(--transition-base);
+    border-radius: 999px;
+}
+
+.strength-fill.weak {
+    width: 33%;
+    background: #ef4444;
+}
+
+.strength-fill.medium {
+    width: 66%;
+    background: #f59e0b;
+}
+
+.strength-fill.strong {
+    width: 100%;
+    background: var(--success);
+}
+
+.strength-text {
+    font-size: 0.8125rem;
+    color: var(--text-tertiary);
+}
+
+.strength-text span {
+    font-weight: 600;
+}
+
+.strength-text.weak span {
+    color: #ef4444;
+}
+
+.strength-text.medium span {
+    color: #f59e0b;
+}
+
+.strength-text.strong span {
+    color: var(--success);
+}
+
+/* Form Actions */
+.form-actions {
+    margin-top: var(--spacing-lg);
+}
+
+/* Button Loading State */
+.btn-loader {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-loader .spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.btn.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.btn.loading .btn-text {
+    display: none;
+}
+
+.btn.loading .btn-loader {
+    display: inline-flex;
+}
+
+/* Input States */
+.form-group input.error {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+}
+
+.form-group input.success {
+    border-color: var(--success) !important;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
     .hero {
@@ -1492,11 +1651,30 @@ body:hover .cursor-trail {
     border: 2px solid var(--glass-border);
     cursor: pointer;
     transition: all var(--transition-fast);
+    position: relative;
 }
 
 .color-swatch:hover {
     transform: scale(1.1);
     border-color: var(--primary);
+}
+
+.color-swatch.active {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+    transform: scale(1.05);
+}
+
+.color-swatch.active::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 }
 
 .slider-control {

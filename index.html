@@ -11,8 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Cursor Effect Container -->
-    <div class="cursor-glow"></div>
+    <!-- Cursor Flow Trail -->
     <div class="cursor-trail"></div>
 
     <!-- Background Effects -->
@@ -184,9 +183,9 @@
         <div class="control-group">
             <div class="control-label">Theme</div>
             <div class="control-input">
-                <div class="color-swatch" style="background: linear-gradient(135deg, #6366f1, #ec4899);" title="Glassy" onclick="applyTheme('glassy')"></div>
-                <div class="color-swatch" style="background: #000000;" title="Midnight" onclick="applyTheme('midnight')"></div>
-                <div class="color-swatch" style="background: linear-gradient(135deg, #a855f7, #ec4899);" title="Neon" onclick="applyTheme('neon')"></div>
+                <div class="color-swatch active" data-theme="glassy" style="background: linear-gradient(135deg, #6366f1, #ec4899);" title="Glassy" onclick="applyTheme('glassy')"></div>
+                <div class="color-swatch" data-theme="midnight" style="background: #000000;" title="Midnight" onclick="applyTheme('midnight')"></div>
+                <div class="color-swatch" data-theme="neon" style="background: linear-gradient(135deg, #a855f7, #ec4899);" title="Neon" onclick="applyTheme('neon')"></div>
             </div>
         </div>
         <div class="control-group">
@@ -770,46 +769,123 @@
         <div class="modal-content">
             <button class="modal-close">&times;</button>
             <div class="modal-header">
-                <h2>Welcome Back</h2>
-                <p>Sign in to sync across devices and unlock all features</p>
+                <h2 id="modalTitle">Welcome Back</h2>
+                <p id="modalSubtitle">Sign in to sync across devices and unlock all features</p>
             </div>
             <div class="modal-body">
-                <div class="auth-tabs">
+                <div class="auth-tabs" id="authTabs">
                     <button class="auth-tab active" data-tab="signin">Sign In</button>
                     <button class="auth-tab" data-tab="signup">Create Account</button>
                 </div>
 
+                <!-- Sign In Form -->
                 <div class="auth-form" id="signinForm">
                     <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" placeholder="you@example.com">
+                        <label for="signin-email">Email</label>
+                        <input type="email" id="signin-email" placeholder="you@example.com" autocomplete="email" required>
+                        <div class="form-help hidden" id="signin-email-help">
+                            <span class="help-icon">ℹ️</span>
+                            <span class="help-text">Please enter a valid email address</span>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" placeholder="••••••••">
+                        <label for="signin-password">Password</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="signin-password" placeholder="••••••••" autocomplete="current-password" required>
+                            <button type="button" class="password-toggle" onclick="togglePasswordVisibility('signin-password')">
+                                <svg class="eye-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M10 4C5 4 1.73 7.11 1 10c.73 2.89 4 6 9 6s8.27-3.11 9-6c-.73-2.89-4-6-9-6zm0 10a4 4 0 110-8 4 4 0 010 8zm0-6a2 2 0 100 4 2 2 0 000-4z" fill="currentColor"/>
+                                </svg>
+                                <svg class="eye-off-icon hidden" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M3.71 2.29a1 1 0 00-1.42 1.42l3.42 3.42A8.66 8.66 0 001 10c.73 2.89 4 6 9 6a8.69 8.69 0 004.88-1.46l3.41 3.42a1 1 0 001.42-1.42l-16-16zM10 14a4 4 0 01-3.3-6.3l1.47 1.47a2 2 0 002.66 2.66l1.47 1.47A3.94 3.94 0 0110 14zm9-4c-.73-2.89-4-6-9-6a8.69 8.69 0 00-2.12.26l1.57 1.57A3.94 3.94 0 0110 6a4 4 0 013.3 6.3l1.47 1.47A8.66 8.66 0 0019 10z" fill="currentColor"/>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
-                    <button class="btn btn-primary btn-block">Sign In</button>
+                    <div class="form-actions">
+                        <button class="btn btn-primary btn-block" id="signin-submit" onclick="handleSignIn(event)">
+                            <span class="btn-text">Sign In</span>
+                            <span class="btn-loader hidden">
+                                <span class="spinner"></span>
+                            </span>
+                        </button>
+                    </div>
                     <p class="form-footer">
-                        <a href="#">Forgot password?</a>
+                        <a href="#" onclick="showForgotPassword(event)">Forgot password?</a>
                     </p>
                 </div>
 
+                <!-- Sign Up Form -->
                 <div class="auth-form hidden" id="signupForm">
                     <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" placeholder="Your name">
+                        <label for="signup-name">Name</label>
+                        <input type="text" id="signup-name" placeholder="Your name" autocomplete="name" required>
                     </div>
                     <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" placeholder="you@example.com">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" placeholder="you@example.com" autocomplete="email" required>
+                        <div class="form-help hidden" id="signup-email-help">
+                            <span class="help-icon">✓</span>
+                            <span class="help-text">Email is valid</span>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" placeholder="••••••••">
+                        <label for="signup-password">Password</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="signup-password" placeholder="••••••••" autocomplete="new-password" required>
+                            <button type="button" class="password-toggle" onclick="togglePasswordVisibility('signup-password')">
+                                <svg class="eye-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M10 4C5 4 1.73 7.11 1 10c.73 2.89 4 6 9 6s8.27-3.11 9-6c-.73-2.89-4-6-9-6zm0 10a4 4 0 110-8 4 4 0 010 8zm0-6a2 2 0 100 4 2 2 0 000-4z" fill="currentColor"/>
+                                </svg>
+                                <svg class="eye-off-icon hidden" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M3.71 2.29a1 1 0 00-1.42 1.42l3.42 3.42A8.66 8.66 0 001 10c.73 2.89 4 6 9 6a8.69 8.69 0 004.88-1.46l3.41 3.42a1 1 0 001.42-1.42l-16-16zM10 14a4 4 0 01-3.3-6.3l1.47 1.47a2 2 0 002.66 2.66l1.47 1.47A3.94 3.94 0 0110 14zm9-4c-.73-2.89-4-6-9-6a8.69 8.69 0 00-2.12.26l1.57 1.57A3.94 3.94 0 0110 6a4 4 0 013.3 6.3l1.47 1.47A8.66 8.66 0 0019 10z" fill="currentColor"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="password-strength" id="password-strength">
+                            <div class="strength-bar">
+                                <div class="strength-fill" id="strength-fill"></div>
+                            </div>
+                            <div class="strength-text" id="strength-text">Password strength: <span>-</span></div>
+                        </div>
+                        <div class="form-help">
+                            <span class="help-icon">ℹ️</span>
+                            <span class="help-text">Use at least 8 characters with a mix of letters and numbers</span>
+                        </div>
                     </div>
-                    <button class="btn btn-primary btn-block">Create Account</button>
+                    <div class="form-actions">
+                        <button class="btn btn-primary btn-block" id="signup-submit" onclick="handleSignUp(event)">
+                            <span class="btn-text">Create Account</span>
+                            <span class="btn-loader hidden">
+                                <span class="spinner"></span>
+                            </span>
+                        </button>
+                    </div>
                     <p class="form-footer">
                         By creating an account, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>
+                    </p>
+                </div>
+
+                <!-- Forgot Password Form -->
+                <div class="auth-form hidden" id="forgotForm">
+                    <div class="form-group">
+                        <label for="forgot-email">Email</label>
+                        <input type="email" id="forgot-email" placeholder="you@example.com" autocomplete="email" required>
+                        <div class="form-help">
+                            <span class="help-icon">ℹ️</span>
+                            <span class="help-text">We'll send you a link to reset your password</span>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary btn-block" id="forgot-submit" onclick="handleForgotPassword(event)">
+                            <span class="btn-text">Send Reset Link</span>
+                            <span class="btn-loader hidden">
+                                <span class="spinner"></span>
+                            </span>
+                        </button>
+                    </div>
+                    <p class="form-footer">
+                        <a href="#" onclick="backToSignIn(event)">← Back to Sign In</a>
                     </p>
                 </div>
 
@@ -818,13 +894,13 @@
                 </div>
 
                 <div class="auth-providers">
-                    <button class="provider-btn">
+                    <button class="provider-btn" onclick="handleGoogleAuth(event)">
                         <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.71c-.18-.54-.282-1.117-.282-1.71s.102-1.17.282-1.71V4.958H.957C.347 6.173 0 7.548 0 9s.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
-                        Google
+                        <span>Google</span>
                     </button>
-                    <button class="provider-btn">
+                    <button class="provider-btn" onclick="handleGitHubAuth(event)">
                         <svg width="18" height="18" viewBox="0 0 18 18"><path fill="currentColor" d="M9 0C4.03 0 0 4.03 0 9c0 3.98 2.58 7.36 6.16 8.54.45.08.61-.2.61-.44 0-.22-.01-.8-.01-1.57-2.51.55-3.04-1.21-3.04-1.21-.41-1.04-1-1.32-1-1.32-.82-.56.06-.55.06-.55.9.06 1.38.93 1.38.93.8 1.38 2.11.98 2.62.75.08-.58.31-.98.57-1.2-2-.23-4.1-1-4.1-4.45 0-.98.35-1.79.93-2.42-.09-.23-.4-1.14.09-2.38 0 0 .76-.24 2.48.92a8.58 8.58 0 0 1 4.52 0c1.72-1.16 2.48-.92 2.48-.92.49 1.24.18 2.15.09 2.38.58.63.93 1.44.93 2.42 0 3.46-2.1 4.22-4.11 4.44.32.28.61.83.61 1.67 0 1.2-.01 2.17-.01 2.47 0 .24.16.52.61.44A9 9 0 0 0 18 9c0-4.97-4.03-9-9-9z"/></svg>
-                        GitHub
+                        <span>GitHub</span>
                     </button>
                 </div>
             </div>
