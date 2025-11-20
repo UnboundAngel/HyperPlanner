@@ -40,10 +40,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const cursorTrail = document.querySelector('.cursor-trail');
     let mouseX = 0;
     let mouseY = 0;
-    let lastX = 0;
-    let lastY = 0;
+    const trailPoints = [];
+    const maxTrailLength = 15;
 
-    // Track mouse position and create flow particles
+    // Track mouse position
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
@@ -54,49 +54,66 @@ document.addEventListener('DOMContentLoaded', () => {
             cursorGlow.style.top = `${mouseY}px`;
         }
 
-        // Calculate movement distance
-        const dx = mouseX - lastX;
-        const dy = mouseY - lastY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+        // Add new point to trail
+        trailPoints.unshift({ x: mouseX, y: mouseY, time: Date.now() });
 
-        // Create flow particles when moving (more frequent for smoother trail)
-        if (distance > 3 && cursorTrail) {
-            createFlowParticle(mouseX, mouseY, dx, dy);
+        // Limit trail length
+        if (trailPoints.length > maxTrailLength) {
+            trailPoints.pop();
         }
-
-        lastX = mouseX;
-        lastY = mouseY;
     });
 
-    // Create flow particle effect
-    function createFlowParticle(x, y, dx, dy) {
-        const particle = document.createElement('div');
-        particle.className = 'cursor-particle';
-        particle.style.left = `${x}px`;
-        particle.style.top = `${y}px`;
+    // Animate trail
+    function animateTrail() {
+        if (!cursorTrail) return;
 
-        cursorTrail.appendChild(particle);
+        // Clear old segments
+        cursorTrail.innerHTML = '';
 
-        // Remove particle after animation
-        setTimeout(() => {
-            particle.remove();
-        }, 800);
+        // Create trail segments
+        for (let i = 0; i < trailPoints.length; i++) {
+            const point = trailPoints[i];
+            const nextPoint = trailPoints[i + 1];
+
+            if (!nextPoint) continue;
+
+            // Calculate size and opacity based on position in trail
+            const progress = i / maxTrailLength;
+            const size = 16 * (1 - progress); // Start at 16px, taper to 0
+            const opacity = 0.6 * (1 - progress); // Fade out
+
+            // Create segment
+            const segment = document.createElement('div');
+            segment.className = 'cursor-trail-segment';
+            segment.style.left = `${point.x}px`;
+            segment.style.top = `${point.y}px`;
+            segment.style.width = `${size}px`;
+            segment.style.height = `${size}px`;
+            segment.style.opacity = opacity;
+            segment.style.transform = 'translate(-50%, -50%)';
+            segment.style.filter = `blur(${progress * 2}px)`;
+
+            cursorTrail.appendChild(segment);
+        }
+
+        requestAnimationFrame(animateTrail);
     }
+    animateTrail();
 
     // Subtle glow expansion on interactive elements
     const interactiveElements = document.querySelectorAll('a, button, .feature-card, .welcome-option, .color-swatch');
     interactiveElements.forEach(el => {
         el.addEventListener('mouseenter', () => {
             if (cursorGlow) {
-                cursorGlow.style.width = '200px';
-                cursorGlow.style.height = '200px';
+                cursorGlow.style.width = '320px';
+                cursorGlow.style.height = '320px';
             }
         });
 
         el.addEventListener('mouseleave', () => {
             if (cursorGlow) {
-                cursorGlow.style.width = '150px';
-                cursorGlow.style.height = '150px';
+                cursorGlow.style.width = '250px';
+                cursorGlow.style.height = '250px';
             }
         });
     });
@@ -435,18 +452,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const randomItem = previewItems[Math.floor(Math.random() * previewItems.length)];
         const randomFeature = featureTemplates[Math.floor(Math.random() * featureTemplates.length)];
 
-        if (randomItem) {
-            // Store original content
-            const originalContent = randomItem.innerHTML;
-
-            // Highlight and show feature
-            randomItem.style.background = 'rgba(99, 102, 241, 0.2)';
-            randomItem.style.border = '1px solid rgba(99, 102, 241, 0.4)';
-            randomItem.style.padding = '8px 12px';
-            randomItem.style.display = 'flex';
-            randomItem.style.alignItems = 'center';
-            randomItem.style.justifyContent = 'space-between';
-            randomItem.style.gap = '8px';
+        if (randomItem && !randomItem.classList.contains('active')) {
+            // Add feature content
             randomItem.innerHTML = `
                 <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0;">
                     <span style="font-size: 14px;">${randomFeature.icon}</span>
@@ -455,11 +462,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span style="font-size: 9px; color: rgba(255,255,255,0.6); white-space: nowrap;">${randomFeature.time}</span>
             `;
 
+            // Add active class for styling
+            randomItem.classList.add('active');
+
             setTimeout(() => {
-                randomItem.style.background = '';
-                randomItem.style.border = '';
-                randomItem.style.padding = '';
-                randomItem.innerHTML = originalContent;
+                randomItem.classList.remove('active');
+                // Clear content after fade out
+                setTimeout(() => {
+                    if (!randomItem.classList.contains('active')) {
+                        randomItem.innerHTML = '';
+                    }
+                }, 300);
             }, 2000);
         }
     }, 2500);
@@ -881,13 +894,15 @@ function togglePasswordVisibility(inputId) {
     const eyeOffIcon = toggleBtn.querySelector('.eye-off-icon');
 
     if (input.type === 'password') {
+        // Showing password - show open eye
         input.type = 'text';
-        eyeIcon.classList.add('hidden');
-        eyeOffIcon.classList.remove('hidden');
-    } else {
-        input.type = 'password';
         eyeIcon.classList.remove('hidden');
         eyeOffIcon.classList.add('hidden');
+    } else {
+        // Hiding password - show closed eye
+        input.type = 'password';
+        eyeIcon.classList.add('hidden');
+        eyeOffIcon.classList.remove('hidden');
     }
 }
 

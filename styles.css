@@ -158,12 +158,12 @@ body {
 /* Cursor Effects */
 .cursor-glow {
     position: fixed;
-    width: 150px;
-    height: 150px;
+    width: 250px;
+    height: 250px;
     background: radial-gradient(
         circle,
-        rgba(99, 102, 241, 0.15) 0%,
-        rgba(236, 72, 153, 0.08) 40%,
+        rgba(99, 102, 241, 0.2) 0%,
+        rgba(236, 72, 153, 0.12) 40%,
         transparent 70%
     );
     pointer-events: none;
@@ -183,29 +183,19 @@ body:hover .cursor-glow {
     pointer-events: none;
     z-index: 9998;
     opacity: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
-/* Cursor flow particle */
-.cursor-particle {
+/* Cursor trail segment */
+.cursor-trail-segment {
     position: absolute;
-    width: 8px;
-    height: 8px;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.6), rgba(236, 72, 153, 0.4));
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.5), rgba(236, 72, 153, 0.3));
     border-radius: 50%;
     pointer-events: none;
-    animation: fadeParticle 0.8s ease-out forwards;
-    box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
-}
-
-@keyframes fadeParticle {
-    0% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: scale(0.2);
-    }
+    will-change: opacity, transform;
 }
 
 /* Navigation */
@@ -509,6 +499,21 @@ body:hover .cursor-glow {
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-sm);
     animation: itemPulse 2s ease-in-out infinite;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+    gap: 8px;
+}
+
+.preview-item.active {
+    background: rgba(99, 102, 241, 0.2);
+    border-color: rgba(99, 102, 241, 0.4);
+    padding: 8px 12px;
+    animation: none;
+    opacity: 1;
+    transform: scale(1.02);
 }
 
 .preview-item:nth-child(1) { animation-delay: 0s; }
