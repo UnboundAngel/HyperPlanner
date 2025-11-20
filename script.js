@@ -34,89 +34,138 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ===================================
-    // Cursor Effects - Glow & Flow Trail
+    // Cursor Creature Companion
     // ===================================
-    const cursorGlow = document.querySelector('.cursor-glow');
-    const cursorTrail = document.querySelector('.cursor-trail');
-    let mouseX = 0;
-    let mouseY = 0;
-    const trailPoints = [];
-    const maxTrailLength = 15;
+    const creature = document.getElementById('cursorCreature');
+    const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-    // Track mouse position
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 2;
+    let currentX = targetX;
+    let currentY = targetY;
+    let lastMoveTime = Date.now();
+    let isMoving = false;
 
-        // Update glow position
-        if (cursorGlow) {
-            cursorGlow.style.left = `${mouseX}px`;
-            cursorGlow.style.top = `${mouseY}px`;
+    if (creature) {
+        setTimeout(() => creature.classList.add('active'), 500);
+
+        if (!isMobile) {
+            // Desktop: Follow cursor
+            document.addEventListener('mousemove', (e) => {
+                targetX = e.clientX;
+                targetY = e.clientY;
+                lastMoveTime = Date.now();
+
+                if (!isMoving) {
+                    isMoving = true;
+                    creature.classList.remove('idle');
+                    creature.classList.add('walking');
+                }
+            });
+
+            // Smooth following with easing
+            function updateCreature() {
+                const dx = targetX - currentX;
+                const dy = targetY - currentY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance > 1) {
+                    // Smooth easing - creature lags behind cursor
+                    currentX += dx * 0.08;
+                    currentY += dy * 0.08;
+
+                    // Flip creature based on direction
+                    if (dx < -5) {
+                        creature.style.transform = `translate(${currentX}px, ${currentY}px) scaleX(-1)`;
+                    } else if (dx > 5) {
+                        creature.style.transform = `translate(${currentX}px, ${currentY}px) scaleX(1)`;
+                    } else {
+                        creature.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                    }
+                } else {
+                    creature.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                }
+
+                // Check if stopped moving
+                if (Date.now() - lastMoveTime > 500 && isMoving) {
+                    isMoving = false;
+                    creature.classList.remove('walking');
+                    creature.classList.add('idle');
+                }
+
+                requestAnimationFrame(updateCreature);
+            }
+            updateCreature();
+
+        } else {
+            // Mobile: Walk around screen edges
+            creature.classList.add('walking');
+            let edgePosition = 0;
+            let currentEdge = 0; // 0=top, 1=right, 2=bottom, 3=left
+            let direction = 1;
+            const speed = 1;
+
+            function walkEdges() {
+                const padding = 40;
+                const w = window.innerWidth - padding;
+                const h = window.innerHeight - padding;
+
+                edgePosition += speed * direction;
+
+                switch(currentEdge) {
+                    case 0: // Top edge
+                        currentX = edgePosition;
+                        currentY = padding;
+                        creature.style.transform = `translate(${currentX}px, ${currentY}px) scaleX(${direction})`;
+                        if (edgePosition >= w || edgePosition <= padding) {
+                            currentEdge = Math.random() > 0.5 ? 1 : 3;
+                            direction = Math.random() > 0.5 ? 1 : -1;
+                        }
+                        break;
+                    case 1: // Right edge
+                        currentX = w;
+                        currentY = edgePosition;
+                        creature.style.transform = `translate(${currentX}px, ${currentY}px) scaleX(-1)`;
+                        if (edgePosition >= h || edgePosition <= padding) {
+                            currentEdge = Math.random() > 0.5 ? 2 : 0;
+                            direction = Math.random() > 0.5 ? 1 : -1;
+                        }
+                        break;
+                    case 2: // Bottom edge
+                        currentX = edgePosition;
+                        currentY = h;
+                        creature.style.transform = `translate(${currentX}px, ${currentY}px) scaleX(${-direction})`;
+                        if (edgePosition >= w || edgePosition <= padding) {
+                            currentEdge = Math.random() > 0.5 ? 1 : 3;
+                            direction = Math.random() > 0.5 ? 1 : -1;
+                        }
+                        break;
+                    case 3: // Left edge
+                        currentX = padding;
+                        currentY = edgePosition;
+                        creature.style.transform = `translate(${currentX}px, ${currentY}px) scaleX(1)`;
+                        if (edgePosition >= h || edgePosition <= padding) {
+                            currentEdge = Math.random() > 0.5 ? 0 : 2;
+                            direction = Math.random() > 0.5 ? 1 : -1;
+                        }
+                        break;
+                }
+
+                // Random idle breaks
+                if (Math.random() < 0.002) {
+                    creature.classList.remove('walking');
+                    creature.classList.add('idle');
+                    setTimeout(() => {
+                        creature.classList.remove('idle');
+                        creature.classList.add('walking');
+                    }, 2000 + Math.random() * 3000);
+                }
+
+                requestAnimationFrame(walkEdges);
+            }
+            walkEdges();
         }
-
-        // Add new point to trail
-        trailPoints.unshift({ x: mouseX, y: mouseY, time: Date.now() });
-
-        // Limit trail length
-        if (trailPoints.length > maxTrailLength) {
-            trailPoints.pop();
-        }
-    });
-
-    // Animate trail
-    function animateTrail() {
-        if (!cursorTrail) return;
-
-        // Clear old segments
-        cursorTrail.innerHTML = '';
-
-        // Create trail segments
-        for (let i = 0; i < trailPoints.length; i++) {
-            const point = trailPoints[i];
-            const nextPoint = trailPoints[i + 1];
-
-            if (!nextPoint) continue;
-
-            // Calculate size and opacity based on position in trail
-            const progress = i / maxTrailLength;
-            const size = 16 * (1 - progress); // Start at 16px, taper to 0
-            const opacity = 0.6 * (1 - progress); // Fade out
-
-            // Create segment
-            const segment = document.createElement('div');
-            segment.className = 'cursor-trail-segment';
-            segment.style.left = `${point.x}px`;
-            segment.style.top = `${point.y}px`;
-            segment.style.width = `${size}px`;
-            segment.style.height = `${size}px`;
-            segment.style.opacity = opacity;
-            segment.style.transform = 'translate(-50%, -50%)';
-            segment.style.filter = `blur(${progress * 2}px)`;
-
-            cursorTrail.appendChild(segment);
-        }
-
-        requestAnimationFrame(animateTrail);
     }
-    animateTrail();
-
-    // Subtle glow expansion on interactive elements
-    const interactiveElements = document.querySelectorAll('a, button, .feature-card, .welcome-option, .color-swatch');
-    interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            if (cursorGlow) {
-                cursorGlow.style.width = '320px';
-                cursorGlow.style.height = '320px';
-            }
-        });
-
-        el.addEventListener('mouseleave', () => {
-            if (cursorGlow) {
-                cursorGlow.style.width = '250px';
-                cursorGlow.style.height = '250px';
-            }
-        });
-    });
 
     // ===================================
     // Navigation Scroll Effect
@@ -799,15 +848,14 @@ function adjustBlur(value) {
 }
 
 function adjustGlow(value) {
-    const cursorGlow = document.querySelector('.cursor-glow');
-    const cursorTrail = document.querySelector('.cursor-trail');
+    const creature = document.getElementById('cursorCreature');
     const opacity = value / 100;
 
-    if (cursorGlow) {
-        cursorGlow.style.opacity = opacity;
-    }
-    if (cursorTrail) {
-        cursorTrail.style.opacity = opacity;
+    if (creature) {
+        creature.style.opacity = opacity;
+        if (opacity > 0 && !creature.classList.contains('active')) {
+            creature.classList.add('active');
+        }
     }
     localStorage.setItem('hyperplanner_glow', value);
 }
@@ -819,10 +867,8 @@ function resetCustomization() {
     root.style.setProperty('--bg-primary', '#0f0f1a');
     root.style.setProperty('--blur-md', '16px');
 
-    const cursorGlow = document.querySelector('.cursor-glow');
-    const cursorTrail = document.querySelector('.cursor-trail');
-    if (cursorGlow) cursorGlow.style.opacity = '1';
-    if (cursorTrail) cursorTrail.style.opacity = '1';
+    const creature = document.getElementById('cursorCreature');
+    if (creature) creature.style.opacity = '1';
 
     // Reset theme swatches to glassy (default)
     document.querySelectorAll('.color-swatch').forEach(swatch => {

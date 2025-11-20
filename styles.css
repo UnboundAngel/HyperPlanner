@@ -155,47 +155,121 @@ body {
     z-index: -1;
 }
 
-/* Cursor Effects */
-.cursor-glow {
+/* Cursor Creature Companion */
+.cursor-creature {
     position: fixed;
-    width: 250px;
-    height: 250px;
-    background: radial-gradient(
-        circle,
-        rgba(99, 102, 241, 0.2) 0%,
-        rgba(236, 72, 153, 0.12) 40%,
-        transparent 70%
-    );
     pointer-events: none;
-    transform: translate(-50%, -50%);
     z-index: 9999;
     opacity: 0;
-    border-radius: 50%;
-    transition: opacity 0.3s ease, width 0.2s ease, height 0.2s ease;
+    transition: opacity 0.5s ease;
+    will-change: transform;
 }
 
-body:hover .cursor-glow {
+.cursor-creature.active {
     opacity: 1;
 }
 
-.cursor-trail {
-    position: fixed;
-    pointer-events: none;
-    z-index: 9998;
-    opacity: 1;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+.creature-body {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #6366f1, #ec4899);
+    border-radius: 50% 50% 45% 45%;
+    animation: bounce 0.6s ease-in-out infinite;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
-/* Cursor trail segment */
-.cursor-trail-segment {
+.creature-eyes {
     position: absolute;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.5), rgba(236, 72, 153, 0.3));
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+}
+
+.eye {
+    width: 6px;
+    height: 6px;
+    background: white;
     border-radius: 50%;
-    pointer-events: none;
-    will-change: opacity, transform;
+    position: relative;
+    animation: blink 3s ease-in-out infinite;
+}
+
+.eye::after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: #1a1a2e;
+    border-radius: 50%;
+    top: 1px;
+    left: 2px;
+    animation: lookAround 4s ease-in-out infinite;
+}
+
+.creature-mouth {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 6px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 0 0 12px 12px;
+}
+
+.creature-shadow {
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 8px;
+    background: radial-gradient(ellipse, rgba(0, 0, 0, 0.2), transparent);
+    border-radius: 50%;
+    animation: shadowPulse 0.6s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+}
+
+@keyframes shadowPulse {
+    0%, 100% { opacity: 0.4; transform: translateX(-50%) scale(1); }
+    50% { opacity: 0.2; transform: translateX(-50%) scale(0.9); }
+}
+
+@keyframes blink {
+    0%, 48%, 52%, 100% { height: 6px; }
+    50% { height: 1px; }
+}
+
+@keyframes lookAround {
+    0%, 100% { left: 2px; }
+    25% { left: 1px; }
+    50% { left: 2px; }
+    75% { left: 3px; }
+}
+
+.cursor-creature.walking .creature-body {
+    animation: walk 0.3s ease-in-out infinite;
+}
+
+@keyframes walk {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-2px) rotate(2deg); }
+}
+
+.cursor-creature.idle .creature-body {
+    animation: idle 2s ease-in-out infinite;
+}
+
+@keyframes idle {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
 }
 
 /* Navigation */
