@@ -770,6 +770,356 @@ if ('serviceWorker' in navigator) {
 }
 
 // ===================================
+// Authentication Functions
+// ===================================
+
+// Toggle password visibility
+function togglePasswordVisibility(inputId) {
+    const input = document.getElementById(inputId);
+    const toggleBtn = input.parentElement.querySelector('.password-toggle');
+    const eyeIcon = toggleBtn.querySelector('.eye-icon');
+    const eyeOffIcon = toggleBtn.querySelector('.eye-off-icon');
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        eyeIcon.classList.add('hidden');
+        eyeOffIcon.classList.remove('hidden');
+    } else {
+        input.type = 'password';
+        eyeIcon.classList.remove('hidden');
+        eyeOffIcon.classList.add('hidden');
+    }
+}
+
+// Email validation
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
+
+// Password strength checker
+function checkPasswordStrength(password) {
+    let strength = 0;
+    if (password.length >= 8) strength++;
+    if (password.match(/[a-z]/)) strength++;
+    if (password.match(/[A-Z]/)) strength++;
+    if (password.match(/[0-9]/)) strength++;
+    if (password.match(/[^a-zA-Z0-9]/)) strength++;
+
+    if (strength <= 2) return 'weak';
+    if (strength <= 3) return 'medium';
+    return 'strong';
+}
+
+// Update password strength indicator
+function updatePasswordStrength(password) {
+    const strengthFill = document.getElementById('strength-fill');
+    const strengthText = document.getElementById('strength-text');
+
+    if (!strengthFill || !strengthText) return;
+
+    const strength = checkPasswordStrength(password);
+    const strengthSpan = strengthText.querySelector('span');
+
+    // Remove all strength classes
+    strengthFill.classList.remove('weak', 'medium', 'strong');
+    strengthText.classList.remove('weak', 'medium', 'strong');
+
+    if (password.length === 0) {
+        strengthSpan.textContent = '-';
+        return;
+    }
+
+    // Add appropriate class and text
+    strengthFill.classList.add(strength);
+    strengthText.classList.add(strength);
+    strengthSpan.textContent = strength.charAt(0).toUpperCase() + strength.slice(1);
+}
+
+// Show forgot password form
+function showForgotPassword(event) {
+    event.preventDefault();
+
+    const signinForm = document.getElementById('signinForm');
+    const forgotForm = document.getElementById('forgotForm');
+    const authTabs = document.getElementById('authTabs');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalSubtitle = document.getElementById('modalSubtitle');
+
+    signinForm.classList.add('hidden');
+    forgotForm.classList.remove('hidden');
+    authTabs.style.display = 'none';
+
+    modalTitle.textContent = 'Reset Password';
+    modalSubtitle.textContent = 'Enter your email to receive a reset link';
+}
+
+// Back to sign in
+function backToSignIn(event) {
+    event.preventDefault();
+
+    const signinForm = document.getElementById('signinForm');
+    const forgotForm = document.getElementById('forgotForm');
+    const authTabs = document.getElementById('authTabs');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalSubtitle = document.getElementById('modalSubtitle');
+
+    forgotForm.classList.add('hidden');
+    signinForm.classList.remove('hidden');
+    authTabs.style.display = '';
+
+    modalTitle.textContent = 'Welcome Back';
+    modalSubtitle.textContent = 'Sign in to sync across devices and unlock all features';
+}
+
+// Handle sign in
+function handleSignIn(event) {
+    event.preventDefault();
+
+    const emailInput = document.getElementById('signin-email');
+    const passwordInput = document.getElementById('signin-password');
+    const submitBtn = document.getElementById('signin-submit');
+    const emailHelp = document.getElementById('signin-email-help');
+
+    // Validate email
+    if (!validateEmail(emailInput.value)) {
+        emailInput.classList.add('error');
+        emailHelp.classList.remove('hidden');
+        emailHelp.classList.add('error');
+        emailHelp.querySelector('.help-text').textContent = 'Please enter a valid email address';
+        return;
+    }
+
+    // Validate password
+    if (passwordInput.value.length < 6) {
+        passwordInput.classList.add('error');
+        showNotification('Password is too short', 'error');
+        return;
+    }
+
+    // Show loading state
+    submitBtn.classList.add('loading');
+    emailInput.classList.remove('error');
+    passwordInput.classList.remove('error');
+    emailHelp.classList.add('hidden');
+
+    // Simulate API call
+    setTimeout(() => {
+        submitBtn.classList.remove('loading');
+
+        // In production, this would make an actual API call
+        // For now, show success message
+        showNotification('Sign in successful! Welcome back!', 'success');
+
+        // Close modal after a delay
+        setTimeout(() => {
+            const modal = document.getElementById('signInModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+
+            // Clear form
+            emailInput.value = '';
+            passwordInput.value = '';
+        }, 1500);
+    }, 1500);
+}
+
+// Handle sign up
+function handleSignUp(event) {
+    event.preventDefault();
+
+    const nameInput = document.getElementById('signup-name');
+    const emailInput = document.getElementById('signup-email');
+    const passwordInput = document.getElementById('signup-password');
+    const submitBtn = document.getElementById('signup-submit');
+    const emailHelp = document.getElementById('signup-email-help');
+
+    let isValid = true;
+
+    // Validate name
+    if (nameInput.value.trim().length < 2) {
+        nameInput.classList.add('error');
+        showNotification('Please enter your name', 'error');
+        isValid = false;
+    }
+
+    // Validate email
+    if (!validateEmail(emailInput.value)) {
+        emailInput.classList.add('error');
+        emailHelp.classList.remove('hidden');
+        emailHelp.classList.add('error');
+        emailHelp.querySelector('.help-icon').textContent = '✗';
+        emailHelp.querySelector('.help-text').textContent = 'Invalid email address';
+        isValid = false;
+    }
+
+    // Validate password
+    if (passwordInput.value.length < 8) {
+        passwordInput.classList.add('error');
+        showNotification('Password must be at least 8 characters', 'error');
+        isValid = false;
+    }
+
+    if (!isValid) return;
+
+    // Show loading state
+    submitBtn.classList.add('loading');
+    nameInput.classList.remove('error');
+    emailInput.classList.remove('error');
+    passwordInput.classList.remove('error');
+
+    // Simulate API call
+    setTimeout(() => {
+        submitBtn.classList.remove('loading');
+
+        // In production, this would make an actual API call
+        showNotification('Account created successfully! Welcome to HyperPlanner!', 'success');
+
+        // Close modal and redirect
+        setTimeout(() => {
+            const modal = document.getElementById('signInModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+
+            // Clear form
+            nameInput.value = '';
+            emailInput.value = '';
+            passwordInput.value = '';
+
+            // Reset password strength
+            updatePasswordStrength('');
+        }, 1500);
+    }, 1500);
+}
+
+// Handle forgot password
+function handleForgotPassword(event) {
+    event.preventDefault();
+
+    const emailInput = document.getElementById('forgot-email');
+    const submitBtn = document.getElementById('forgot-submit');
+
+    // Validate email
+    if (!validateEmail(emailInput.value)) {
+        emailInput.classList.add('error');
+        showNotification('Please enter a valid email address', 'error');
+        return;
+    }
+
+    // Show loading state
+    submitBtn.classList.add('loading');
+    emailInput.classList.remove('error');
+
+    // Simulate API call
+    setTimeout(() => {
+        submitBtn.classList.remove('loading');
+
+        showNotification('Password reset link sent! Check your email.', 'success');
+
+        // Clear form and go back to sign in
+        setTimeout(() => {
+            emailInput.value = '';
+            backToSignIn(event);
+        }, 2000);
+    }, 1500);
+}
+
+// Handle Google OAuth
+function handleGoogleAuth(event) {
+    event.preventDefault();
+
+    const btn = event.currentTarget;
+    btn.style.opacity = '0.7';
+    btn.style.pointerEvents = 'none';
+
+    // In production, this would redirect to Google OAuth
+    // window.location.href = '/auth/google';
+
+    showNotification('Redirecting to Google...', 'info');
+
+    setTimeout(() => {
+        // Simulate OAuth redirect
+        showNotification('Google OAuth integration coming soon!', 'info');
+        btn.style.opacity = '';
+        btn.style.pointerEvents = '';
+    }, 1500);
+}
+
+// Handle GitHub OAuth
+function handleGitHubAuth(event) {
+    event.preventDefault();
+
+    const btn = event.currentTarget;
+    btn.style.opacity = '0.7';
+    btn.style.pointerEvents = 'none';
+
+    // In production, this would redirect to GitHub OAuth
+    // window.location.href = '/auth/github';
+
+    showNotification('Redirecting to GitHub...', 'info');
+
+    setTimeout(() => {
+        // Simulate OAuth redirect
+        showNotification('GitHub OAuth integration coming soon!', 'info');
+        btn.style.opacity = '';
+        btn.style.pointerEvents = '';
+    }, 1500);
+}
+
+// Set up real-time validation
+document.addEventListener('DOMContentLoaded', () => {
+    // Email validation for sign-in
+    const signinEmail = document.getElementById('signin-email');
+    if (signinEmail) {
+        signinEmail.addEventListener('input', (e) => {
+            const emailHelp = document.getElementById('signin-email-help');
+            if (validateEmail(e.target.value)) {
+                e.target.classList.remove('error');
+                e.target.classList.add('success');
+                emailHelp.classList.add('hidden');
+            } else {
+                e.target.classList.remove('success');
+            }
+        });
+    }
+
+    // Email validation for sign-up
+    const signupEmail = document.getElementById('signup-email');
+    if (signupEmail) {
+        signupEmail.addEventListener('input', (e) => {
+            const emailHelp = document.getElementById('signup-email-help');
+            if (validateEmail(e.target.value)) {
+                e.target.classList.remove('error');
+                e.target.classList.add('success');
+                emailHelp.classList.remove('hidden', 'error');
+                emailHelp.classList.add('success');
+                emailHelp.querySelector('.help-icon').textContent = '✓';
+                emailHelp.querySelector('.help-text').textContent = 'Email is valid';
+            } else {
+                e.target.classList.remove('success');
+                emailHelp.classList.add('hidden');
+            }
+        });
+    }
+
+    // Password strength for sign-up
+    const signupPassword = document.getElementById('signup-password');
+    if (signupPassword) {
+        signupPassword.addEventListener('input', (e) => {
+            updatePasswordStrength(e.target.value);
+            e.target.classList.remove('error');
+        });
+    }
+
+    // Clear error states on focus
+    document.querySelectorAll('.form-group input').forEach(input => {
+        input.addEventListener('focus', () => {
+            input.classList.remove('error');
+        });
+    });
+});
+
+// ===================================
 // Analytics Placeholder
 // ===================================
 function trackEvent(category, action, label) {
