@@ -1129,8 +1129,7 @@ function handleGoogleAuth(event) {
     event.preventDefault();
 
     const btn = event.currentTarget;
-    btn.style.opacity = '0.7';
-    btn.style.pointerEvents = 'none';
+    btn.classList.add('loading');
 
     // In production, this would redirect to Google OAuth
     // window.location.href = '/auth/google';
@@ -1138,10 +1137,9 @@ function handleGoogleAuth(event) {
     showNotification('Redirecting to Google...', 'info');
 
     setTimeout(() => {
+        btn.classList.remove('loading');
         // Simulate OAuth redirect
         showNotification('Google OAuth integration coming soon!', 'info');
-        btn.style.opacity = '';
-        btn.style.pointerEvents = '';
     }, 1500);
 }
 
@@ -1150,8 +1148,7 @@ function handleGitHubAuth(event) {
     event.preventDefault();
 
     const btn = event.currentTarget;
-    btn.style.opacity = '0.7';
-    btn.style.pointerEvents = 'none';
+    btn.classList.add('loading');
 
     // In production, this would redirect to GitHub OAuth
     // window.location.href = '/auth/github';
@@ -1159,10 +1156,9 @@ function handleGitHubAuth(event) {
     showNotification('Redirecting to GitHub...', 'info');
 
     setTimeout(() => {
+        btn.classList.remove('loading');
         // Simulate OAuth redirect
         showNotification('GitHub OAuth integration coming soon!', 'info');
-        btn.style.opacity = '';
-        btn.style.pointerEvents = '';
     }, 1500);
 }
 
