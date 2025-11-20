@@ -34,8 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ===================================
-    // Cursor Effects - Flow Trail
+    // Cursor Effects - Glow & Flow Trail
     // ===================================
+    const cursorGlow = document.querySelector('.cursor-glow');
     const cursorTrail = document.querySelector('.cursor-trail');
     let mouseX = 0;
     let mouseY = 0;
@@ -46,6 +47,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
+
+        // Update glow position
+        if (cursorGlow) {
+            cursorGlow.style.left = `${mouseX}px`;
+            cursorGlow.style.top = `${mouseY}px`;
+        }
 
         // Calculate movement distance
         const dx = mouseX - lastX;
@@ -75,6 +82,24 @@ document.addEventListener('DOMContentLoaded', () => {
             particle.remove();
         }, 800);
     }
+
+    // Subtle glow expansion on interactive elements
+    const interactiveElements = document.querySelectorAll('a, button, .feature-card, .welcome-option, .color-swatch');
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            if (cursorGlow) {
+                cursorGlow.style.width = '200px';
+                cursorGlow.style.height = '200px';
+            }
+        });
+
+        el.addEventListener('mouseleave', () => {
+            if (cursorGlow) {
+                cursorGlow.style.width = '150px';
+                cursorGlow.style.height = '150px';
+            }
+        });
+    });
 
     // ===================================
     // Navigation Scroll Effect
@@ -368,19 +393,76 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ===================================
-    // Preview Window Animation
+    // Preview Window Animation with Feature Templates
     // ===================================
     const previewItems = document.querySelectorAll('.preview-item');
 
+    // Large list of feature templates to display
+    const featureTemplates = [
+        { icon: '📝', text: 'Write proposal', time: '2pm' },
+        { icon: '💬', text: 'Team standup', time: '9:30am' },
+        { icon: '🎯', text: 'Q4 planning', time: 'Tomorrow' },
+        { icon: '📊', text: 'Review metrics', time: '4pm' },
+        { icon: '🔍', text: 'User research', time: 'Mon' },
+        { icon: '✨', text: 'Ship v2.0', time: 'Friday' },
+        { icon: '📞', text: 'Client call', time: '3pm' },
+        { icon: '🎨', text: 'Design review', time: 'Thu' },
+        { icon: '💻', text: 'Code refactor', time: 'Today' },
+        { icon: '📧', text: 'Send updates', time: '5pm' },
+        { icon: '🚀', text: 'Launch feature', time: 'Wed' },
+        { icon: '📱', text: 'Mobile testing', time: '1pm' },
+        { icon: '🎓', text: 'Team training', time: 'Tue' },
+        { icon: '🔧', text: 'Fix bug #234', time: 'ASAP' },
+        { icon: '📈', text: 'Growth meeting', time: '11am' },
+        { icon: '🎯', text: 'Set OKRs', time: 'Next week' },
+        { icon: '💡', text: 'Brainstorm ideas', time: '2:30pm' },
+        { icon: '🔐', text: 'Security audit', time: 'Fri' },
+        { icon: '🎬', text: 'Record demo', time: '10am' },
+        { icon: '📝', text: 'Draft blog post', time: 'Thu' },
+        { icon: '🤝', text: 'Partner sync', time: '3:30pm' },
+        { icon: '🎨', text: 'Update branding', time: 'Mon' },
+        { icon: '📊', text: 'Analytics deep dive', time: 'Today' },
+        { icon: '🔔', text: 'Push notifications', time: 'Tomorrow' },
+        { icon: '🏆', text: 'Celebrate wins', time: '5:30pm' },
+        { icon: '🔄', text: 'Sprint planning', time: 'Mon 9am' },
+        { icon: '📦', text: 'Ship updates', time: 'Wed' },
+        { icon: '🎪', text: 'Company all-hands', time: 'Fri 2pm' },
+        { icon: '🌟', text: 'Feature polish', time: 'Today' },
+        { icon: '📝', text: 'Write docs', time: '4:30pm' }
+    ];
+
     setInterval(() => {
         const randomItem = previewItems[Math.floor(Math.random() * previewItems.length)];
+        const randomFeature = featureTemplates[Math.floor(Math.random() * featureTemplates.length)];
+
         if (randomItem) {
+            // Store original content
+            const originalContent = randomItem.innerHTML;
+
+            // Highlight and show feature
             randomItem.style.background = 'rgba(99, 102, 241, 0.2)';
+            randomItem.style.border = '1px solid rgba(99, 102, 241, 0.4)';
+            randomItem.style.padding = '8px 12px';
+            randomItem.style.display = 'flex';
+            randomItem.style.alignItems = 'center';
+            randomItem.style.justifyContent = 'space-between';
+            randomItem.style.gap = '8px';
+            randomItem.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0;">
+                    <span style="font-size: 14px;">${randomFeature.icon}</span>
+                    <span style="font-size: 11px; color: rgba(255,255,255,0.9); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${randomFeature.text}</span>
+                </div>
+                <span style="font-size: 9px; color: rgba(255,255,255,0.6); white-space: nowrap;">${randomFeature.time}</span>
+            `;
+
             setTimeout(() => {
                 randomItem.style.background = '';
-            }, 1000);
+                randomItem.style.border = '';
+                randomItem.style.padding = '';
+                randomItem.innerHTML = originalContent;
+            }, 2000);
         }
-    }, 2000);
+    }, 2500);
 
     // ===================================
     // Parallax Effect on Scroll
@@ -529,6 +611,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Auto-hide cursor effects on touch devices
     // ===================================
     if ('ontouchstart' in window) {
+        if (cursorGlow) cursorGlow.style.display = 'none';
         if (cursorTrail) cursorTrail.style.display = 'none';
     }
 
@@ -703,9 +786,14 @@ function adjustBlur(value) {
 }
 
 function adjustGlow(value) {
+    const cursorGlow = document.querySelector('.cursor-glow');
     const cursorTrail = document.querySelector('.cursor-trail');
+    const opacity = value / 100;
+
+    if (cursorGlow) {
+        cursorGlow.style.opacity = opacity;
+    }
     if (cursorTrail) {
-        const opacity = value / 100;
         cursorTrail.style.opacity = opacity;
     }
     localStorage.setItem('hyperplanner_glow', value);
@@ -718,7 +806,9 @@ function resetCustomization() {
     root.style.setProperty('--bg-primary', '#0f0f1a');
     root.style.setProperty('--blur-md', '16px');
 
+    const cursorGlow = document.querySelector('.cursor-glow');
     const cursorTrail = document.querySelector('.cursor-trail');
+    if (cursorGlow) cursorGlow.style.opacity = '1';
     if (cursorTrail) cursorTrail.style.opacity = '1';
 
     // Reset theme swatches to glassy (default)
