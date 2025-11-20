@@ -1,18 +1,48 @@
 // ===================================
 // HyperPlanner Landing Page JavaScript
-// Interactive Cursor, Modals, Animations
+// Interactive Cursor, Modals, Animations, Welcome Flow
 // ===================================
 
+// Global variables for customization
+let currentStep = 1;
+let welcomeData = {};
+const originalTitle = document.title;
+
 document.addEventListener('DOMContentLoaded', () => {
+    // Check if user has completed welcome before
+    const welcomeComplete = localStorage.getItem('hyperplanner_welcome_complete');
+    if (welcomeComplete === 'true') {
+        hideWelcomeScreen();
+    }
+
     // ===================================
-    // Cursor Effects
+    // Tab Title & Favicon Change on Visibility
+    // ===================================
+    const originalFavicon = document.querySelector('link[rel="icon"]').href;
+
+    document.addEventListener('visibilitychange', () => {
+        const favicon = document.querySelector('link[rel="icon"]');
+
+        if (document.hidden) {
+            document.title = '👋 Come back to HyperPlanner!';
+            // Change favicon to waving hand emoji
+            favicon.href = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👋</text></svg>";
+        } else {
+            document.title = originalTitle;
+            favicon.href = originalFavicon;
+        }
+    });
+
+    // ===================================
+    // Cursor Effects - Streak/Whisk
     // ===================================
     const cursorGlow = document.querySelector('.cursor-glow');
     const cursorTrail = document.querySelector('.cursor-trail');
     let mouseX = 0;
     let mouseY = 0;
-    let trailX = 0;
-    let trailY = 0;
+    let lastX = 0;
+    let lastY = 0;
+    let particles = [];
 
     // Track mouse position
     document.addEventListener('mousemove', (e) => {
@@ -24,41 +54,49 @@ document.addEventListener('DOMContentLoaded', () => {
             cursorGlow.style.left = `${mouseX}px`;
             cursorGlow.style.top = `${mouseY}px`;
         }
-    });
 
-    // Smooth trailing cursor
-    function animateTrail() {
-        const dx = mouseX - trailX;
-        const dy = mouseY - trailY;
+        // Create streak particles
+        const dx = mouseX - lastX;
+        const dy = mouseY - lastY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
 
-        trailX += dx * 0.2;
-        trailY += dy * 0.2;
-
-        if (cursorTrail) {
-            cursorTrail.style.left = `${trailX}px`;
-            cursorTrail.style.top = `${trailY}px`;
+        if (distance > 5 && cursorTrail) { // Only create particles when moving
+            createStreakParticle(mouseX, mouseY);
         }
 
-        requestAnimationFrame(animateTrail);
+        lastX = mouseX;
+        lastY = mouseY;
+    });
+
+    // Create streak particle effect
+    function createStreakParticle(x, y) {
+        const particle = document.createElement('div');
+        particle.className = 'cursor-particle';
+        particle.style.left = `${x}px`;
+        particle.style.top = `${y}px`;
+
+        cursorTrail.appendChild(particle);
+
+        // Remove particle after animation
+        setTimeout(() => {
+            particle.remove();
+        }, 600);
     }
-    animateTrail();
 
     // Change cursor on interactive elements
-    const interactiveElements = document.querySelectorAll('a, button, .feature-card');
+    const interactiveElements = document.querySelectorAll('a, button, .feature-card, .welcome-option');
     interactiveElements.forEach(el => {
         el.addEventListener('mouseenter', () => {
-            if (cursorTrail) {
-                cursorTrail.style.width = '40px';
-                cursorTrail.style.height = '40px';
-                cursorTrail.style.borderColor = 'rgba(99, 102, 241, 0.8)';
+            if (cursorGlow) {
+                cursorGlow.style.width = '50px';
+                cursorGlow.style.height = '50px';
             }
         });
 
         el.addEventListener('mouseleave', () => {
-            if (cursorTrail) {
-                cursorTrail.style.width = '20px';
-                cursorTrail.style.height = '20px';
-                cursorTrail.style.borderColor = 'rgba(99, 102, 241, 0.5)';
+            if (cursorGlow) {
+                cursorGlow.style.width = '30px';
+                cursorGlow.style.height = '30px';
             }
         });
     });
@@ -528,9 +566,195 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('%c Try the Konami code for a surprise! ↑↑↓↓←→←→BA ', 'color: #666; font-style: italic;');
 
     // ===================================
+    // Welcome Screen Option Selection
+    // ===================================
+    document.querySelectorAll('.welcome-option').forEach(option => {
+        option.addEventListener('click', function() {
+            // Remove selected class from siblings
+            this.parentElement.querySelectorAll('.welcome-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            // Add selected class to this option
+            this.classList.add('selected');
+
+            // Store the selection
+            const step = this.closest('.welcome-step').dataset.step;
+            const value = this.dataset.value;
+            welcomeData[`step${step}`] = value;
+        });
+    });
+
+    // ===================================
     // Initialize Complete
     // ===================================
-    console.log('✨ HyperPlanner landing page initialized');
+    console.log('✨ HyperPlanner landing page initialized with welcome flow');
+});
+
+// ===================================
+// Welcome Screen Functions (Global)
+// ===================================
+function nextWelcomeStep() {
+    const steps = document.querySelectorAll('.welcome-step');
+    const progressDots = document.querySelectorAll('.progress-dot');
+
+    if (currentStep < steps.length) {
+        steps[currentStep - 1].classList.remove('active');
+        progressDots[currentStep - 1].classList.remove('active');
+
+        currentStep++;
+
+        steps[currentStep - 1].classList.add('active');
+        progressDots[currentStep - 1].classList.add('active');
+    }
+}
+
+function prevWelcomeStep() {
+    const steps = document.querySelectorAll('.welcome-step');
+    const progressDots = document.querySelectorAll('.progress-dot');
+
+    if (currentStep > 1) {
+        steps[currentStep - 1].classList.remove('active');
+        progressDots[currentStep - 1].classList.remove('active');
+
+        currentStep--;
+
+        steps[currentStep - 1].classList.add('active');
+        progressDots[currentStep - 1].classList.add('active');
+    }
+}
+
+function startDemo() {
+    // Save welcome data
+    localStorage.setItem('hyperplanner_welcome_data', JSON.stringify(welcomeData));
+    localStorage.setItem('hyperplanner_welcome_complete', 'true');
+    localStorage.setItem('hyperplanner_mode', 'demo');
+
+    hideWelcomeScreen();
+    showNotification('Demo mode activated! Explore all features (except AI, sync, and advanced automations)', 'success');
+}
+
+function openSignup() {
+    // Save welcome data
+    localStorage.setItem('hyperplanner_welcome_data', JSON.stringify(welcomeData));
+    localStorage.setItem('hyperplanner_welcome_complete', 'true');
+
+    hideWelcomeScreen();
+
+    // Open signup modal
+    setTimeout(() => {
+        const modal = document.getElementById('signInModal');
+        if (modal) {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            // Switch to signup tab
+            const signupTab = document.querySelector('[data-tab="signup"]');
+            if (signupTab) signupTab.click();
+        }
+    }, 500);
+}
+
+function hideWelcomeScreen() {
+    const welcomeScreen = document.getElementById('welcomeScreen');
+    if (welcomeScreen) {
+        welcomeScreen.classList.add('hidden');
+
+        // Show customization controls after welcome
+        setTimeout(() => {
+            const controls = document.getElementById('customizeControls');
+            if (controls) controls.classList.remove('hidden');
+        }, 500);
+    }
+}
+
+// ===================================
+// Glass Sidebar Functions (Global)
+// ===================================
+function toggleSidebar() {
+    const sidebar = document.getElementById('glassSidebar');
+    if (sidebar) {
+        sidebar.classList.toggle('active');
+    }
+}
+
+// ===================================
+// Customization Functions (Global)
+// ===================================
+function applyTheme(themeName) {
+    const root = document.documentElement;
+
+    switch(themeName) {
+        case 'glassy':
+            root.style.setProperty('--primary', '#6366f1');
+            root.style.setProperty('--secondary', '#ec4899');
+            root.style.setProperty('--bg-primary', '#0f0f1a');
+            break;
+        case 'midnight':
+            root.style.setProperty('--primary', '#3b82f6');
+            root.style.setProperty('--secondary', '#8b5cf6');
+            root.style.setProperty('--bg-primary', '#000000');
+            break;
+        case 'neon':
+            root.style.setProperty('--primary', '#a855f7');
+            root.style.setProperty('--secondary', '#ec4899');
+            root.style.setProperty('--bg-primary', '#0a0a0f');
+            break;
+    }
+
+    localStorage.setItem('hyperplanner_theme', themeName);
+    showNotification(`${themeName.charAt(0).toUpperCase() + themeName.slice(1)} theme applied!`, 'success');
+}
+
+function adjustBlur(value) {
+    const root = document.documentElement;
+    root.style.setProperty('--blur-md', `${value}px`);
+    localStorage.setItem('hyperplanner_blur', value);
+}
+
+function adjustGlow(value) {
+    const cursorGlow = document.querySelector('.cursor-glow');
+    if (cursorGlow) {
+        const opacity = value / 100;
+        cursorGlow.style.opacity = opacity;
+    }
+    localStorage.setItem('hyperplanner_glow', value);
+}
+
+function resetCustomization() {
+    const root = document.documentElement;
+    root.style.setProperty('--primary', '#6366f1');
+    root.style.setProperty('--secondary', '#ec4899');
+    root.style.setProperty('--bg-primary', '#0f0f1a');
+    root.style.setProperty('--blur-md', '16px');
+
+    const cursorGlow = document.querySelector('.cursor-glow');
+    if (cursorGlow) cursorGlow.style.opacity = '1';
+
+    // Reset sliders
+    document.querySelectorAll('.slider-control input[type="range"]').forEach(slider => {
+        if (slider.oninput && slider.oninput.toString().includes('adjustBlur')) {
+            slider.value = 16;
+        } else if (slider.oninput && slider.oninput.toString().includes('adjustGlow')) {
+            slider.value = 50;
+        }
+    });
+
+    localStorage.removeItem('hyperplanner_theme');
+    localStorage.removeItem('hyperplanner_blur');
+    localStorage.removeItem('hyperplanner_glow');
+
+    showNotification('Customization reset to defaults', 'info');
+}
+
+// Load saved customizations
+window.addEventListener('load', () => {
+    const savedTheme = localStorage.getItem('hyperplanner_theme');
+    const savedBlur = localStorage.getItem('hyperplanner_blur');
+    const savedGlow = localStorage.getItem('hyperplanner_glow');
+
+    if (savedTheme) applyTheme(savedTheme);
+    if (savedBlur) adjustBlur(savedBlur);
+    if (savedGlow) adjustGlow(savedGlow);
 });
 
 // ===================================

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HyperPlanner - Your Personal Ops Layer</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,6 +18,191 @@
     <!-- Background Effects -->
     <div class="bg-gradient"></div>
     <div class="bg-mesh"></div>
+
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-container">
+            <!-- Step 1: Welcome -->
+            <div class="welcome-step active" data-step="1">
+                <div class="welcome-icon">👋</div>
+                <h1 class="welcome-title">Welcome to HyperPlanner!</h1>
+                <p class="welcome-subtitle">Let's personalize your experience in just a few quick steps</p>
+                <div class="welcome-nav">
+                    <button class="btn btn-primary" onclick="nextWelcomeStep()">Let's Go!</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Primary Use -->
+            <div class="welcome-step" data-step="2">
+                <div class="welcome-question">
+                    <h3>How do you plan to use HyperPlanner?</h3>
+                    <div class="welcome-options">
+                        <div class="welcome-option" data-value="work">
+                            <div class="option-icon">💼</div>
+                            <div class="option-label">Work & Projects</div>
+                        </div>
+                        <div class="welcome-option" data-value="personal">
+                            <div class="option-icon">🏠</div>
+                            <div class="option-label">Personal Life</div>
+                        </div>
+                        <div class="welcome-option" data-value="both">
+                            <div class="option-icon">⚖️</div>
+                            <div class="option-label">Both</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="welcome-nav">
+                    <button class="btn btn-secondary" onclick="prevWelcomeStep()">Back</button>
+                    <button class="btn btn-primary" onclick="nextWelcomeStep()">Continue</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Planning Style -->
+            <div class="welcome-step" data-step="3">
+                <div class="welcome-question">
+                    <h3>What's your planning style?</h3>
+                    <div class="welcome-options">
+                        <div class="welcome-option" data-value="visual">
+                            <div class="option-icon">📊</div>
+                            <div class="option-label">Visual (Kanban)</div>
+                        </div>
+                        <div class="welcome-option" data-value="calendar">
+                            <div class="option-icon">📅</div>
+                            <div class="option-label">Time-based (Calendar)</div>
+                        </div>
+                        <div class="welcome-option" data-value="list">
+                            <div class="option-icon">📝</div>
+                            <div class="option-label">List-based</div>
+                        </div>
+                        <div class="welcome-option" data-value="mix">
+                            <div class="option-icon">🎯</div>
+                            <div class="option-label">Mix of All</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="welcome-nav">
+                    <button class="btn btn-secondary" onclick="prevWelcomeStep()">Back</button>
+                    <button class="btn btn-primary" onclick="nextWelcomeStep()">Continue</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Theme Preference -->
+            <div class="welcome-step" data-step="4">
+                <div class="welcome-question">
+                    <h3>Choose your vibe</h3>
+                    <div class="welcome-options">
+                        <div class="welcome-option" data-value="glassy">
+                            <div class="option-icon">✨</div>
+                            <div class="option-label">Glassy & Warm</div>
+                        </div>
+                        <div class="welcome-option" data-value="midnight">
+                            <div class="option-icon">🌙</div>
+                            <div class="option-label">Midnight Focus</div>
+                        </div>
+                        <div class="welcome-option" data-value="neon">
+                            <div class="option-icon">⚡</div>
+                            <div class="option-label">Neon Edge</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="welcome-nav">
+                    <button class="btn btn-secondary" onclick="prevWelcomeStep()">Back</button>
+                    <button class="btn btn-primary" onclick="nextWelcomeStep()">Continue</button>
+                </div>
+            </div>
+
+            <!-- Step 5: Account or Demo -->
+            <div class="welcome-step" data-step="5">
+                <div class="welcome-icon">🚀</div>
+                <h1 class="welcome-title">You're all set!</h1>
+                <p class="welcome-subtitle">Create an account to unlock all features, or try demo mode first</p>
+                <div class="welcome-nav">
+                    <button class="btn btn-secondary" onclick="startDemo()">Try Demo First</button>
+                    <button class="btn btn-primary" onclick="openSignup()">Create Account</button>
+                </div>
+                <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-tertiary);">
+                    Demo mode includes everything except AI, advanced automations, sync, and templates
+                </p>
+            </div>
+
+            <!-- Progress Dots -->
+            <div class="welcome-progress">
+                <div class="progress-dot active"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Glass Sidebar Widget -->
+    <div class="sidebar-toggle" onclick="toggleSidebar()">
+        📚 Guides
+    </div>
+    <div class="glass-sidebar" id="glassSidebar">
+        <div class="sidebar-section">
+            <h3>Quick Start</h3>
+            <div class="sidebar-links">
+                <a href="#" class="sidebar-link">Getting Started Guide</a>
+                <a href="#" class="sidebar-link">Video Tutorial</a>
+                <a href="#" class="sidebar-link">Keyboard Shortcuts</a>
+            </div>
+        </div>
+        <div class="sidebar-section">
+            <h3>Features</h3>
+            <div class="sidebar-links">
+                <a href="#" class="sidebar-link">Smart Capture Guide</a>
+                <a href="#" class="sidebar-link">Layout Customization</a>
+                <a href="#" class="sidebar-link">Theme Lab Tutorial</a>
+                <a href="#" class="sidebar-link">Automations 101</a>
+                <a href="#" class="sidebar-link">Templates & Workflows</a>
+            </div>
+        </div>
+        <div class="sidebar-section">
+            <h3>Advanced</h3>
+            <div class="sidebar-links">
+                <a href="#" class="sidebar-link">API Documentation</a>
+                <a href="#" class="sidebar-link">Custom Integrations</a>
+                <a href="#" class="sidebar-link">Data Export/Import</a>
+                <a href="#" class="sidebar-link">Privacy & Security</a>
+            </div>
+        </div>
+        <div class="sidebar-section">
+            <h3>Resources</h3>
+            <div class="sidebar-links">
+                <a href="#" class="sidebar-link">Community Forum</a>
+                <a href="#" class="sidebar-link">FAQ</a>
+                <a href="#" class="sidebar-link">Contact Support</a>
+                <a href="#" class="sidebar-link">Changelog</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customization Controls -->
+    <div class="customize-controls hidden" id="customizeControls">
+        <div class="control-group">
+            <div class="control-label">Theme</div>
+            <div class="control-input">
+                <div class="color-swatch" style="background: linear-gradient(135deg, #6366f1, #ec4899);" title="Glassy" onclick="applyTheme('glassy')"></div>
+                <div class="color-swatch" style="background: #000000;" title="Midnight" onclick="applyTheme('midnight')"></div>
+                <div class="color-swatch" style="background: linear-gradient(135deg, #a855f7, #ec4899);" title="Neon" onclick="applyTheme('neon')"></div>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="control-label">Blur</div>
+            <div class="slider-control">
+                <input type="range" min="0" max="24" value="16" oninput="adjustBlur(this.value)">
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="control-label">Glow</div>
+            <div class="slider-control">
+                <input type="range" min="0" max="100" value="50" oninput="adjustGlow(this.value)">
+            </div>
+        </div>
+        <button class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.5rem;" onclick="resetCustomization()">Reset</button>
+    </div>
 
     <!-- Navigation -->
     <nav class="nav">
