@@ -155,27 +155,24 @@ body {
     z-index: -1;
 }
 
-/* Cursor Effects - Subtle */
+/* Cursor Effects - Background Glow */
 .cursor-glow {
     position: fixed;
-    width: 200px;
-    height: 200px;
+    width: 400px;
+    height: 400px;
     background: radial-gradient(
         circle,
-        rgba(99, 102, 241, 0.08) 0%,
-        rgba(236, 72, 153, 0.05) 40%,
+        rgba(99, 102, 241, 0.15) 0%,
+        rgba(236, 72, 153, 0.1) 30%,
+        rgba(245, 158, 11, 0.05) 50%,
         transparent 70%
     );
     pointer-events: none;
     transform: translate(-50%, -50%);
-    z-index: 9999;
-    opacity: 0;
-    border-radius: 50%;
-    transition: opacity 0.3s ease, width 0.2s ease, height 0.2s ease;
-}
-
-body:hover .cursor-glow {
+    z-index: 1;
     opacity: 1;
+    border-radius: 50%;
+    transition: width 0.3s ease, height 0.3s ease;
 }
 
 .cursor-trail {

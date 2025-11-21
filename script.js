@@ -34,33 +34,46 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ===================================
-    // Cursor Effects - Subtle Glow & Smooth Trail
+    // Cursor Effects - Background Glow & White Streak Trail
     // ===================================
     const cursorGlow = document.querySelector('.cursor-glow');
     const cursorTrailContainer = document.querySelector('.cursor-trail');
+    const bgGradient = document.querySelector('.bg-gradient');
     const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
-    const trail = [];
-    const maxTrailLength = 20;
+    let targetGradientX = 0;
+    let targetGradientY = 0;
+    let currentGradientX = 0;
+    let currentGradientY = 0;
 
-    if (!isMobile && cursorGlow && cursorTrailContainer) {
-        // Create canvas for trail
+    if (!isMobile) {
+        // Create canvas for white streak trail
         const canvas = document.createElement('canvas');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        cursorTrailContainer.appendChild(canvas);
+        canvas.style.cssText = 'position:fixed;top:0;left:0;pointer-events:none;z-index:9998;';
+        document.body.appendChild(canvas);
         const ctx = canvas.getContext('2d');
+
+        const trail = [];
+        const maxTrailLength = 30;
 
         // Track mouse movement
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
 
-            // Update glow position
-            cursorGlow.style.left = `${mouseX}px`;
-            cursorGlow.style.top = `${mouseY}px`;
+            // Update cursor glow position
+            if (cursorGlow) {
+                cursorGlow.style.left = `${mouseX}px`;
+                cursorGlow.style.top = `${mouseY}px`;
+            }
+
+            // Update background gradient reaction (larger movement range)
+            targetGradientX = (mouseX / window.innerWidth) * 60 - 30;
+            targetGradientY = (mouseY / window.innerHeight) * 60 - 30;
 
             // Add point to trail
             trail.push({
@@ -75,46 +88,59 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Animate trail
+        // Animate background gradient with smooth easing
+        function animateBackground() {
+            // Smooth interpolation for background gradient
+            currentGradientX += (targetGradientX - currentGradientX) * 0.08;
+            currentGradientY += (targetGradientY - currentGradientY) * 0.08;
+
+            if (bgGradient) {
+                bgGradient.style.transform = `translate(${currentGradientX}px, ${currentGradientY}px)`;
+            }
+            requestAnimationFrame(animateBackground);
+        }
+        animateBackground();
+
+        // Draw white streak trail (Windows-style)
         function drawTrail() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            if (trail.length > 1) {
-                // Draw smooth curve through points
+            if (trail.length > 2) {
+                // Use bezier curves for smoother trail
                 ctx.beginPath();
                 ctx.moveTo(trail[0].x, trail[0].y);
 
-                for (let i = 0; i < trail.length - 1; i++) {
+                for (let i = 1; i < trail.length; i++) {
                     const current = trail[i];
-                    const next = trail[i + 1];
+                    const prev = trail[i - 1];
                     const age = (Date.now() - current.time) / 1000;
 
-                    // Calculate midpoint for smooth curves
-                    const xc = (current.x + next.x) / 2;
-                    const yc = (current.y + next.y) / 2;
-                    ctx.quadraticCurveTo(current.x, current.y, xc, yc);
+                    // Calculate opacity based on position and age
+                    const progress = i / trail.length;
+                    const opacity = Math.max(0, (1 - age / 0.4) * progress * 0.7);
 
-                    // Fade out old points
-                    if (age > 0.8) {
-                        trail.splice(i, 1);
-                        i--;
+                    // Calculate line width (thicker near cursor, thinner at tail)
+                    const lineWidth = 12 * progress;
+
+                    if (opacity > 0 && lineWidth > 0.5) {
+                        ctx.beginPath();
+                        ctx.moveTo(prev.x, prev.y);
+                        ctx.lineTo(current.x, current.y);
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
+                        ctx.lineWidth = lineWidth;
+                        ctx.lineCap = 'round';
+                        ctx.lineJoin = 'round';
+                        ctx.stroke();
                     }
                 }
 
-                // Draw with gradient
-                const gradient = ctx.createLinearGradient(
-                    trail[0].x, trail[0].y,
-                    trail[trail.length - 1].x, trail[trail.length - 1].y
-                );
-                gradient.addColorStop(0, 'rgba(99, 102, 241, 0.1)');
-                gradient.addColorStop(0.5, 'rgba(168, 85, 247, 0.15)');
-                gradient.addColorStop(1, 'rgba(236, 72, 153, 0.1)');
-
-                ctx.strokeStyle = gradient;
-                ctx.lineWidth = 3;
-                ctx.lineCap = 'round';
-                ctx.lineJoin = 'round';
-                ctx.stroke();
+                // Remove old points
+                for (let i = trail.length - 1; i >= 0; i--) {
+                    const age = (Date.now() - trail[i].time) / 1000;
+                    if (age > 0.4) {
+                        trail.splice(i, 1);
+                    }
+                }
             }
 
             requestAnimationFrame(drawTrail);
@@ -131,16 +157,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const interactiveElements = document.querySelectorAll('a, button, .feature-card, .welcome-option, .color-swatch');
         interactiveElements.forEach(el => {
             el.addEventListener('mouseenter', () => {
-                cursorGlow.style.width = '280px';
-                cursorGlow.style.height = '280px';
+                if (cursorGlow) {
+                    cursorGlow.style.width = '500px';
+                    cursorGlow.style.height = '500px';
+                }
             });
 
             el.addEventListener('mouseleave', () => {
-                cursorGlow.style.width = '200px';
-                cursorGlow.style.height = '200px';
+                if (cursorGlow) {
+                    cursorGlow.style.width = '400px';
+                    cursorGlow.style.height = '400px';
+                }
             });
         });
-    } else if (isMobile) {
+    } else {
         // Hide cursor effects on mobile
         if (cursorGlow) cursorGlow.style.display = 'none';
         if (cursorTrailContainer) cursorTrailContainer.style.display = 'none';
@@ -392,25 +422,7 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(card);
     });
 
-    // ===================================
-    // Background Gradient Mouse Follow
-    // ===================================
-    const bgGradient = document.querySelector('.bg-gradient');
-    let gradientX = 0;
-    let gradientY = 0;
-
-    document.addEventListener('mousemove', (e) => {
-        gradientX = (e.clientX / window.innerWidth) * 10 - 5;
-        gradientY = (e.clientY / window.innerHeight) * 10 - 5;
-    });
-
-    function animateBackground() {
-        if (bgGradient) {
-            bgGradient.style.transform = `translate(${gradientX}px, ${gradientY}px)`;
-        }
-        requestAnimationFrame(animateBackground);
-    }
-    animateBackground();
+    // Background gradient mouse follow is handled in the cursor effects section above
 
     // ===================================
     // Mobile Menu Toggle
