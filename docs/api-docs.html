@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation - HyperPlanner</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9670;</text></svg>">
+    <link rel="stylesheet" href="docs.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* API Documentation Specific Styles */
+        .method-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-right: 8px;
+        }
+
+        .method-get { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .method-post { background: rgba(99, 102, 241, 0.2); color: #818cf8; }
+        .method-put { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        .method-delete { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+
+        .endpoint-url {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .endpoint-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-md) 0;
+        }
+
+        .endpoint-card h4 {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--spacing-sm);
+            font-size: 1rem;
+        }
+
+        .endpoint-card p {
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .code-block {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            white-space: pre;
+        }
+
+        .code-block .comment { color: #6b7280; }
+        .code-block .key { color: #818cf8; }
+        .code-block .string { color: #10b981; }
+        .code-block .number { color: #f59e0b; }
+        .code-block .boolean { color: #ec4899; }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            border-bottom: none;
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .code-header + .code-block {
+            border-radius: 0 0 var(--radius-md) var(--radius-md);
+            margin-top: 0;
+        }
+
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--spacing-md) 0;
+            font-size: 0.875rem;
+        }
+
+        .param-table th,
+        .param-table td {
+            padding: var(--spacing-sm) var(--spacing-md);
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .param-table th {
+            font-weight: 600;
+            color: var(--text-primary);
+            background: var(--glass);
+        }
+
+        .param-table td {
+            color: var(--text-secondary);
+        }
+
+        .param-table code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            background: rgba(99, 102, 241, 0.15);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--primary-light);
+        }
+
+        .required-badge {
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border-radius: 4px;
+            margin-left: 6px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .optional-badge {
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            background: rgba(107, 114, 128, 0.2);
+            color: #9ca3af;
+            border-radius: 4px;
+            margin-left: 6px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .error-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--spacing-md) 0;
+        }
+
+        .error-table th,
+        .error-table td {
+            padding: var(--spacing-sm) var(--spacing-md);
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .error-table th {
+            font-weight: 600;
+            color: var(--text-primary);
+            background: var(--glass);
+        }
+
+        .error-table td {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .error-code {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+        }
+
+        .status-2xx { color: #10b981; }
+        .status-4xx { color: #f59e0b; }
+        .status-5xx { color: #ef4444; }
+
+        .sdk-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .sdk-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        .sdk-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .sdk-card h4 {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .sdk-card .status {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .toc-inline {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin: var(--spacing-md) 0;
+        }
+
+        .toc-inline a {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all var(--transition-fast);
+        }
+
+        .toc-inline a:hover {
+            background: var(--glass-hover);
+            color: var(--primary-light);
+            border-color: var(--primary);
+        }
+
+        .version-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: var(--spacing-sm);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-gradient"></div>
+    <div class="bg-mesh"></div>
+
+    <!-- Navigation -->
+    <nav class="doc-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-icon">&#9670;</span>
+                <span>HyperPlanner</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="getting-started.html" class="nav-link">Docs</a>
+                <a href="../index.html#features" class="nav-link">Features</a>
+                <a href="../index.html#demo" class="nav-link">Try Demo</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Layout -->
+    <div class="doc-layout">
+        <!-- Sidebar -->
+        <aside class="doc-sidebar">
+            <div class="sidebar-section">
+                <h3>Quick Start</h3>
+                <div class="sidebar-links">
+                    <a href="getting-started.html" class="sidebar-link">Getting Started</a>
+                    <a href="video-tutorial.html" class="sidebar-link">Video Tutorial</a>
+                    <a href="keyboard-shortcuts.html" class="sidebar-link">Keyboard Shortcuts</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Features</h3>
+                <div class="sidebar-links">
+                    <a href="smart-capture.html" class="sidebar-link">Smart Capture Guide</a>
+                    <a href="layout-customization.html" class="sidebar-link">Layout Customization</a>
+                    <a href="theme-lab.html" class="sidebar-link">Theme Lab Tutorial</a>
+                    <a href="#" class="sidebar-link">Automations 101</a>
+                    <a href="#" class="sidebar-link">Templates & Workflows</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Advanced</h3>
+                <div class="sidebar-links">
+                    <a href="api-docs.html" class="sidebar-link active">API Documentation</a>
+                    <a href="#" class="sidebar-link">Custom Integrations</a>
+                    <a href="#" class="sidebar-link">Data Export/Import</a>
+                    <a href="#" class="sidebar-link">Privacy & Security</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Resources</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link">Community Forum</a>
+                    <a href="#" class="sidebar-link">FAQ</a>
+                    <a href="#" class="sidebar-link">Contact Support</a>
+                    <a href="#" class="sidebar-link">Changelog</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="doc-content">
+            <!-- Header -->
+            <header class="doc-header">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a> / <a href="getting-started.html">Docs</a> / API Documentation
+                </div>
+                <h1>API Documentation <span class="version-badge">v1.0</span></h1>
+                <p class="subtitle">Build powerful integrations with the HyperPlanner REST API. Create tasks, manage events, automate workflows, and sync data with external services.</p>
+            </header>
+
+            <!-- Table of Contents -->
+            <section class="doc-section" id="overview">
+                <h2>Overview</h2>
+                <p>
+                    The HyperPlanner API provides programmatic access to your tasks, events, templates, and settings.
+                    Use it to integrate HyperPlanner with your existing tools, build custom automations, or create
+                    third-party applications.
+                </p>
+
+                <div class="toc-inline">
+                    <a href="#authentication">Authentication</a>
+                    <a href="#rate-limits">Rate Limits</a>
+                    <a href="#tasks">Tasks API</a>
+                    <a href="#events">Events API</a>
+                    <a href="#templates">Templates API</a>
+                    <a href="#settings">Settings API</a>
+                    <a href="#errors">Error Codes</a>
+                    <a href="#webhooks">Webhooks</a>
+                    <a href="#sdks">SDKs</a>
+                </div>
+
+                <h3>Base URL</h3>
+                <div class="code-block">https://api.hyperplanner.app/v1</div>
+
+                <div class="info-card note">
+                    <h4>API Access</h4>
+                    <p>
+                        API access is available on Pro and Team plans. Free accounts can use the API in read-only mode
+                        with limited rate limits. <a href="#">Upgrade your plan</a> for full API access.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Authentication Section -->
+            <section class="doc-section" id="authentication">
+                <h2>Authentication</h2>
+                <p>
+                    The HyperPlanner API supports two authentication methods: API Keys for server-to-server
+                    communication, and OAuth 2.0 for user-authorized applications.
+                </p>
+
+                <h3>API Keys</h3>
+                <p>
+                    API keys are the simplest way to authenticate. Generate a key from your
+                    <strong>Settings &gt; Developer &gt; API Keys</strong> panel.
+                </p>
+
+                <div class="code-header">
+                    <span>Request Header</span>
+                    <span>HTTP</span>
+                </div>
+                <div class="code-block">Authorization: Bearer hp_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
+
+                <div class="info-card warning">
+                    <h4>Keep Your Keys Secret</h4>
+                    <p>
+                        Never expose API keys in client-side code or public repositories. Use environment
+                        variables and server-side requests. Rotate keys immediately if compromised.
+                    </p>
+                </div>
+
+                <h3>API Key Types</h3>
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Key Prefix</th>
+                            <th>Type</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>hp_live_</code></td>
+                            <td>Production</td>
+                            <td>Live environment with full access</td>
+                        </tr>
+                        <tr>
+                            <td><code>hp_test_</code></td>
+                            <td>Test</td>
+                            <td>Sandbox environment for development</td>
+                        </tr>
+                        <tr>
+                            <td><code>hp_readonly_</code></td>
+                            <td>Read-only</td>
+                            <td>Read access only, no mutations</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>OAuth 2.0</h3>
+                <p>
+                    For applications that act on behalf of users, implement OAuth 2.0 authorization flow.
+                </p>
+
+                <div class="code-header">
+                    <span>OAuth Authorization URL</span>
+                    <span>HTTP</span>
+                </div>
+                <div class="code-block">GET https://hyperplanner.app/oauth/authorize
+  ?client_id=YOUR_CLIENT_ID
+  &redirect_uri=https://yourapp.com/callback
+  &response_type=code
+  &scope=tasks:read tasks:write events:read events:write
+  &state=random_state_string</div>
+
+                <h3>OAuth Token Exchange</h3>
+                <div class="code-header">
+                    <span>Token Request</span>
+                    <span>HTTP</span>
+                </div>
+                <div class="code-block">POST https://api.hyperplanner.app/v1/oauth/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code
+&code=AUTH_CODE_FROM_CALLBACK
+&client_id=YOUR_CLIENT_ID
+&client_secret=YOUR_CLIENT_SECRET
+&redirect_uri=https://yourapp.com/callback</div>
+
+                <div class="code-header">
+                    <span>Token Response</span>
+                    <span>JSON</span>
+                </div>
+                <div class="code-block">{
+  <span class="key">"access_token"</span>: <span class="string">"hp_oauth_xxxxxxxxxxxxxxxxxxxxxxxx"</span>,
+  <span class="key">"token_type"</span>: <span class="string">"Bearer"</span>,
+  <span class="key">"expires_in"</span>: <span class="number">3600</span>,
+  <span class="key">"refresh_token"</span>: <span class="string">"hp_refresh_xxxxxxxxxxxxxxxxxxxxxxxx"</span>,
+  <span class="key">"scope"</span>: <span class="string">"tasks:read tasks:write events:read events:write"</span>
+}</div>
+
+                <h3>Available Scopes</h3>
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Scope</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>tasks:read</code></td>
+                            <td>Read access to tasks</td>
+                        </tr>
+                        <tr>
+                            <td><code>tasks:write</code></td>
+                            <td>Create, update, delete tasks</td>
+                        </tr>
+                        <tr>
+                            <td><code>events:read</code></td>
+                            <td>Read access to calendar events</td>
+                        </tr>
+                        <tr>
+                            <td><code>events:write</code></td>
+                            <td>Create, update, delete events</td>
+                        </tr>
+                        <tr>
+                            <td><code>templates:read</code></td>
+                            <td>Read access to templates</td>
+                        </tr>
+                        <tr>
+                            <td><code>templates:write</code></td>
+                            <td>Create templates</td>
+                        </tr>
+                        <tr>
+                            <td><code>settings:read</code></td>
+                            <td>Read user settings</td>
+                        </tr>
+                        <tr>
+                            <td><code>settings:write</code></td>
+                            <td>Modify user settings</td>
+                        </tr>
+                        <tr>
+                            <td><code>webhooks:manage</code></td>
+                            <td>Create and manage webhooks</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Rate Limits Section -->
+            <section class="doc-section" id="rate-limits">
+                <h2>Rate Limits</h2>
+                <p>
+                    API requests are rate-limited to ensure fair usage and system stability. Limits vary by
+                    plan and endpoint type.
+                </p>
+
+                <h3>Rate Limit Tiers</h3>
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Plan</th>
+                            <th>Requests/Minute</th>
+                            <th>Requests/Day</th>
+                            <th>Burst Limit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Free</td>
+                            <td>30</td>
+                            <td>1,000</td>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <td>Pro</td>
+                            <td>120</td>
+                            <td>10,000</td>
+                            <td>50</td>
+                        </tr>
+                        <tr>
+                            <td>Team</td>
+                            <td>300</td>
+                            <td>50,000</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td>Enterprise</td>
+                            <td>Custom</td>
+                            <td>Custom</td>
+                            <td>Custom</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Rate Limit Headers</h3>
+                <p>Every API response includes headers indicating your current rate limit status:</p>
+
+                <div class="code-header">
+                    <span>Response Headers</span>
+                    <span>HTTP</span>
+                </div>
+                <div class="code-block">X-RateLimit-Limit: 120
+X-RateLimit-Remaining: 115
+X-RateLimit-Reset: 1699545600
+X-RateLimit-RetryAfter: 45</div>
+
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Header</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>X-RateLimit-Limit</code></td>
+                            <td>Maximum requests allowed per minute</td>
+                        </tr>
+                        <tr>
+                            <td><code>X-RateLimit-Remaining</code></td>
+                            <td>Requests remaining in current window</td>
+                        </tr>
+                        <tr>
+                            <td><code>X-RateLimit-Reset</code></td>
+                            <td>Unix timestamp when the limit resets</td>
+                        </tr>
+                        <tr>
+                            <td><code>X-RateLimit-RetryAfter</code></td>
+                            <td>Seconds to wait before retrying (when rate limited)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-card tip">
+                    <h4>Handling Rate Limits</h4>
+                    <p>
+                        When you receive a <code>429 Too Many Requests</code> response, wait for the time
+                        specified in <code>X-RateLimit-RetryAfter</code> before retrying. Implement exponential
+                        backoff for robust error handling.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Tasks API Section -->
+            <section class="doc-section" id="tasks">
+                <h2>Tasks API</h2>
+                <p>
+                    Create, read, update, and delete tasks. Tasks are the core entities in HyperPlanner,
+                    representing actionable items with optional due dates, priorities, and metadata.
+                </p>
+
+                <!-- GET /api/tasks -->
+                <div class="endpoint-card">
+                    <h4>
+                        <span class="method-badge method-get">GET</span>
+                        <span class="endpoint-url">/api/tasks</span>
+                    </h4>
+                    <p>Retrieve a list of tasks with optional filtering and pagination.</p>
+
+                    <h5>Query Parameters</h5>
+                    <table class="param-table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>status</code><span class="optional-badge">optional</span></td>
+                                <td>string</td>
+                                <td>Filter by status: <code>pending</code>, <code>in_progress</code>, <code>completed</code>, <code>archived</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>priority</code><span class="optional-badge">optional</span></td>
+                                <td>string</td>
+                                <td>Filter by priority: <code>high</code>, <code>medium</code>, <code>low</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>context</code><span class="optional-badge">optional</span></td>
+                                <td>string</td>
+                                <td>Filter by context (e.g., <code>work</code>, <code>personal</code>)</td>
+                            </tr>
+                            <tr>
+                                <td><code>due_before</code><span class="optional-badge">optional</span></td>
+                                <td>ISO 8601</td>
+                                <td>Tasks due before this date</td>
+                            </tr>
+                            <tr>
+                                <td><code>due_after</code><span class="optional-badge">optional</span></td>
+                                <td>ISO 8601</td>
+                                <td>Tasks due after this date</td>
+                            </tr>
+                            <tr>
+                                <td><code>tags</code><span class="optional-badge">optional</span></td>
+                                <td>string</td>
+                                <td>Comma-separated list of tags</td>
+                            </tr>
+                            <tr>
+                                <td><code>limit</code><span class="optional-badge">optional</span></td>
+                                <td>integer</td>
+                                <td>Number of results (default: 50, max: 100)</td>
+                            </tr>
+                            <tr>
+                                <td><code>offset</code><span class="optional-badge">optional</span></td>
+                                <td>integer</td>
+                                <td>Pagination offset</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="code-header">
+                        <span>Example Request</span>
+                        <span>cURL</span>
+                    </div>
+                    <div class="code-block">curl -X GET "https://api.hyperplanner.app/v1/tasks?status=pending&priority=high&limit=10" \
+  -H "Authorization: Bearer hp_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"</div>
+
+                    <div class="code-header">
+                        <span>Example Response</span>
+                        <span>JSON</span>
+                    </div>
+                    <div class="code-block">{
+  <span class="key">"data"</span>: [
+    {
+      <span class="key">"id"</span>: <span class="string">"task_abc123xyz"</span>,
+      <span class="key">"title"</span>: <span class="string">"Review quarterly report"</span>,
+      <span class="key">"description"</span>: <span class="string">"Review and approve Q4 financial report"</span>,
+      <span class="key">"status"</span>: <span class="string">"pending"</span>,
+      <span class="key">"priority"</span>: <span class="string">"high"</span>,
+      <span class="key">"context"</span>: <span class="string">"work"</span>,
+      <span class="key">"tags"</span>: [<span class="string">"finance"</span>, <span class="string">"quarterly"</span>],
+      <span class="key">"due_at"</span>: <span class="string">"2024-01-15T17:00:00Z"</span>,
+      <span class="key">"created_at"</span>: <span class="string">"2024-01-10T09:30:00Z"</span>,
+      <span class="key">"updated_at"</span>: <span class="string">"2024-01-10T09:30:00Z"</span>,
+      <span class="key">"subtasks"</span>: [],
+      <span class="key">"metadata"</span>: {}
+    }
+  ],
+  <span class="key">"pagination"</span>: {
+    <span class="key">"total"</span>: <span class="number">42</span>,
+    <span class="key">"limit"</span>: <span class="number">10</span>,
+    <span class="key">"offset"</span>: <span class="number">0</span>,
+    <span class="key">"has_more"</span>: <span class="boolean">true</span>
+  }
+}</div>
+                </div>
+
+                <!-- POST /api/tasks -->
+                <div class="endpoint-card">
+                    <h4>
+                        <span class="method-badge method-post">POST</span>
+                        <span class="endpoint-url">/api/tasks</span>
+                    </h4>
+                    <p>Create a new task.</p>
+
+                    <h5>Request Body</h5>
+                    <table class="param-table">
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>title</code><span class="required-badge">required</span></td>
+                                <td>string</td>
+                                <td>Task title (max 500 characters)</td>
+                            </tr>
+                            <tr>
+                                <td><code>description</code><span class="optional-badge">optional</span></td>
+                                <td>string</td>
+                                <td>Task description (max 5000 characters)</td>
+                            </tr>
+                            <tr>
+                                <td><code>priority</code><span class="optional-badge">optional</span></td>
+                                <td>string</td>
+                                <td>Priority level: <code>high</code>, <code>medium</code>, <code>low</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>context</code><span class="optional-badge">optional</span></td>
+                                <td>string</td>
+                                <td>Context label</td>
+                            </tr>
+                            <tr>
+                                <td><code>tags</code><span class="optional-badge">optional</span></td>
+                                <td>array</td>
+                                <td>Array of tag strings</td>
+                            </tr>
+                            <tr>
+                                <td><code>due_at</code><span class="optional-badge">optional</span></td>
+                                <td>ISO 8601</td>
+                                <td>Due date and time</td>
+                            </tr>
+                            <tr>
+                                <td><code>subtasks</code><span class="optional-badge">optional</span></td>
+                                <td>array</td>
+                                <td>Array of subtask objects</td>
+                            </tr>
+                            <tr>
+                                <td><code>metadata</code><span class="optional-badge">optional</span></td>
+                                <td>object</td>
+                                <td>Custom key-value pairs</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="code-header">
+                        <span>Example Request</span>
+                        <span>cURL</span>
+                    </div>
+                    <div class="code-block">curl -X POST "https://api.hyperplanner.app/v1/tasks" \
+  -H "Authorization: Bearer hp_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Prepare presentation",
+    "description": "Create slides for Monday all-hands meeting",
+    "priority": "high",
+    "context": "work",
+    "tags": ["meeting", "presentation"],
+    "due_at": "2024-01-15T09:00:00Z",
+    "subtasks": [
+      {"title": "Draft outline"},
+      {"title": "Create slides"},
+      {"title": "Add visuals"}
+    ]
+  }'</div>
+
+                    <div class="code-header">
+                        <span>Example Response</span>
+                        <span>JSON</span>
+                    </div>
+                    <div class="code-block">{
+  <span class="key">"data"</span>: {
+    <span class="key">"id"</span>: <span class="string">"task_def456uvw"</span>,
+    <span class="key">"title"</span>: <span class="string">"Prepare presentation"</span>,
+    <span class="key">"description"</span>: <span class="string">"Create slides for Monday all-hands meeting"</span>,
+    <span class="key">"status"</span>: <span class="string">"pending"</span>,
+    <span class="key">"priority"</span>: <span class="string">"high"</span>,
+    <span class="key">"context"</span>: <span class="string">"work"</span>,
+    <span class="key">"tags"</span>: [<span class="string">"meeting"</span>, <span class="string">"presentation"</span>],
+    <span class="key">"due_at"</span>: <span class="string">"2024-01-15T09:00:00Z"</span>,
+    <span class="key">"created_at"</span>: <span class="string">"2024-01-10T14:22:00Z"</span>,
+    <span class="key">"updated_at"</span>: <span class="string">"2024-01-10T14:22:00Z"</span>,
+    <span class="key">"subtasks"</span>: [
+      {<span class="key">"id"</span>: <span class="string">"sub_001"</span>, <span class="key">"title"</span>: <span class="string">"Draft outline"</span>, <span class="key">"completed"</span>: <span class="boolean">false</span>},
+      {<span class="key">"id"</span>: <span class="string">"sub_002"</span>, <span class="key">"title"</span>: <span class="string">"Create slides"</span>, <span class="key">"completed"</span>: <span class="boolean">false</span>},
+      {<span class="key">"id"</span>: <span class="string">"sub_003"</span>, <span class="key">"title"</span>: <span class="string">"Add visuals"</span>, <span class="key">"completed"</span>: <span class="boolean">false</span>}
+    ],
+    <span class="key">"metadata"</span>: {}
+  }
+}</div>
+                </div>
+
+                <!-- PUT /api/tasks/:id -->
+                <div class="endpoint-card">
+                    <h4>
+                        <span class="method-badge method-put">PUT</span>
+                        <span class="endpoint-url">/api/tasks/:id</span>
+                    </h4>
+                    <p>Update an existing task. Supports partial updates - only include fields you want to change.</p>
+
+                    <div class="code-header">
+                        <span>Example Request</span>
+                        <span>cURL</span>
+                    </div>
+                    <div class="code-block">curl -X PUT "https://api.hyperplanner.app/v1/tasks/task_def456uvw" \
+  -H "Authorization: Bearer hp_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "status": "in_progress",
+    "priority": "medium"
+  }'</div>
+
+                    <div class="code-header">
+                        <span>Example Response</span>
+                        <span>JSON</span>
+                    </div>
+                    <div class="code-block">{
+  <span class="key">"data"</span>: {
+    <span class="key">"id"</span>: <span class="string">"task_def456uvw"</span>,
+    <span class="key">"title"</span>: <span class="string">"Prepare presentation"</span>,
+    <span class="key">"status"</span>: <span class="string">"in_progress"</span>,
+    <span class="key">"priority"</span>: <span class="string">"medium"</span>,
+    <span class="key">"updated_at"</span>: <span class="string">"2024-01-10T15:45:00Z"</span>
+    <span class="comment">// ... other fields unchanged</span>
+  }
+}</div>
+                </div>
+
+                <!-- DELETE /api/tasks/:id -->
+                <div class="endpoint-card">
+                    <h4>
+                        <span class="method-badge method-delete">DELETE</span>
+                        <span class="endpoint-url">/api/tasks/:id</span>
+                    </h4>
+                    <p>Delete a task. This action is irreversible. Use <code>status: "archived"</code> for soft delete.</p>
+
+                    <div class="code-header">
+                        <span>Example Request</span>
+                        <span>cURL</span>
+                    </div>
+                    <div class="code-block">curl -X DELETE "https://api.hyperplanner.app/v1/tasks/task_def456uvw" \
+  -H "Authorization: Bearer hp_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"</div>
+
+                    <div class="code-header">
+                        <span>Example Response</span>
+                        <span>JSON</span>
+                    </div>
+                    <div class="code-block">{
+  <span class="key">"data"</span>: {
+    <span class="key">"id"</span>: <span class="string">"task_def456uvw"</span>,
+    <span class="key">"deleted"</span>: <span class="boolean">true</span>,
+    <span class="key">"deleted_at"</span>: <span class="string">"2024-01-10T16:00:00Z"</span>
+  }
+}</div>
+                </div>
+            </section>
+
+            <!-- Events API Section -->
+            <section class="doc-section" id="events">
+                <h2>Events API</h2>
+                <p>
+                    Manage calendar events with time blocks, recurrence patterns, and attendee information.
+                    Events integrate seamlessly with tasks for time-blocking workflows.
+                </p>
+
+                <!-- GET /api/events -->
+                <div class="endpoint-card">
+                    <h4>
+                        <span class="method-badge method-get">GET</span>
+                        <span class="endpoint-url">/api/events</span>
+                    </h4>
+                    <p>Retrieve calendar events within a date range.</p>
+
+                    <h5>Query Parameters</h5>
+                    <table class="param-table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>start_date</code><span class="required-badge">required</span></td>
+                                <td>ISO 8601</td>
+                                <td>Start of date range</td>
+                            </tr>
+                            <tr>
+                                <td><code>end_date</code><span class="required-badge">required</span></td>
+                                <td>ISO 8601</td>
+                                <td>End of date range</td>
+                            </tr>
+                            <tr>
+                                <td><code>calendar_id</code><span class="optional-badge">optional</span></td>
+                                <td>string</td>
+                                <td>Filter by specific calendar</td>
+                            </tr>
+                            <tr>
+                                <td><code>include_recurring</code><span class="optional-badge">optional</span></td>
+                                <td>boolean</td>
+                                <td>Expand recurring events (default: true)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="code-header">
+                        <span>Example Request</span>
+                        <span>cURL</span>
+                    </div>
+                    <div class="code-block">curl -X GET "https://api.hyperplanner.app/v1/events?start_date=2024-01-15&end_date=2024-01-21" \
+  -H "Authorization: Bearer hp_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"</div>
+
+                    <div class="code-header">
+                        <span>Example Response</span>
+                        <span>JSON</span>
+                    </div>
+                    <div class="code-block">{
+  <span class="key">"data"</span>: [
+    {
+      <span class="key">"id"</span>: <span class="string">"event_ghi789rst"</span>,
+      <span class="key">"title"</span>: <span class="string">"Team Standup"</span>,
+      <span class="key">"description"</span>: <span class="string">"Daily sync with engineering team"</span>,
+      <span class="key">"start_at"</span>: <span class="string">"2024-01-15T10:00:00Z"</span>,
+      <span class="key">"end_at"</span>: <span class="string">"2024-01-15T10:30:00Z"</span>,
+      <span class="key">"all_day"</span>: <span class="boolean">false</span>,
+      <span class="key">"calendar_id"</span>: <span class="string">"cal_work"</span>,
+      <span class="key">"color"</span>: <span class="string">"#6366f1"</span>,
+      <span class="key">"location"</span>: <span class="string">"Zoom"</span>,
+      <span class="key">"recurrence"</span>: {
+        <span class="key">"frequency"</span>: <span class="string">"weekly"</span>,
+        <span class="key">"days"</span>: [<span class="string">"mon"</span>, <span class="string">"wed"</span>, <span class="string">"fri"</span>],
+        <span class="key">"until"</span>: <span class="string">"2024-12-31"</span>
+      },
+      <span class="key">"reminders"</span>: [
+        {<span class="key">"type"</span>: <span class="string">"notification"</span>, <span class="key">"minutes_before"</span>: <span class="number">10</span>}
+      ],
+      <span class="key">"created_at"</span>: <span class="string">"2024-01-01T08:00:00Z"</span>,
+      <span class="key">"updated_at"</span>: <span class="string">"2024-01-10T12:00:00Z"</span>
+    }
+  ],
+  <span class="key">"pagination"</span>: {
+    <span class="key">"total"</span>: <span class="number">15</span>,
+    <span class="key">"has_more"</span>: <span class="boolean">false</span>
+  }
+}</div>
+                </div>
+
+                <!-- POST /api/events -->
+                <div class="endpoint-card">
+                    <h4>
+                        <span class="method-badge method-post">POST</span>
+                        <span class="endpoint-url">/api/events</span>
+                    </h4>
+                    <p>Create a new calendar event.</p>
+
+                    <h5>Request Body</h5>
+                    <table class="param-table">
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>title</code><span class="required-badge">required</span></td>
+                                <td>string</td>
+                                <td>Event title</td>
+                            </tr>
+                            <tr>
+                                <td><code>start_at</code><span class="required-badge">required</span></td>
+                                <td>ISO 8601</td>
+                                <td>Event start time</td>
+                            </tr>
+                            <tr>
+                                <td><code>end_at</code><span class="required-badge">required</span></td>
+                                <td>ISO 8601</td>
+                                <td>Event end time</td>
+                            </tr>
+                            <tr>
+                                <td><code>all_day</code><span class="optional-badge">optional</span></td>
+                                <td>boolean</td>
+                                <td>All-day event flag</td>
+                            </tr>
+                            <tr>
+                                <td><code>calendar_id</code><span class="optional-badge">optional</span></td>
+                                <td>string</td>
+                                <td>Target calendar ID</td>
+                            </tr>
+                            <tr>
+                                <td><code>color</code><span class="optional-badge">optional</span></td>
+                                <td>string</td>
+                                <td>Hex color code</td>
+                            </tr>
+                            <tr>
+                                <td><code>location</code><span class="optional-badge">optional</span></td>
+                                <td>string</td>
+                                <td>Event location or meeting link</td>
+                            </tr>
+                            <tr>
+                                <td><code>recurrence</code><span class="optional-badge">optional</span></td>
+                                <td>object</td>
+                                <td>Recurrence pattern configuration</td>
+                            </tr>
+                            <tr>
+                                <td><code>reminders</code><span class="optional-badge">optional</span></td>
+                                <td>array</td>
+                                <td>Array of reminder objects</td>
+                            </tr>
+                            <tr>
+                                <td><code>task_id</code><span class="optional-badge">optional</span></td>
+                                <td>string</td>
+                                <td>Link to an existing task (time-blocking)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="code-header">
+                        <span>Example Request</span>
+                        <span>cURL</span>
+                    </div>
+                    <div class="code-block">curl -X POST "https://api.hyperplanner.app/v1/events" \
+  -H "Authorization: Bearer hp_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Project Review",
+    "start_at": "2024-01-16T14:00:00Z",
+    "end_at": "2024-01-16T15:00:00Z",
+    "calendar_id": "cal_work",
+    "color": "#ec4899",
+    "location": "Conference Room B",
+    "reminders": [
+      {"type": "notification", "minutes_before": 15},
+      {"type": "email", "minutes_before": 60}
+    ]
+  }'</div>
+                </div>
+
+                <!-- PUT /api/events/:id -->
+                <div class="endpoint-card">
+                    <h4>
+                        <span class="method-badge method-put">PUT</span>
+                        <span class="endpoint-url">/api/events/:id</span>
+                    </h4>
+                    <p>Update an existing event. For recurring events, specify update scope.</p>
+
+                    <h5>Additional Parameters for Recurring Events</h5>
+                    <table class="param-table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>update_scope: "single"</code></td>
+                                <td>Update only this occurrence</td>
+                            </tr>
+                            <tr>
+                                <td><code>update_scope: "future"</code></td>
+                                <td>Update this and all future occurrences</td>
+                            </tr>
+                            <tr>
+                                <td><code>update_scope: "all"</code></td>
+                                <td>Update all occurrences in the series</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="code-header">
+                        <span>Example Request</span>
+                        <span>cURL</span>
+                    </div>
+                    <div class="code-block">curl -X PUT "https://api.hyperplanner.app/v1/events/event_ghi789rst" \
+  -H "Authorization: Bearer hp_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Team Standup (Updated)",
+    "start_at": "2024-01-15T10:30:00Z",
+    "end_at": "2024-01-15T11:00:00Z",
+    "update_scope": "future"
+  }'</div>
+                </div>
+
+                <!-- DELETE /api/events/:id -->
+                <div class="endpoint-card">
+                    <h4>
+                        <span class="method-badge method-delete">DELETE</span>
+                        <span class="endpoint-url">/api/events/:id</span>
+                    </h4>
+                    <p>Delete a calendar event. For recurring events, specify deletion scope.</p>
+
+                    <div class="code-header">
+                        <span>Example Request</span>
+                        <span>cURL</span>
+                    </div>
+                    <div class="code-block">curl -X DELETE "https://api.hyperplanner.app/v1/events/event_ghi789rst?delete_scope=single" \
+  -H "Authorization: Bearer hp_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"</div>
+                </div>
+            </section>
+
+            <!-- Templates API Section -->
+            <section class="doc-section" id="templates">
+                <h2>Templates API</h2>
+                <p>
+                    Templates allow you to create reusable task and project structures. Use them to
+                    quickly instantiate common workflows.
+                </p>
+
+                <!-- GET /api/templates -->
+                <div class="endpoint-card">
+                    <h4>
+                        <span class="method-badge method-get">GET</span>
+                        <span class="endpoint-url">/api/templates</span>
+                    </h4>
+                    <p>Retrieve available templates.</p>
+
+                    <div class="code-header">
+                        <span>Example Request</span>
+                        <span>cURL</span>
+                    </div>
+                    <div class="code-block">curl -X GET "https://api.hyperplanner.app/v1/templates" \
+  -H "Authorization: Bearer hp_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"</div>
+
+                    <div class="code-header">
+                        <span>Example Response</span>
+                        <span>JSON</span>
+                    </div>
+                    <div class="code-block">{
+  <span class="key">"data"</span>: [
+    {
+      <span class="key">"id"</span>: <span class="string">"tmpl_weekly_review"</span>,
+      <span class="key">"name"</span>: <span class="string">"Weekly Review"</span>,
+      <span class="key">"description"</span>: <span class="string">"End-of-week reflection and planning checklist"</span>,
+      <span class="key">"category"</span>: <span class="string">"productivity"</span>,
+      <span class="key">"task_count"</span>: <span class="number">8</span>,
+      <span class="key">"is_public"</span>: <span class="boolean">false</span>,
+      <span class="key">"created_at"</span>: <span class="string">"2024-01-05T10:00:00Z"</span>,
+      <span class="key">"usage_count"</span>: <span class="number">24</span>
+    },
+    {
+      <span class="key">"id"</span>: <span class="string">"tmpl_project_kickoff"</span>,
+      <span class="key">"name"</span>: <span class="string">"Project Kickoff"</span>,
+      <span class="key">"description"</span>: <span class="string">"Standard tasks for starting a new project"</span>,
+      <span class="key">"category"</span>: <span class="string">"project"</span>,
+      <span class="key">"task_count"</span>: <span class="number">12</span>,
+      <span class="key">"is_public"</span>: <span class="boolean">true</span>,
+      <span class="key">"created_at"</span>: <span class="string">"2024-01-02T14:30:00Z"</span>,
+      <span class="key">"usage_count"</span>: <span class="number">156</span>
+    }
+  ]
+}</div>
+                </div>
+
+                <!-- POST /api/templates -->
+                <div class="endpoint-card">
+                    <h4>
+                        <span class="method-badge method-post">POST</span>
+                        <span class="endpoint-url">/api/templates</span>
+                    </h4>
+                    <p>Create a new template from scratch or from existing tasks.</p>
+
+                    <div class="code-header">
+                        <span>Example Request</span>
+                        <span>cURL</span>
+                    </div>
+                    <div class="code-block">curl -X POST "https://api.hyperplanner.app/v1/templates" \
+  -H "Authorization: Bearer hp_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Blog Post Workflow",
+    "description": "Standard workflow for publishing blog content",
+    "category": "content",
+    "is_public": false,
+    "tasks": [
+      {
+        "title": "Research topic",
+        "relative_due_days": 0,
+        "priority": "high"
+      },
+      {
+        "title": "Write first draft",
+        "relative_due_days": 2,
+        "priority": "high"
+      },
+      {
+        "title": "Edit and revise",
+        "relative_due_days": 3,
+        "priority": "medium"
+      },
+      {
+        "title": "Add images and formatting",
+        "relative_due_days": 4,
+        "priority": "medium"
+      },
+      {
+        "title": "SEO optimization",
+        "relative_due_days": 4,
+        "priority": "low"
+      },
+      {
+        "title": "Publish and promote",
+        "relative_due_days": 5,
+        "priority": "high"
+      }
+    ]
+  }'</div>
+
+                    <div class="code-header">
+                        <span>Example Response</span>
+                        <span>JSON</span>
+                    </div>
+                    <div class="code-block">{
+  <span class="key">"data"</span>: {
+    <span class="key">"id"</span>: <span class="string">"tmpl_blog_workflow"</span>,
+    <span class="key">"name"</span>: <span class="string">"Blog Post Workflow"</span>,
+    <span class="key">"task_count"</span>: <span class="number">6</span>,
+    <span class="key">"created_at"</span>: <span class="string">"2024-01-10T16:45:00Z"</span>
+  }
+}</div>
+                </div>
+
+                <!-- POST /api/templates/:id/instantiate -->
+                <div class="endpoint-card">
+                    <h4>
+                        <span class="method-badge method-post">POST</span>
+                        <span class="endpoint-url">/api/templates/:id/instantiate</span>
+                    </h4>
+                    <p>Create tasks from a template with a specified start date.</p>
+
+                    <div class="code-header">
+                        <span>Example Request</span>
+                        <span>cURL</span>
+                    </div>
+                    <div class="code-block">curl -X POST "https://api.hyperplanner.app/v1/templates/tmpl_blog_workflow/instantiate" \
+  -H "Authorization: Bearer hp_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "start_date": "2024-01-20",
+    "context": "work",
+    "tags": ["blog", "marketing"]
+  }'</div>
+
+                    <div class="code-header">
+                        <span>Example Response</span>
+                        <span>JSON</span>
+                    </div>
+                    <div class="code-block">{
+  <span class="key">"data"</span>: {
+    <span class="key">"template_id"</span>: <span class="string">"tmpl_blog_workflow"</span>,
+    <span class="key">"tasks_created"</span>: <span class="number">6</span>,
+    <span class="key">"task_ids"</span>: [
+      <span class="string">"task_new001"</span>,
+      <span class="string">"task_new002"</span>,
+      <span class="string">"task_new003"</span>,
+      <span class="string">"task_new004"</span>,
+      <span class="string">"task_new005"</span>,
+      <span class="string">"task_new006"</span>
+    ]
+  }
+}</div>
+                </div>
+            </section>
+
+            <!-- Settings API Section -->
+            <section class="doc-section" id="settings">
+                <h2>Settings API</h2>
+                <p>
+                    Read and update user preferences, notification settings, and app configuration.
+                </p>
+
+                <!-- GET /api/settings -->
+                <div class="endpoint-card">
+                    <h4>
+                        <span class="method-badge method-get">GET</span>
+                        <span class="endpoint-url">/api/settings</span>
+                    </h4>
+                    <p>Retrieve current user settings.</p>
+
+                    <div class="code-header">
+                        <span>Example Response</span>
+                        <span>JSON</span>
+                    </div>
+                    <div class="code-block">{
+  <span class="key">"data"</span>: {
+    <span class="key">"user_id"</span>: <span class="string">"user_abc123"</span>,
+    <span class="key">"preferences"</span>: {
+      <span class="key">"theme"</span>: <span class="string">"glassy_warm"</span>,
+      <span class="key">"default_view"</span>: <span class="string">"split"</span>,
+      <span class="key">"week_start"</span>: <span class="string">"monday"</span>,
+      <span class="key">"time_format"</span>: <span class="string">"12h"</span>,
+      <span class="key">"date_format"</span>: <span class="string">"MM/DD/YYYY"</span>,
+      <span class="key">"timezone"</span>: <span class="string">"America/New_York"</span>,
+      <span class="key">"default_task_duration"</span>: <span class="number">30</span>,
+      <span class="key">"show_completed_tasks"</span>: <span class="boolean">true</span>,
+      <span class="key">"auto_archive_days"</span>: <span class="number">7</span>
+    },
+    <span class="key">"notifications"</span>: {
+      <span class="key">"email_reminders"</span>: <span class="boolean">true</span>,
+      <span class="key">"push_notifications"</span>: <span class="boolean">true</span>,
+      <span class="key">"daily_digest"</span>: <span class="boolean">false</span>,
+      <span class="key">"digest_time"</span>: <span class="string">"08:00"</span>,
+      <span class="key">"reminder_default_minutes"</span>: <span class="number">15</span>
+    },
+    <span class="key">"integrations"</span>: {
+      <span class="key">"google_calendar"</span>: <span class="boolean">true</span>,
+      <span class="key">"slack"</span>: <span class="boolean">false</span>,
+      <span class="key">"github"</span>: <span class="boolean">true</span>
+    },
+    <span class="key">"ai_features"</span>: {
+      <span class="key">"enabled"</span>: <span class="boolean">true</span>,
+      <span class="key">"auto_suggestions"</span>: <span class="boolean">true</span>,
+      <span class="key">"smart_scheduling"</span>: <span class="boolean">false</span>
+    }
+  }
+}</div>
+                </div>
+
+                <!-- PUT /api/settings -->
+                <div class="endpoint-card">
+                    <h4>
+                        <span class="method-badge method-put">PUT</span>
+                        <span class="endpoint-url">/api/settings</span>
+                    </h4>
+                    <p>Update user settings. Supports partial updates.</p>
+
+                    <div class="code-header">
+                        <span>Example Request</span>
+                        <span>cURL</span>
+                    </div>
+                    <div class="code-block">curl -X PUT "https://api.hyperplanner.app/v1/settings" \
+  -H "Authorization: Bearer hp_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "preferences": {
+      "theme": "midnight_focus",
+      "week_start": "sunday"
+    },
+    "notifications": {
+      "daily_digest": true,
+      "digest_time": "07:00"
+    }
+  }'</div>
+
+                    <div class="code-header">
+                        <span>Example Response</span>
+                        <span>JSON</span>
+                    </div>
+                    <div class="code-block">{
+  <span class="key">"data"</span>: {
+    <span class="key">"updated"</span>: <span class="boolean">true</span>,
+    <span class="key">"changes"</span>: [
+      <span class="string">"preferences.theme"</span>,
+      <span class="string">"preferences.week_start"</span>,
+      <span class="string">"notifications.daily_digest"</span>,
+      <span class="string">"notifications.digest_time"</span>
+    ],
+    <span class="key">"updated_at"</span>: <span class="string">"2024-01-10T17:30:00Z"</span>
+  }
+}</div>
+                </div>
+            </section>
+
+            <!-- Error Codes Section -->
+            <section class="doc-section" id="errors">
+                <h2>Error Codes</h2>
+                <p>
+                    The API uses standard HTTP status codes and returns detailed error information in JSON format.
+                </p>
+
+                <h3>Error Response Format</h3>
+                <div class="code-header">
+                    <span>Error Response Structure</span>
+                    <span>JSON</span>
+                </div>
+                <div class="code-block">{
+  <span class="key">"error"</span>: {
+    <span class="key">"code"</span>: <span class="string">"invalid_request"</span>,
+    <span class="key">"message"</span>: <span class="string">"The 'title' field is required"</span>,
+    <span class="key">"field"</span>: <span class="string">"title"</span>,
+    <span class="key">"doc_url"</span>: <span class="string">"https://docs.hyperplanner.app/errors#invalid_request"</span>
+  }
+}</div>
+
+                <h3>HTTP Status Codes</h3>
+                <table class="error-table">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Status</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="error-code status-2xx">200</span></td>
+                            <td>OK</td>
+                            <td>Request succeeded</td>
+                        </tr>
+                        <tr>
+                            <td><span class="error-code status-2xx">201</span></td>
+                            <td>Created</td>
+                            <td>Resource created successfully</td>
+                        </tr>
+                        <tr>
+                            <td><span class="error-code status-2xx">204</span></td>
+                            <td>No Content</td>
+                            <td>Request succeeded with no response body</td>
+                        </tr>
+                        <tr>
+                            <td><span class="error-code status-4xx">400</span></td>
+                            <td>Bad Request</td>
+                            <td>Invalid request format or parameters</td>
+                        </tr>
+                        <tr>
+                            <td><span class="error-code status-4xx">401</span></td>
+                            <td>Unauthorized</td>
+                            <td>Missing or invalid authentication</td>
+                        </tr>
+                        <tr>
+                            <td><span class="error-code status-4xx">403</span></td>
+                            <td>Forbidden</td>
+                            <td>Valid auth but insufficient permissions</td>
+                        </tr>
+                        <tr>
+                            <td><span class="error-code status-4xx">404</span></td>
+                            <td>Not Found</td>
+                            <td>Resource does not exist</td>
+                        </tr>
+                        <tr>
+                            <td><span class="error-code status-4xx">409</span></td>
+                            <td>Conflict</td>
+                            <td>Resource conflict (e.g., duplicate)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="error-code status-4xx">422</span></td>
+                            <td>Unprocessable Entity</td>
+                            <td>Validation failed</td>
+                        </tr>
+                        <tr>
+                            <td><span class="error-code status-4xx">429</span></td>
+                            <td>Too Many Requests</td>
+                            <td>Rate limit exceeded</td>
+                        </tr>
+                        <tr>
+                            <td><span class="error-code status-5xx">500</span></td>
+                            <td>Internal Server Error</td>
+                            <td>Unexpected server error</td>
+                        </tr>
+                        <tr>
+                            <td><span class="error-code status-5xx">502</span></td>
+                            <td>Bad Gateway</td>
+                            <td>Upstream service unavailable</td>
+                        </tr>
+                        <tr>
+                            <td><span class="error-code status-5xx">503</span></td>
+                            <td>Service Unavailable</td>
+                            <td>API temporarily unavailable</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Error Codes Reference</h3>
+                <table class="error-table">
+                    <thead>
+                        <tr>
+                            <th>Error Code</th>
+                            <th>Description</th>
+                            <th>Resolution</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>invalid_request</code></td>
+                            <td>Request body is malformed</td>
+                            <td>Check JSON syntax and required fields</td>
+                        </tr>
+                        <tr>
+                            <td><code>invalid_api_key</code></td>
+                            <td>API key is invalid or expired</td>
+                            <td>Generate a new key in Settings</td>
+                        </tr>
+                        <tr>
+                            <td><code>insufficient_scope</code></td>
+                            <td>Token lacks required scope</td>
+                            <td>Request additional OAuth scopes</td>
+                        </tr>
+                        <tr>
+                            <td><code>resource_not_found</code></td>
+                            <td>Requested resource doesn't exist</td>
+                            <td>Verify the resource ID</td>
+                        </tr>
+                        <tr>
+                            <td><code>validation_error</code></td>
+                            <td>Field validation failed</td>
+                            <td>Check field constraints in docs</td>
+                        </tr>
+                        <tr>
+                            <td><code>rate_limit_exceeded</code></td>
+                            <td>Too many requests</td>
+                            <td>Wait and retry with backoff</td>
+                        </tr>
+                        <tr>
+                            <td><code>quota_exceeded</code></td>
+                            <td>Plan limit reached</td>
+                            <td>Upgrade plan or wait for reset</td>
+                        </tr>
+                        <tr>
+                            <td><code>conflict</code></td>
+                            <td>Resource state conflict</td>
+                            <td>Fetch latest state and retry</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Webhooks Section -->
+            <section class="doc-section" id="webhooks">
+                <h2>Webhooks</h2>
+                <p>
+                    Webhooks allow you to receive real-time notifications when events occur in HyperPlanner.
+                    Configure endpoints to be notified of task completions, event changes, and more.
+                </p>
+
+                <h3>Setting Up Webhooks</h3>
+                <p>
+                    Create webhooks via the API or in <strong>Settings &gt; Developer &gt; Webhooks</strong>.
+                </p>
+
+                <div class="code-header">
+                    <span>Create Webhook</span>
+                    <span>cURL</span>
+                </div>
+                <div class="code-block">curl -X POST "https://api.hyperplanner.app/v1/webhooks" \
+  -H "Authorization: Bearer hp_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://yourapp.com/webhooks/hyperplanner",
+    "events": ["task.created", "task.completed", "event.created"],
+    "secret": "your_webhook_secret_for_verification"
+  }'</div>
+
+                <h3>Available Webhook Events</h3>
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Event</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>task.created</code></td>
+                            <td>A new task was created</td>
+                        </tr>
+                        <tr>
+                            <td><code>task.updated</code></td>
+                            <td>A task was modified</td>
+                        </tr>
+                        <tr>
+                            <td><code>task.completed</code></td>
+                            <td>A task was marked as complete</td>
+                        </tr>
+                        <tr>
+                            <td><code>task.deleted</code></td>
+                            <td>A task was deleted</td>
+                        </tr>
+                        <tr>
+                            <td><code>event.created</code></td>
+                            <td>A new calendar event was created</td>
+                        </tr>
+                        <tr>
+                            <td><code>event.updated</code></td>
+                            <td>A calendar event was modified</td>
+                        </tr>
+                        <tr>
+                            <td><code>event.deleted</code></td>
+                            <td>A calendar event was deleted</td>
+                        </tr>
+                        <tr>
+                            <td><code>template.used</code></td>
+                            <td>A template was instantiated</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Webhook Payload Format</h3>
+                <div class="code-header">
+                    <span>Example Webhook Payload</span>
+                    <span>JSON</span>
+                </div>
+                <div class="code-block">{
+  <span class="key">"id"</span>: <span class="string">"whevt_abc123"</span>,
+  <span class="key">"type"</span>: <span class="string">"task.completed"</span>,
+  <span class="key">"created_at"</span>: <span class="string">"2024-01-10T18:00:00Z"</span>,
+  <span class="key">"data"</span>: {
+    <span class="key">"task"</span>: {
+      <span class="key">"id"</span>: <span class="string">"task_def456uvw"</span>,
+      <span class="key">"title"</span>: <span class="string">"Prepare presentation"</span>,
+      <span class="key">"status"</span>: <span class="string">"completed"</span>,
+      <span class="key">"completed_at"</span>: <span class="string">"2024-01-10T18:00:00Z"</span>
+    },
+    <span class="key">"previous_status"</span>: <span class="string">"in_progress"</span>
+  }
+}</div>
+
+                <h3>Verifying Webhook Signatures</h3>
+                <p>
+                    Each webhook request includes an <code>X-HyperPlanner-Signature</code> header containing
+                    an HMAC-SHA256 signature. Verify this to ensure the request came from HyperPlanner.
+                </p>
+
+                <div class="code-header">
+                    <span>Signature Verification (Node.js)</span>
+                    <span>JavaScript</span>
+                </div>
+                <div class="code-block"><span class="key">const</span> crypto = require(<span class="string">'crypto'</span>);
+
+<span class="key">function</span> verifyWebhook(payload, signature, secret) {
+  <span class="key">const</span> expectedSignature = crypto
+    .createHmac(<span class="string">'sha256'</span>, secret)
+    .update(payload)
+    .digest(<span class="string">'hex'</span>);
+
+  <span class="key">return</span> crypto.timingSafeEqual(
+    Buffer.from(signature),
+    Buffer.from(<span class="string">`sha256=</span><span class="key">${</span>expectedSignature<span class="key">}</span><span class="string">`</span>)
+  );
+}</div>
+
+                <div class="info-card warning">
+                    <h4>Webhook Reliability</h4>
+                    <p>
+                        Webhooks are delivered with automatic retries (3 attempts with exponential backoff).
+                        If your endpoint returns a non-2xx status code, we'll retry. Always return 200 OK
+                        quickly and process asynchronously.
+                    </p>
+                </div>
+            </section>
+
+            <!-- SDKs Section -->
+            <section class="doc-section" id="sdks">
+                <h2>SDKs & Libraries</h2>
+                <p>
+                    Official SDKs are in development to make API integration easier. Sign up to be notified
+                    when they launch.
+                </p>
+
+                <div class="sdk-grid">
+                    <div class="sdk-card">
+                        <div class="icon">&#128220;</div>
+                        <h4>JavaScript/Node.js</h4>
+                        <p class="status">Coming Q1 2024</p>
+                    </div>
+                    <div class="sdk-card">
+                        <div class="icon">&#128013;</div>
+                        <h4>Python</h4>
+                        <p class="status">Coming Q1 2024</p>
+                    </div>
+                    <div class="sdk-card">
+                        <div class="icon">&#128188;</div>
+                        <h4>Ruby</h4>
+                        <p class="status">Coming Q2 2024</p>
+                    </div>
+                    <div class="sdk-card">
+                        <div class="icon">&#9881;</div>
+                        <h4>Go</h4>
+                        <p class="status">Coming Q2 2024</p>
+                    </div>
+                    <div class="sdk-card">
+                        <div class="icon">&#9749;</div>
+                        <h4>Java</h4>
+                        <p class="status">Coming Q3 2024</p>
+                    </div>
+                    <div class="sdk-card">
+                        <div class="icon">&#128268;</div>
+                        <h4>PHP</h4>
+                        <p class="status">Coming Q3 2024</p>
+                    </div>
+                </div>
+
+                <div class="info-card tip">
+                    <h4>Community Libraries</h4>
+                    <p>
+                        The community has created unofficial libraries for various languages. Check our
+                        <a href="#">Community Resources</a> page for a curated list. Note that these are
+                        not officially supported.
+                    </p>
+                </div>
+
+                <h3>API Client Best Practices</h3>
+                <ul>
+                    <li><strong>Use environment variables</strong> for API keys, never hardcode them</li>
+                    <li><strong>Implement retry logic</strong> with exponential backoff for failed requests</li>
+                    <li><strong>Cache responses</strong> where appropriate to reduce API calls</li>
+                    <li><strong>Handle pagination</strong> for list endpoints that return many results</li>
+                    <li><strong>Validate input</strong> before sending to avoid unnecessary API errors</li>
+                    <li><strong>Log API interactions</strong> for debugging (without logging sensitive data)</li>
+                </ul>
+            </section>
+
+            <!-- Support Section -->
+            <section class="doc-section" id="support">
+                <h2>Need Help?</h2>
+                <p>
+                    If you have questions about the API or need assistance with your integration:
+                </p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">&#128172;</div>
+                        <h4>Developer Forum</h4>
+                        <p>Ask questions and share solutions with other developers.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128231;</div>
+                        <h4>API Support</h4>
+                        <p>Contact api-support@hyperplanner.app for technical issues.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128736;</div>
+                        <h4>Status Page</h4>
+                        <p>Check status.hyperplanner.app for service status.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128214;</div>
+                        <h4>Changelog</h4>
+                        <p>Stay updated on API changes and new features.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page Navigation -->
+            <div class="doc-section" style="display: flex; justify-content: space-between; padding-top: var(--spacing-lg); border-top: 1px solid var(--glass-border);">
+                <a href="getting-started.html" class="btn" style="text-decoration: none; background: var(--glass); border: 1px solid var(--glass-border);">
+                    &larr; Getting Started
+                </a>
+                <a href="#" class="btn" style="text-decoration: none;">
+                    Custom Integrations &rarr;
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Copy code blocks on click
+        document.querySelectorAll('.code-block').forEach(block => {
+            block.style.cursor = 'pointer';
+            block.title = 'Click to copy';
+
+            block.addEventListener('click', async () => {
+                const text = block.textContent;
+                try {
+                    await navigator.clipboard.writeText(text);
+
+                    // Visual feedback
+                    const originalBg = block.style.background;
+                    block.style.background = 'rgba(16, 185, 129, 0.2)';
+                    setTimeout(() => {
+                        block.style.background = originalBg;
+                    }, 200);
+                } catch (err) {
+                    console.error('Failed to copy:', err);
+                }
+            });
+        });
+
+        // Highlight current section in sidebar based on scroll
+        const sections = document.querySelectorAll('.doc-section[id]');
+
+        function updateActiveSection() {
+            let currentSection = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveSection);
+    </script>
+</body>
+</html>

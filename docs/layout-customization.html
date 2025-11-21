@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layout Customization - HyperPlanner Docs</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+    <link rel="stylesheet" href="docs.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-gradient"></div>
+    <div class="bg-mesh"></div>
+
+    <!-- Navigation -->
+    <nav class="doc-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-icon">◆</span>
+                <span>HyperPlanner</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html#features" class="nav-link">Features</a>
+                <a href="../index.html#how-it-works" class="nav-link">How It Works</a>
+                <a href="../index.html#demo" class="nav-link">Try Demo</a>
+                <a href="#" class="nav-link" style="color: var(--primary-light);">Docs</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Layout -->
+    <div class="doc-layout">
+        <!-- Sidebar -->
+        <aside class="doc-sidebar">
+            <div class="sidebar-section">
+                <h3>Getting Started</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link">Quick Start Guide</a>
+                    <a href="#" class="sidebar-link">Video Tutorial</a>
+                    <a href="#" class="sidebar-link">Keyboard Shortcuts</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Features</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link">Smart Capture</a>
+                    <a href="#" class="sidebar-link active">Layout Customization</a>
+                    <a href="#" class="sidebar-link">Theme Lab</a>
+                    <a href="#" class="sidebar-link">Automations</a>
+                    <a href="#" class="sidebar-link">Templates</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>On This Page</h3>
+                <div class="sidebar-links">
+                    <a href="#panel-system" class="sidebar-link">Flexible Panel System</a>
+                    <a href="#available-views" class="sidebar-link">Available Views</a>
+                    <a href="#density-controls" class="sidebar-link">Density Controls</a>
+                    <a href="#component-variants" class="sidebar-link">Component Variants</a>
+                    <a href="#device-presets" class="sidebar-link">Device Presets</a>
+                    <a href="#design-tokens" class="sidebar-link">Design Tokens</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Resources</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link">API Reference</a>
+                    <a href="#" class="sidebar-link">Community Forum</a>
+                    <a href="#" class="sidebar-link">FAQ</a>
+                    <a href="#" class="sidebar-link">Changelog</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="doc-content">
+            <header class="doc-header">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a> / <a href="#">Docs</a> / Features / Layout Customization
+                </div>
+                <h1>Layout Customization</h1>
+                <p class="subtitle">Arrange your workspace exactly how you need it. Every panel is draggable, resizable, and saveable across devices.</p>
+            </header>
+
+            <!-- Flexible Panel System -->
+            <section id="panel-system" class="doc-section">
+                <h2>Flexible Panel System</h2>
+                <p>HyperPlanner's layout system gives you complete control over your workspace. Every panel in your view is fully <strong>draggable</strong> and <strong>resizable</strong>, allowing you to create the perfect arrangement for your workflow.</p>
+
+                <div class="info-card tip">
+                    <h4>Pro Tip</h4>
+                    <p>Hold <span class="kbd">Shift</span> while dragging to snap panels to a grid, or hold <span class="kbd">Alt</span> to resize proportionally from the center.</p>
+                </div>
+
+                <h3>How It Works</h3>
+                <ul>
+                    <li><strong>Drag to Reposition:</strong> Click and drag any panel header to move it anywhere in your workspace</li>
+                    <li><strong>Resize from Edges:</strong> Hover over panel edges to reveal resize handles. Drag to adjust width and height</li>
+                    <li><strong>Snap to Grid:</strong> Panels automatically snap to a flexible grid system for clean alignment</li>
+                    <li><strong>Collapse & Expand:</strong> Double-click a panel header to collapse it to a minimal state</li>
+                    <li><strong>Stack Panels:</strong> Drag panels on top of each other to create tabbed groups</li>
+                </ul>
+
+                <div class="code-block">
+// Panel configuration is automatically saved
+{
+  "layout": "custom",
+  "panels": [
+    { "id": "calendar", "x": 0, "y": 0, "width": 2, "height": 2 },
+    { "id": "kanban", "x": 2, "y": 0, "width": 1, "height": 1 },
+    { "id": "focus", "x": 2, "y": 1, "width": 1, "height": 1 }
+  ]
+}
+                </div>
+            </section>
+
+            <!-- Available Views -->
+            <section id="available-views" class="doc-section">
+                <h2>Available Views</h2>
+                <p>HyperPlanner offers four primary view types, each optimized for different planning styles and workflows. Mix and match them to create your ideal workspace.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">📅</div>
+                        <h4>Calendar View</h4>
+                        <p>Time-block your day with day, week, or month perspectives. Perfect for scheduling and time management.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">📋</div>
+                        <h4>Kanban Lanes</h4>
+                        <p>Visual task flow with Inbox, In Progress, Done, and Archived columns. Drag tasks between stages.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">🎯</div>
+                        <h4>Focus Duo</h4>
+                        <p>Split view showing today's priorities alongside your backlog. Stay focused while keeping context.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">📊</div>
+                        <h4>Hero Summary</h4>
+                        <p>Dashboard with stats, focus load indicators, and next actions at a glance.</p>
+                    </div>
+                </div>
+
+                <h3>Calendar View</h3>
+                <p>The Calendar View provides a traditional time-based interface with three display modes:</p>
+                <ul>
+                    <li><strong>Day View:</strong> Detailed hourly breakdown of a single day. Ideal for time-blocking and scheduling focused work sessions</li>
+                    <li><strong>Week View:</strong> See your entire week at a glance. Great for planning ahead and identifying busy periods</li>
+                    <li><strong>Month View:</strong> Bird's-eye view of the month. Perfect for long-term planning and deadline tracking</li>
+                </ul>
+
+                <div class="info-card note">
+                    <h4>Drag & Drop</h4>
+                    <p>Drag tasks from any view directly onto the calendar to schedule them. Events automatically inherit the time slot where you drop them.</p>
+                </div>
+
+                <h3>Kanban Lanes</h3>
+                <p>The Kanban view organizes tasks into four default lanes that represent your workflow stages:</p>
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Lane</th>
+                            <th>Purpose</th>
+                            <th>Keyboard Shortcut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Inbox</strong></td>
+                            <td>New tasks and ideas awaiting triage</td>
+                            <td><span class="kbd">1</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>In Progress</strong></td>
+                            <td>Tasks you're actively working on</td>
+                            <td><span class="kbd">2</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Done</strong></td>
+                            <td>Completed tasks for review</td>
+                            <td><span class="kbd">3</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Archived</strong></td>
+                            <td>Historical tasks, searchable but hidden by default</td>
+                            <td><span class="kbd">4</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Focus Duo</h3>
+                <p>Focus Duo is a split-screen view designed for deep work. It pairs two complementary panels:</p>
+                <ul>
+                    <li><strong>Left Panel:</strong> Today's tasks and scheduled events, sorted by priority</li>
+                    <li><strong>Right Panel:</strong> Your backlog or a filtered view of upcoming work</li>
+                </ul>
+                <p>This layout keeps you focused on immediate priorities while maintaining visibility into what's coming next.</p>
+
+                <h3>Hero Summary</h3>
+                <p>The Hero Summary is your productivity dashboard, displaying key metrics and insights:</p>
+                <ul>
+                    <li><strong>Focus Load:</strong> Visual indicator of how packed your day is</li>
+                    <li><strong>Completion Rate:</strong> Tasks done vs. planned this week</li>
+                    <li><strong>Next Actions:</strong> Top 3 priority items requiring attention</li>
+                    <li><strong>Overdue Count:</strong> Tasks past their due date</li>
+                    <li><strong>Upcoming Events:</strong> Next 24 hours at a glance</li>
+                </ul>
+            </section>
+
+            <!-- Density Controls -->
+            <section id="density-controls" class="doc-section">
+                <h2>Density Controls</h2>
+                <p>Control how much information is displayed in your calendar view by adjusting time slot density. Choose the granularity that matches your planning style.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">60</div>
+                        <h4>60-Minute Slots</h4>
+                        <p>Spacious view for high-level planning. Best for meetings and long focus blocks.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">30</div>
+                        <h4>30-Minute Slots</h4>
+                        <p>Balanced density for most workflows. The default setting for HyperPlanner.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">15</div>
+                        <h4>15-Minute Slots</h4>
+                        <p>Maximum granularity for detailed time-blocking and Pomodoro-style work.</p>
+                    </div>
+                </div>
+
+                <h3>Changing Density</h3>
+                <p>Access density controls from the calendar toolbar or use keyboard shortcuts:</p>
+                <ul>
+                    <li><span class="kbd">D</span> <span class="kbd">1</span> - Switch to 60-minute slots</li>
+                    <li><span class="kbd">D</span> <span class="kbd">2</span> - Switch to 30-minute slots</li>
+                    <li><span class="kbd">D</span> <span class="kbd">3</span> - Switch to 15-minute slots</li>
+                </ul>
+
+                <div class="info-card warning">
+                    <h4>Performance Note</h4>
+                    <p>15-minute density displays more elements on screen. On older devices, consider using 30 or 60-minute slots for smoother scrolling.</p>
+                </div>
+            </section>
+
+            <!-- Component Variants -->
+            <section id="component-variants" class="doc-section">
+                <h2>Component Variants</h2>
+                <p>Every task and event card in HyperPlanner has four display modes. Switch between them to balance information density with visual clarity.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">—</div>
+                        <h4>Minimal</h4>
+                        <p>Title only. Maximum density for scanning large lists quickly.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">▪</div>
+                        <h4>Compact</h4>
+                        <p>Title + key metadata (due date, priority). The default view mode.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">▣</div>
+                        <h4>Detailed</h4>
+                        <p>Full description, tags, and subtask progress. Great for complex tasks.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">▭</div>
+                        <h4>Wide</h4>
+                        <p>Expanded horizontal layout for focus work and note-taking.</p>
+                    </div>
+                </div>
+
+                <h3>Setting Component Variants</h3>
+                <p>Component variants can be set at three levels:</p>
+                <ol>
+                    <li><strong>Global Default:</strong> Set in Settings to apply across all views</li>
+                    <li><strong>Per-View:</strong> Override the default for specific panels (e.g., Minimal in Kanban, Detailed in Focus Duo)</li>
+                    <li><strong>Per-Item:</strong> Right-click any task to set its individual display mode</li>
+                </ol>
+
+                <div class="code-block">
+// Component variant configuration
+{
+  "componentVariants": {
+    "global": "compact",
+    "views": {
+      "kanban": "minimal",
+      "calendar": "compact",
+      "focusDuo": "detailed"
+    }
+  }
+}
+                </div>
+            </section>
+
+            <!-- Device Presets -->
+            <section id="device-presets" class="doc-section">
+                <h2>Device Presets</h2>
+                <p>HyperPlanner remembers your preferred layout for each device. Your desktop can have a multi-panel power user setup while your tablet uses a simplified focus view.</p>
+
+                <h3>How Device Detection Works</h3>
+                <p>HyperPlanner automatically detects your device type based on screen size and capabilities:</p>
+                <ul>
+                    <li><strong>Desktop:</strong> Screens wider than 1200px with mouse/trackpad</li>
+                    <li><strong>Tablet:</strong> Screens between 768px and 1200px, touch-capable</li>
+                    <li><strong>Mobile:</strong> Screens under 768px, primarily touch input</li>
+                </ul>
+
+                <h3>Managing Presets</h3>
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>How To</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Save current layout as preset</td>
+                            <td>Settings &rarr; Layout &rarr; Save as Device Preset</td>
+                        </tr>
+                        <tr>
+                            <td>Switch between presets</td>
+                            <td><span class="kbd">Cmd/Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">L</span></td>
+                        </tr>
+                        <tr>
+                            <td>Reset to default layout</td>
+                            <td>Settings &rarr; Layout &rarr; Reset to Default</td>
+                        </tr>
+                        <tr>
+                            <td>Copy layout to another device</td>
+                            <td>Settings &rarr; Layout &rarr; Export/Import</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-card tip">
+                    <h4>Sync Across Devices</h4>
+                    <p>With a HyperPlanner account, your device presets sync automatically. Set up once on each device and your preferences follow you everywhere.</p>
+                </div>
+            </section>
+
+            <!-- Design Tokens -->
+            <section id="design-tokens" class="doc-section">
+                <h2>Design Tokens</h2>
+                <p>Fine-tune the visual feel of your workspace with design tokens. These settings affect spacing, borders, and visual depth across all components.</p>
+
+                <h3>Density Token</h3>
+                <p>Controls overall spacing and padding throughout the interface:</p>
+                <ul>
+                    <li><strong>Compact:</strong> Minimal padding, tight spacing. Fits more on screen</li>
+                    <li><strong>Comfortable:</strong> Balanced spacing for all-day use. The default setting</li>
+                    <li><strong>Spacious:</strong> Generous padding for a relaxed, airy feel</li>
+                </ul>
+
+                <h3>Radius Token</h3>
+                <p>Defines the corner roundness of cards, buttons, and panels:</p>
+                <ul>
+                    <li><strong>Sharp:</strong> 0-4px radius. Clean, professional aesthetic</li>
+                    <li><strong>Rounded:</strong> 8-12px radius. Friendly and modern. Default setting</li>
+                    <li><strong>Pill:</strong> 16-24px radius. Soft, playful appearance</li>
+                </ul>
+
+                <h3>Shadows Token</h3>
+                <p>Controls the depth and elevation of interface elements:</p>
+                <ul>
+                    <li><strong>Flat:</strong> No shadows. Clean, minimalist look</li>
+                    <li><strong>Subtle:</strong> Light shadows for gentle depth. Default setting</li>
+                    <li><strong>Elevated:</strong> Pronounced shadows for a layered, floating feel</li>
+                </ul>
+
+                <div class="code-block">
+// Design token configuration
+{
+  "designTokens": {
+    "density": "comfortable",  // compact | comfortable | spacious
+    "radius": "rounded",       // sharp | rounded | pill
+    "shadows": "subtle"        // flat | subtle | elevated
+  }
+}
+                </div>
+
+                <div class="info-card note">
+                    <h4>Theme Lab Integration</h4>
+                    <p>Design tokens work alongside Theme Lab color settings. Combine them to create a fully personalized visual experience that matches your aesthetic preferences.</p>
+                </div>
+            </section>
+
+            <!-- Navigation Footer -->
+            <div class="doc-footer" style="display: flex; justify-content: space-between; padding-top: var(--spacing-xl); border-top: 1px solid var(--glass-border); margin-top: var(--spacing-2xl);">
+                <a href="#" class="btn" style="background: var(--glass); border: 1px solid var(--glass-border);">
+                    &larr; Smart Capture
+                </a>
+                <a href="#" class="btn">
+                    Theme Lab &rarr;
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+
+        // Highlight active section in sidebar based on scroll position
+        const sections = document.querySelectorAll('.doc-section');
+        const sidebarLinks = document.querySelectorAll('.sidebar-link[href^="#"]');
+
+        function updateActiveSection() {
+            let currentSection = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 120;
+                if (window.scrollY >= sectionTop) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+
+            sidebarLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentSection}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveSection);
+        updateActiveSection();
+    </script>
+</body>
+</html>

@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Lab - HyperPlanner Documentation</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+    <link rel="stylesheet" href="docs.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-gradient"></div>
+    <div class="bg-mesh"></div>
+
+    <!-- Navigation -->
+    <nav class="doc-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-icon">◆</span>
+                <span>HyperPlanner</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#features" class="nav-link">Features</a>
+                <a href="../index.html#demo" class="nav-link">Demo</a>
+                <a href="#" class="nav-link">Docs</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Layout -->
+    <div class="doc-layout">
+        <!-- Sidebar -->
+        <aside class="doc-sidebar">
+            <div class="sidebar-section">
+                <h3>Getting Started</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link">Introduction</a>
+                    <a href="#" class="sidebar-link">Quick Start</a>
+                    <a href="#" class="sidebar-link">Keyboard Shortcuts</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Customization</h3>
+                <div class="sidebar-links">
+                    <a href="theme-lab.html" class="sidebar-link active">Theme Lab</a>
+                    <a href="#" class="sidebar-link">Layout Control</a>
+                    <a href="#" class="sidebar-link">Design Tokens</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>On This Page</h3>
+                <div class="sidebar-links">
+                    <a href="#base-palettes" class="sidebar-link">Base Palettes</a>
+                    <a href="#token-control" class="sidebar-link">Full Token Control</a>
+                    <a href="#light-dark" class="sidebar-link">Light/Dark Morphing</a>
+                    <a href="#icon-packs" class="sidebar-link">Icon Packs</a>
+                    <a href="#contrast" class="sidebar-link">Contrast Guardrails</a>
+                    <a href="#export-share" class="sidebar-link">Export & Share</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Features</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link">Smart Capture</a>
+                    <a href="#" class="sidebar-link">Automations</a>
+                    <a href="#" class="sidebar-link">Templates</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Resources</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link">API Reference</a>
+                    <a href="#" class="sidebar-link">Community</a>
+                    <a href="#" class="sidebar-link">Changelog</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="doc-content">
+            <header class="doc-header">
+                <div class="breadcrumb">
+                    <a href="#">Docs</a> / <a href="#">Customization</a> / Theme Lab
+                </div>
+                <h1>Theme Lab</h1>
+                <p class="subtitle">Complete control over every visual aspect of HyperPlanner. Your aesthetic, your rules.</p>
+            </header>
+
+            <!-- Base Palettes Section -->
+            <section id="base-palettes" class="doc-section">
+                <h2>Base Palettes</h2>
+                <p>Start with one of five curated base palettes, each carefully designed for visual harmony and optimal readability. Every palette serves as a foundation you can customize further.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">✨</div>
+                        <h4>Glass</h4>
+                        <p>Frosted glass panels with subtle transparency. The signature HyperPlanner aesthetic.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">🌅</div>
+                        <h4>Warm</h4>
+                        <p>Soft amber and coral tones. Comfortable for extended planning sessions.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">🌙</div>
+                        <h4>Midnight</h4>
+                        <p>Deep blacks with high contrast. Zero distractions for focused work.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">❄️</div>
+                        <h4>Nordic</h4>
+                        <p>Cool blues and clean whites. Scandinavian-inspired minimalism.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">⚡</div>
+                        <h4>Neon</h4>
+                        <p>Vibrant gradients and electric accents. Bold and energetic.</p>
+                    </div>
+                </div>
+
+                <h3>Palette CSS Variables</h3>
+                <p>Each palette defines a core set of CSS custom properties that cascade through the entire interface:</p>
+
+                <div class="code-block">/* Glass Palette */
+:root {
+    --palette-primary: #6366f1;
+    --palette-secondary: #ec4899;
+    --palette-accent: #f59e0b;
+    --palette-bg-base: #0f0f1a;
+    --palette-bg-elevated: rgba(255, 255, 255, 0.05);
+    --palette-text-primary: #ffffff;
+    --palette-text-muted: rgba(255, 255, 255, 0.7);
+}</div>
+
+                <div class="code-block">/* Midnight Palette */
+:root {
+    --palette-primary: #3b82f6;
+    --palette-secondary: #8b5cf6;
+    --palette-accent: #10b981;
+    --palette-bg-base: #000000;
+    --palette-bg-elevated: #0a0a0a;
+    --palette-text-primary: #f8fafc;
+    --palette-text-muted: #94a3b8;
+}</div>
+
+                <div class="code-block">/* Neon Palette */
+:root {
+    --palette-primary: #a855f7;
+    --palette-secondary: #ec4899;
+    --palette-accent: #22d3ee;
+    --palette-bg-base: #0c0014;
+    --palette-bg-elevated: rgba(168, 85, 247, 0.1);
+    --palette-text-primary: #faf5ff;
+    --palette-text-muted: #c4b5fd;
+}</div>
+
+                <div class="info-card tip">
+                    <h4>Pro Tip</h4>
+                    <p>Switch palettes instantly with <span class="kbd">Cmd/Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">T</span>. Your custom overrides persist across palette changes.</p>
+                </div>
+            </section>
+
+            <!-- Full Token Control Section -->
+            <section id="token-control" class="doc-section">
+                <h2>Full Token Control</h2>
+                <p>Go beyond palettes with granular control over every design token. The Theme Lab exposes all visual properties as customizable variables.</p>
+
+                <h3>Accents (Primary, Secondary, Tertiary)</h3>
+                <p>Define your color hierarchy for buttons, links, highlights, and interactive elements:</p>
+
+                <div class="code-block">/* Accent Colors */
+:root {
+    --accent-primary: #6366f1;      /* Main actions, active states */
+    --accent-secondary: #ec4899;    /* Secondary actions, hover states */
+    --accent-tertiary: #f59e0b;     /* Warnings, highlights, badges */
+
+    /* Accent Variants */
+    --accent-primary-light: #818cf8;
+    --accent-primary-dark: #4f46e5;
+    --accent-primary-alpha: rgba(99, 102, 241, 0.2);
+}</div>
+
+                <h3>Glass Strength (Opacity, Blur, Tint)</h3>
+                <p>Fine-tune the glassmorphism effect that defines HyperPlanner's aesthetic:</p>
+
+                <div class="code-block">/* Glass Effect Controls */
+:root {
+    /* Opacity - controls background transparency */
+    --glass-opacity: 0.05;          /* Range: 0.0 - 0.3 */
+    --glass-opacity-hover: 0.08;
+    --glass-opacity-active: 0.12;
+
+    /* Blur - controls backdrop blur intensity */
+    --glass-blur-sm: 8px;           /* Subtle blur */
+    --glass-blur-md: 16px;          /* Standard blur */
+    --glass-blur-lg: 24px;          /* Heavy blur */
+
+    /* Tint - subtle color overlay */
+    --glass-tint: rgba(255, 255, 255, 0.02);
+    --glass-tint-warm: rgba(255, 200, 150, 0.03);
+    --glass-tint-cool: rgba(150, 200, 255, 0.03);
+}</div>
+
+                <h3>Borders (Width, Color, Style)</h3>
+                <p>Control the subtle lines that define panel boundaries and element separation:</p>
+
+                <div class="code-block">/* Border Tokens */
+:root {
+    /* Width */
+    --border-width-thin: 1px;
+    --border-width-medium: 2px;
+    --border-width-thick: 3px;
+
+    /* Colors */
+    --border-color-subtle: rgba(255, 255, 255, 0.1);
+    --border-color-default: rgba(255, 255, 255, 0.15);
+    --border-color-strong: rgba(255, 255, 255, 0.25);
+    --border-color-accent: var(--accent-primary-alpha);
+
+    /* Radius */
+    --border-radius-sm: 8px;
+    --border-radius-md: 12px;
+    --border-radius-lg: 16px;
+    --border-radius-xl: 24px;
+    --border-radius-full: 9999px;
+}</div>
+
+                <h3>Backgrounds (Solid, Gradient, Mesh)</h3>
+                <p>Layer multiple background effects for depth and visual interest:</p>
+
+                <div class="code-block">/* Background Layers */
+:root {
+    /* Solid Backgrounds */
+    --bg-base: #0f0f1a;
+    --bg-elevated: #1a1a2e;
+    --bg-surface: #16213e;
+
+    /* Gradient Backgrounds */
+    --bg-gradient-primary: linear-gradient(
+        135deg,
+        rgba(99, 102, 241, 0.15) 0%,
+        transparent 50%
+    );
+    --bg-gradient-secondary: radial-gradient(
+        circle at 70% 80%,
+        rgba(236, 72, 153, 0.12) 0%,
+        transparent 50%
+    );
+
+    /* Mesh Background */
+    --bg-mesh-color: rgba(255, 255, 255, 0.02);
+    --bg-mesh-size: 100px;
+    --bg-mesh-pattern: linear-gradient(
+        var(--bg-mesh-color) 1px,
+        transparent 1px
+    );
+}</div>
+
+                <h3>Motion (Animation Speed, Easing Curves)</h3>
+                <p>Control the rhythm and feel of all animations and transitions:</p>
+
+                <div class="code-block">/* Motion Tokens */
+:root {
+    /* Duration */
+    --motion-instant: 0ms;
+    --motion-fast: 150ms;
+    --motion-base: 250ms;
+    --motion-slow: 400ms;
+    --motion-slower: 600ms;
+
+    /* Easing Curves */
+    --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --ease-elastic: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+
+    /* Composed Transitions */
+    --transition-fast: var(--motion-fast) var(--ease-default);
+    --transition-base: var(--motion-base) var(--ease-default);
+    --transition-bounce: var(--motion-base) var(--ease-bounce);
+}</div>
+
+                <div class="info-card note">
+                    <h4>Accessibility Note</h4>
+                    <p>Users with <span class="code-inline">prefers-reduced-motion</span> enabled will automatically see instant transitions. HyperPlanner respects system preferences.</p>
+                </div>
+            </section>
+
+            <!-- Light/Dark Morphing Section -->
+            <section id="light-dark" class="doc-section">
+                <h2>Light/Dark Morphing</h2>
+                <p>HyperPlanner seamlessly transitions between light and dark modes with smooth color morphing. Set it once and forget, or let time-based switching handle it automatically.</p>
+
+                <h3>Auto-Switch Based on Time</h3>
+                <p>Configure automatic theme switching based on time of day:</p>
+
+                <div class="code-block">/* Time-based Theme Switching */
+:root {
+    /* Light mode hours (24h format) */
+    --auto-light-start: 7;    /* 7:00 AM */
+    --auto-light-end: 19;     /* 7:00 PM */
+
+    /* Transition duration between modes */
+    --mode-transition-duration: 500ms;
+}
+
+/* JavaScript Configuration */
+HyperPlanner.theme.autoSwitch({
+    enabled: true,
+    lightStart: '07:00',
+    lightEnd: '19:00',
+    useSystemPreference: true,  /* Override with OS setting */
+    transitionDuration: 500
+});</div>
+
+                <h3>Mode-Specific Overrides</h3>
+                <p>Define different values for light and dark modes:</p>
+
+                <div class="code-block">/* Dark Mode (Default) */
+:root {
+    --bg-base: #0f0f1a;
+    --text-primary: #ffffff;
+    --glass-opacity: 0.05;
+    --shadow-strength: 0.4;
+}
+
+/* Light Mode */
+:root[data-theme="light"] {
+    --bg-base: #f8fafc;
+    --text-primary: #0f172a;
+    --glass-opacity: 0.6;
+    --shadow-strength: 0.1;
+
+    /* Adjusted accent for light backgrounds */
+    --accent-primary: #4f46e5;
+    --accent-primary-light: #6366f1;
+}</div>
+
+                <div class="info-card tip">
+                    <h4>Smooth Transitions</h4>
+                    <p>Enable morphing mode to smoothly interpolate between light and dark values over time, creating a natural dawn/dusk effect.</p>
+                </div>
+
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>Shortcut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Toggle Light/Dark</td>
+                            <td><span class="kbd">Cmd/Ctrl</span> + <span class="kbd">D</span></td>
+                        </tr>
+                        <tr>
+                            <td>Open Theme Lab</td>
+                            <td><span class="kbd">Cmd/Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">T</span></td>
+                        </tr>
+                        <tr>
+                            <td>Cycle Palettes</td>
+                            <td><span class="kbd">Cmd/Ctrl</span> + <span class="kbd">]</span></td>
+                        </tr>
+                        <tr>
+                            <td>Reset to Default</td>
+                            <td><span class="kbd">Cmd/Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">R</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Icon Packs Section -->
+            <section id="icon-packs" class="doc-section">
+                <h2>Icon Packs</h2>
+                <p>Icons in HyperPlanner are semantic and fully customizable. Replace any icon with your preferred SVG or emoji.</p>
+
+                <h3>Semantic Icons</h3>
+                <p>Icons are mapped to meanings, not hardcoded. Change the icon for "work" and it updates everywhere:</p>
+
+                <div class="code-block">/* Semantic Icon Mapping */
+:root {
+    /* Context Icons */
+    --icon-work: url('icons/briefcase.svg');
+    --icon-personal: url('icons/home.svg');
+    --icon-inbox: url('icons/inbox.svg');
+    --icon-archive: url('icons/archive.svg');
+
+    /* Priority Icons */
+    --icon-priority-high: url('icons/flame.svg');
+    --icon-priority-medium: url('icons/flag.svg');
+    --icon-priority-low: url('icons/minus.svg');
+
+    /* Status Icons */
+    --icon-status-todo: url('icons/circle.svg');
+    --icon-status-progress: url('icons/clock.svg');
+    --icon-status-done: url('icons/check-circle.svg');
+}</div>
+
+                <h3>Custom SVG Support</h3>
+                <p>Inline your own SVG icons for complete control:</p>
+
+                <div class="code-block">/* Custom SVG Icons */
+:root {
+    --icon-custom-rocket: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/%3E%3C/svg%3E");
+}
+
+/* Apply to specific contexts */
+[data-context="launches"] {
+    --context-icon: var(--icon-custom-rocket);
+}</div>
+
+                <h3>Emoji Support</h3>
+                <p>Prefer emoji? Map any icon to your favorite characters:</p>
+
+                <div class="code-block">/* Emoji Icon Mapping */
+HyperPlanner.icons.set({
+    work: '💼',
+    personal: '🏠',
+    urgent: '🔥',
+    meeting: '📅',
+    idea: '💡',
+    bug: '🐛',
+    feature: '✨',
+    docs: '📝'
+});
+
+/* CSS Emoji Fallback */
+.icon-work::before {
+    content: '💼';
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+}</div>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">📦</div>
+                        <h4>Built-in Packs</h4>
+                        <p>Lucide, Heroicons, and Phosphor icons included by default.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">🎨</div>
+                        <h4>Icon Themes</h4>
+                        <p>Outline, solid, and duotone variants for each pack.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">⬆️</div>
+                        <h4>Upload Custom</h4>
+                        <p>Drag and drop SVG files to add your own icons.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contrast Guardrails Section -->
+            <section id="contrast" class="doc-section">
+                <h2>Contrast Guardrails</h2>
+                <p>Stay creative while maintaining readability. HyperPlanner automatically adjusts text and interactive elements to meet WCAG AA accessibility standards.</p>
+
+                <h3>WCAG AA Compliance</h3>
+                <p>The Theme Lab monitors contrast ratios in real-time:</p>
+
+                <div class="code-block">/* Contrast Requirements */
+:root {
+    /* Minimum contrast ratios (WCAG AA) */
+    --contrast-min-body: 4.5;      /* Normal text */
+    --contrast-min-large: 3.0;     /* Large text (18px+) */
+    --contrast-min-ui: 3.0;        /* UI components */
+
+    /* Auto-adjusted text colors */
+    --text-on-primary: #ffffff;    /* Auto-calculated for --accent-primary */
+    --text-on-secondary: #ffffff;  /* Auto-calculated for --accent-secondary */
+    --text-on-surface: #ffffff;    /* Auto-calculated for --bg-surface */
+}</div>
+
+                <h3>Automatic Adjustment</h3>
+                <p>When you pick colors that would fail contrast requirements, HyperPlanner offers solutions:</p>
+
+                <div class="code-block">/* Contrast Auto-Correction */
+HyperPlanner.theme.contrastGuard({
+    enabled: true,
+    mode: 'suggest',    /* 'suggest' | 'auto' | 'off' */
+    minRatio: 4.5,
+
+    onViolation: (element, ratio, required) => {
+        /* Show warning badge in Theme Lab */
+        /* Suggest closest compliant color */
+    }
+});</div>
+
+                <div class="info-card warning">
+                    <h4>Contrast Warning</h4>
+                    <p>When a color combination fails WCAG AA requirements, you'll see a warning badge in the Theme Lab. Click it to see suggested alternatives that maintain your aesthetic while improving readability.</p>
+                </div>
+
+                <h3>Focus Indicators</h3>
+                <p>Keyboard navigation indicators are always visible and customizable:</p>
+
+                <div class="code-block">/* Focus Ring Tokens */
+:root {
+    --focus-ring-width: 2px;
+    --focus-ring-offset: 2px;
+    --focus-ring-color: var(--accent-primary);
+    --focus-ring-style: solid;
+
+    /* Focus visible styles */
+    --focus-ring: var(--focus-ring-width) var(--focus-ring-style) var(--focus-ring-color);
+}
+
+*:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+}</div>
+            </section>
+
+            <!-- Export & Share Section -->
+            <section id="export-share" class="doc-section">
+                <h2>Export & Share</h2>
+                <p>Save your custom theme as a portable JSON file. Share with friends, back up your preferences, or contribute to the community theme gallery.</p>
+
+                <h3>Save as JSON</h3>
+                <p>Export your complete theme configuration:</p>
+
+                <div class="code-block">/* Exported Theme JSON */
+{
+    "name": "My Custom Theme",
+    "version": "1.0.0",
+    "author": "your-username",
+    "base": "glass",
+    "tokens": {
+        "colors": {
+            "accent-primary": "#6366f1",
+            "accent-secondary": "#ec4899",
+            "accent-tertiary": "#f59e0b"
+        },
+        "glass": {
+            "opacity": 0.05,
+            "blur": "16px",
+            "tint": "rgba(255, 255, 255, 0.02)"
+        },
+        "borders": {
+            "radius-md": "12px",
+            "color-default": "rgba(255, 255, 255, 0.15)"
+        },
+        "motion": {
+            "duration-base": "250ms",
+            "easing-default": "cubic-bezier(0.4, 0, 0.2, 1)"
+        }
+    },
+    "icons": {
+        "pack": "lucide",
+        "overrides": {
+            "work": "briefcase",
+            "personal": "home"
+        }
+    },
+    "modes": {
+        "auto-switch": true,
+        "light-start": "07:00",
+        "light-end": "19:00"
+    }
+}</div>
+
+                <h3>Import Themes</h3>
+                <p>Load themes from JSON files or paste configuration directly:</p>
+
+                <div class="code-block">/* Import via JavaScript */
+HyperPlanner.theme.import('./my-theme.json');
+
+/* Import from URL */
+HyperPlanner.theme.importFromURL('https://themes.hyperplanner.app/neon-dreams.json');
+
+/* Import from clipboard */
+HyperPlanner.theme.importFromClipboard();</div>
+
+                <h3>Share with Community</h3>
+                <p>Publish your theme to the HyperPlanner community gallery:</p>
+
+                <div class="code-block">/* Publish to Gallery */
+HyperPlanner.theme.publish({
+    name: "Neon Dreams",
+    description: "Cyberpunk-inspired theme with electric gradients",
+    tags: ["dark", "neon", "vibrant", "high-contrast"],
+    preview: "./preview.png",    /* Auto-generated if not provided */
+    license: "CC0"               /* Creative Commons Zero */
+});</div>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">💾</div>
+                        <h4>Local Backup</h4>
+                        <p>Export to file for offline backup and version control.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">🔗</div>
+                        <h4>Share Link</h4>
+                        <p>Generate a shareable URL that imports your theme instantly.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">🌐</div>
+                        <h4>Community Gallery</h4>
+                        <p>Browse and remix themes created by other users.</p>
+                    </div>
+                </div>
+
+                <div class="info-card tip">
+                    <h4>Quick Share</h4>
+                    <p>Press <span class="kbd">Cmd/Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">E</span> to instantly export your current theme to clipboard as JSON.</p>
+                </div>
+            </section>
+
+            <!-- Related Documentation -->
+            <section class="doc-section">
+                <h2>Related Documentation</h2>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">📐</div>
+                        <h4>Layout Control</h4>
+                        <p>Learn how to customize panel arrangements and view modes.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">🎛️</div>
+                        <h4>Design Tokens</h4>
+                        <p>Complete reference for all available CSS custom properties.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">⚙️</div>
+                        <h4>API Reference</h4>
+                        <p>JavaScript API for programmatic theme control.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // FAQ Accordion functionality
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                item.classList.toggle('open');
+            });
+        });
+
+        // Smooth scroll for sidebar links
+        document.querySelectorAll('.sidebar-link[href^="#"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+
+        // Update active sidebar link on scroll
+        const sections = document.querySelectorAll('.doc-section[id]');
+        const sidebarLinks = document.querySelectorAll('.sidebar-link[href^="#"]');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            sidebarLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

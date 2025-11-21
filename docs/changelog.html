@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog - HyperPlanner Docs</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+    <link rel="stylesheet" href="docs.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="bg-mesh"></div>
+
+    <nav class="doc-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-icon">◆</span>
+                <span>HyperPlanner</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#features" class="nav-link">Features</a>
+                <a href="../index.html#demo" class="nav-link">Try Demo</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="doc-layout">
+        <aside class="doc-sidebar">
+            <div class="sidebar-section">
+                <h3>Quick Start</h3>
+                <div class="sidebar-links">
+                    <a href="getting-started.html" class="sidebar-link">Getting Started Guide</a>
+                    <a href="video-tutorial.html" class="sidebar-link">Video Tutorials</a>
+                    <a href="keyboard-shortcuts.html" class="sidebar-link">Keyboard Shortcuts</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Features</h3>
+                <div class="sidebar-links">
+                    <a href="smart-capture.html" class="sidebar-link">Smart Capture Guide</a>
+                    <a href="layout-customization.html" class="sidebar-link">Layout Customization</a>
+                    <a href="theme-lab.html" class="sidebar-link">Theme Lab Tutorial</a>
+                    <a href="automations.html" class="sidebar-link">Automations 101</a>
+                    <a href="templates.html" class="sidebar-link">Templates & Workflows</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Advanced</h3>
+                <div class="sidebar-links">
+                    <a href="api-docs.html" class="sidebar-link">API Documentation</a>
+                    <a href="custom-integrations.html" class="sidebar-link">Custom Integrations</a>
+                    <a href="data-export-import.html" class="sidebar-link">Data Export/Import</a>
+                    <a href="privacy-security.html" class="sidebar-link">Privacy & Security</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Resources</h3>
+                <div class="sidebar-links">
+                    <a href="community.html" class="sidebar-link">Community Forum</a>
+                    <a href="faq.html" class="sidebar-link">FAQ</a>
+                    <a href="contact.html" class="sidebar-link">Contact Support</a>
+                    <a href="changelog.html" class="sidebar-link active">Changelog</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Jump To</h3>
+                <div class="sidebar-links">
+                    <a href="#v1.5.0" class="sidebar-link">v1.5.0 (Latest)</a>
+                    <a href="#v1.4.0" class="sidebar-link">v1.4.0</a>
+                    <a href="#v1.3.0" class="sidebar-link">v1.3.0</a>
+                    <a href="#v1.2.0" class="sidebar-link">v1.2.0</a>
+                    <a href="#v1.1.0" class="sidebar-link">v1.1.0</a>
+                    <a href="#v1.0.0" class="sidebar-link">v1.0.0</a>
+                </div>
+            </div>
+        </aside>
+
+        <main class="doc-content">
+            <header class="doc-header">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a> / <a href="getting-started.html">Docs</a> / Changelog
+                </div>
+                <h1>Changelog</h1>
+                <p class="subtitle">Track all the updates, improvements, and fixes in HyperPlanner.</p>
+            </header>
+
+            <section class="doc-section">
+                <div class="info-card tip">
+                    <h4>Stay Updated</h4>
+                    <p>Subscribe to our newsletter or follow us on Twitter <a href="#" style="color: var(--primary-light);">@HyperPlanner</a> to get notified about new releases.</p>
+                </div>
+            </section>
+
+            <section class="doc-section" id="v1.5.0">
+                <div class="changelog-entry">
+                    <div class="version">v1.5.0</div>
+                    <div class="date">November 15, 2025</div>
+
+                    <h3>New Features</h3>
+                    <ul>
+                        <li><span class="tag new">New</span> <strong>Visual Automations Builder</strong> - Create "when X → do Y" rules with a drag-and-drop interface. No code required.</li>
+                        <li><span class="tag new">New</span> <strong>Template Variables</strong> - Use dynamic variables like {today}, {next_monday}, {project_name} in your templates.</li>
+                        <li><span class="tag new">New</span> <strong>Conflict Highlighting</strong> - Overlapping events now glow with a warning border and offer quick resolution options.</li>
+                        <li><span class="tag new">New</span> <strong>Focus Mode</strong> - New distraction-free view that shows only your current task with a timer.</li>
+                    </ul>
+
+                    <h3>Improvements</h3>
+                    <ul>
+                        <li><span class="tag improved">Improved</span> Smart Capture now supports more date formats including relative dates like "in 3 days"</li>
+                        <li><span class="tag improved">Improved</span> Calendar view performance with 60% faster rendering for large datasets</li>
+                        <li><span class="tag improved">Improved</span> Theme Lab now shows live preview as you adjust values</li>
+                        <li><span class="tag improved">Improved</span> Keyboard navigation is now more intuitive with vim-style shortcuts</li>
+                    </ul>
+
+                    <h3>Bug Fixes</h3>
+                    <ul>
+                        <li><span class="tag fixed">Fixed</span> Recurring tasks sometimes skipped instances when edited</li>
+                        <li><span class="tag fixed">Fixed</span> Drag and drop was not working correctly on mobile Safari</li>
+                        <li><span class="tag fixed">Fixed</span> Theme export was missing some custom CSS variables</li>
+                        <li><span class="tag fixed">Fixed</span> Sync conflict resolution was not preserving all local changes</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="doc-section" id="v1.4.0">
+                <div class="changelog-entry">
+                    <div class="version">v1.4.0</div>
+                    <div class="date">October 1, 2025</div>
+
+                    <h3>New Features</h3>
+                    <ul>
+                        <li><span class="tag new">New</span> <strong>AI Suggestions (Beta)</strong> - Optional AI-powered suggestions for rescheduling overdue tasks and optimizing your day.</li>
+                        <li><span class="tag new">New</span> <strong>CalDAV Sync</strong> - Two-way sync with any CalDAV-compatible calendar server.</li>
+                        <li><span class="tag new">New</span> <strong>Custom Phrase Mapping</strong> - Teach HyperPlanner your own shortcuts like "standup" → @work #meeting 15min.</li>
+                        <li><span class="tag new">New</span> <strong>Hero Summary View</strong> - New dashboard showing stats, focus load, and next actions at a glance.</li>
+                    </ul>
+
+                    <h3>Improvements</h3>
+                    <ul>
+                        <li><span class="tag improved">Improved</span> Reduced initial load time by 40% through code splitting</li>
+                        <li><span class="tag improved">Improved</span> Added 12 new base themes to the Theme Lab</li>
+                        <li><span class="tag improved">Improved</span> Search now includes results from archived tasks</li>
+                        <li><span class="tag improved">Improved</span> Command palette (Cmd+K) now supports fuzzy matching</li>
+                    </ul>
+
+                    <h3>Bug Fixes</h3>
+                    <ul>
+                        <li><span class="tag fixed">Fixed</span> Undo/redo was not working for bulk task operations</li>
+                        <li><span class="tag fixed">Fixed</span> Print view was cutting off task descriptions</li>
+                        <li><span class="tag fixed">Fixed</span> Timezone handling for all-day events</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="doc-section" id="v1.3.0">
+                <div class="changelog-entry">
+                    <div class="version">v1.3.0</div>
+                    <div class="date">August 15, 2025</div>
+
+                    <h3>New Features</h3>
+                    <ul>
+                        <li><span class="tag new">New</span> <strong>Templates & Workflows</strong> - Create reusable task templates with subtasks, tags, and recurrence.</li>
+                        <li><span class="tag new">New</span> <strong>Device Presets</strong> - Save different layouts per device with automatic detection.</li>
+                        <li><span class="tag new">New</span> <strong>Component Variants</strong> - Choose between Minimal, Compact, Detailed, or Wide task cards.</li>
+                        <li><span class="tag new">New</span> <strong>Inline Subtasks</strong> - Create subtasks using the > separator in Smart Capture.</li>
+                    </ul>
+
+                    <h3>Improvements</h3>
+                    <ul>
+                        <li><span class="tag improved">Improved</span> Panel resizing now snaps to useful widths</li>
+                        <li><span class="tag improved">Improved</span> Added density controls for calendar time slots (15/30/60 min)</li>
+                        <li><span class="tag improved">Improved</span> Export now supports CSV format for spreadsheet compatibility</li>
+                    </ul>
+
+                    <h3>Bug Fixes</h3>
+                    <ul>
+                        <li><span class="tag fixed">Fixed</span> Memory leak when switching views rapidly</li>
+                        <li><span class="tag fixed">Fixed</span> Notifications were not respecting quiet hours setting</li>
+                        <li><span class="tag fixed">Fixed</span> Filter persistence across sessions</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="doc-section" id="v1.2.0">
+                <div class="changelog-entry">
+                    <div class="version">v1.2.0</div>
+                    <div class="date">July 1, 2025</div>
+
+                    <h3>New Features</h3>
+                    <ul>
+                        <li><span class="tag new">New</span> <strong>Theme Lab</strong> - Full token control for customizing every visual aspect of HyperPlanner.</li>
+                        <li><span class="tag new">New</span> <strong>Light/Dark Auto-Switch</strong> - Automatically switch between light and dark modes based on time.</li>
+                        <li><span class="tag new">New</span> <strong>Theme Export/Import</strong> - Share your custom themes as JSON files.</li>
+                        <li><span class="tag new">New</span> <strong>Icon Packs</strong> - Custom icons for contexts and categories.</li>
+                    </ul>
+
+                    <h3>Improvements</h3>
+                    <ul>
+                        <li><span class="tag improved">Improved</span> WCAG AA contrast compliance for all base themes</li>
+                        <li><span class="tag improved">Improved</span> Reduced animation CPU usage by 30%</li>
+                        <li><span class="tag improved">Improved</span> Added 5 new preset themes: Nordic, Ocean, Forest, Sunset, Midnight</li>
+                    </ul>
+
+                    <h3>Bug Fixes</h3>
+                    <ul>
+                        <li><span class="tag fixed">Fixed</span> Glass blur was not rendering on Firefox</li>
+                        <li><span class="tag fixed">Fixed</span> Custom colors were being reset on app update</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="doc-section" id="v1.1.0">
+                <div class="changelog-entry">
+                    <div class="version">v1.1.0</div>
+                    <div class="date">May 15, 2025</div>
+
+                    <h3>New Features</h3>
+                    <ul>
+                        <li><span class="tag new">New</span> <strong>Multi-Device Sync</strong> - Secure, end-to-end encrypted sync across all your devices.</li>
+                        <li><span class="tag new">New</span> <strong>Cloud Backup</strong> - Automatic encrypted backups with point-in-time restore.</li>
+                        <li><span class="tag new">New</span> <strong>ICS Import</strong> - Import events from Google Calendar, Outlook, and other calendar apps.</li>
+                        <li><span class="tag new">New</span> <strong>Email Reminders</strong> - Opt-in email notifications for upcoming tasks and events.</li>
+                    </ul>
+
+                    <h3>Improvements</h3>
+                    <ul>
+                        <li><span class="tag improved">Improved</span> Offline mode now queues all changes for sync when back online</li>
+                        <li><span class="tag improved">Improved</span> Added account settings page with profile customization</li>
+                    </ul>
+
+                    <h3>Bug Fixes</h3>
+                    <ul>
+                        <li><span class="tag fixed">Fixed</span> Data corruption when browser was force-closed during save</li>
+                        <li><span class="tag fixed">Fixed</span> Session timeout was too aggressive</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="doc-section" id="v1.0.0">
+                <div class="changelog-entry">
+                    <div class="version">v1.0.0</div>
+                    <div class="date">April 1, 2025</div>
+
+                    <h3>Initial Release</h3>
+                    <p>HyperPlanner launches with the following core features:</p>
+
+                    <ul>
+                        <li><span class="tag new">New</span> <strong>Smart Capture</strong> - Natural language task entry with date, context, priority, and tag parsing.</li>
+                        <li><span class="tag new">New</span> <strong>Flexible Panel System</strong> - Drag, resize, and arrange panels to create your perfect workspace.</li>
+                        <li><span class="tag new">New</span> <strong>Calendar View</strong> - Day, week, and month views with drag-and-drop scheduling.</li>
+                        <li><span class="tag new">New</span> <strong>Kanban Board</strong> - Visual task management with customizable lanes.</li>
+                        <li><span class="tag new">New</span> <strong>Focus Duo</strong> - Split view for today's tasks and backlog.</li>
+                        <li><span class="tag new">New</span> <strong>Unified Task/Event Model</strong> - Seamlessly drag items between views.</li>
+                        <li><span class="tag new">New</span> <strong>Recurrence Rules</strong> - Daily, weekly, monthly, and custom repeat patterns.</li>
+                        <li><span class="tag new">New</span> <strong>Keyboard-First Design</strong> - Complete keyboard navigation and shortcuts.</li>
+                        <li><span class="tag new">New</span> <strong>Offline-First Architecture</strong> - Works without internet, stores data locally.</li>
+                        <li><span class="tag new">New</span> <strong>Glassy Aesthetic</strong> - Beautiful frosted glass design with warm accents.</li>
+                        <li><span class="tag new">New</span> <strong>Progressive Web App</strong> - Install on any device from your browser.</li>
+                    </ul>
+
+                    <div class="info-card note">
+                        <h4>Thank You!</h4>
+                        <p>Thank you to all our beta testers who helped shape HyperPlanner. Your feedback made this launch possible.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2>Upcoming Features</h2>
+                <p>Here's what we're working on for future releases:</p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">🔗</div>
+                        <h4>Zapier Integration</h4>
+                        <p>Connect HyperPlanner with 5,000+ apps</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">📱</div>
+                        <h4>Native Mobile Apps</h4>
+                        <p>iOS and Android apps with native performance</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">🛒</div>
+                        <h4>Template Marketplace</h4>
+                        <p>Community-curated templates library</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">👥</div>
+                        <h4>Team Features</h4>
+                        <p>Shared workspaces and collaboration</p>
+                    </div>
+                </div>
+
+                <p style="margin-top: var(--spacing-lg);">Have a feature request? <a href="contact.html" style="color: var(--primary-light);">Let us know!</a></p>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

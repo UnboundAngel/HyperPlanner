@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Capture - HyperPlanner Documentation</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9670;</text></svg>">
+    <link rel="stylesheet" href="docs.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-gradient"></div>
+    <div class="bg-mesh"></div>
+
+    <!-- Navigation -->
+    <nav class="doc-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-icon">&#9670;</span>
+                <span>HyperPlanner</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html#features" class="nav-link">Features</a>
+                <a href="../index.html#how-it-works" class="nav-link">How It Works</a>
+                <a href="../index.html#demo" class="nav-link">Try Demo</a>
+                <a href="./smart-capture.html" class="nav-link" style="color: var(--primary-light);">Docs</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Layout -->
+    <div class="doc-layout">
+        <!-- Sidebar -->
+        <aside class="doc-sidebar">
+            <div class="sidebar-section">
+                <h3>Getting Started</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link">Quick Start Guide</a>
+                    <a href="#" class="sidebar-link">Installation</a>
+                    <a href="#" class="sidebar-link">Your First Task</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Core Features</h3>
+                <div class="sidebar-links">
+                    <a href="smart-capture.html" class="sidebar-link active">Smart Capture</a>
+                    <a href="#" class="sidebar-link">Unified Tasks & Events</a>
+                    <a href="#" class="sidebar-link">Layout Control</a>
+                    <a href="#" class="sidebar-link">Theme Lab</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Smart Capture</h3>
+                <div class="sidebar-links">
+                    <a href="#one-line-parsing" class="sidebar-link">One-Line Parsing</a>
+                    <a href="#custom-phrases" class="sidebar-link">Custom Phrase Mapping</a>
+                    <a href="#inline-subtasks" class="sidebar-link">Inline Subtasks</a>
+                    <a href="#conflict-hints" class="sidebar-link">Smart Conflict Hints</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Advanced</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link">Automations</a>
+                    <a href="#" class="sidebar-link">Templates</a>
+                    <a href="#" class="sidebar-link">API Reference</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Resources</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link">FAQ</a>
+                    <a href="#" class="sidebar-link">Keyboard Shortcuts</a>
+                    <a href="#" class="sidebar-link">Changelog</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="doc-content">
+            <!-- Header -->
+            <header class="doc-header">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a> / <a href="#">Docs</a> / Core Features / Smart Capture
+                </div>
+                <h1>Smart Capture</h1>
+                <p class="subtitle">Type naturally and let HyperPlanner understand your intent. One line becomes a fully-formed task with dates, context, priority, and tags extracted automatically.</p>
+            </header>
+
+            <!-- Overview Section -->
+            <section class="doc-section">
+                <h2>Overview</h2>
+                <p>Smart Capture is HyperPlanner's intelligent input system that transforms natural language into structured tasks and events. Instead of filling out forms or clicking through menus, simply type what you need to do and Smart Capture handles the rest.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">&#128197;</div>
+                        <h4>Date/Time Parsing</h4>
+                        <p>Recognizes natural date and time expressions automatically</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#127919;</div>
+                        <h4>Context Detection</h4>
+                        <p>@mentions extract work, personal, and custom contexts</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#9888;&#65039;</div>
+                        <h4>Priority Flags</h4>
+                        <p>!priority markers set urgency levels instantly</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#127991;&#65039;</div>
+                        <h4>Smart Tags</h4>
+                        <p>#hashtags categorize and organize your tasks</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- One-Line Parsing Section -->
+            <section class="doc-section" id="one-line-parsing">
+                <h2>One-Line Parsing</h2>
+                <p>The heart of Smart Capture is its ability to understand a single line of text and extract all relevant information. Here's how it works:</p>
+
+                <h3>Basic Example</h3>
+                <p>Type this in the capture bar:</p>
+                <div class="code-block">team sync tomorrow 10am @work !high #planning</div>
+
+                <p>HyperPlanner automatically extracts:</p>
+                <div class="code-block">Title:    "team sync"
+Date:     Tomorrow
+Time:     10:00 AM
+Context:  @work
+Priority: High
+Tags:     #planning</div>
+
+                <div class="info-card tip">
+                    <h4>&#128161; Pro Tip</h4>
+                    <p>The order of elements doesn't matter. You can put the date first, tags in the middle, or priority at the beginning. Smart Capture figures it out.</p>
+                </div>
+
+                <h3>Date and Time Parsing</h3>
+                <p>Smart Capture understands a wide variety of date and time formats:</p>
+
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Input</th>
+                            <th>Parsed As</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="code-inline">tomorrow</span></td>
+                            <td>Next day</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">next monday</span></td>
+                            <td>Coming Monday</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">in 3 days</span></td>
+                            <td>3 days from now</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">next week</span></td>
+                            <td>7 days from now</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">dec 15</span></td>
+                            <td>December 15th</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">12/15</span></td>
+                            <td>December 15th</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">2pm</span></td>
+                            <td>2:00 PM today</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">14:30</span></td>
+                            <td>2:30 PM today</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">tomorrow at 3pm</span></td>
+                            <td>Tomorrow at 3:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">friday 9am-11am</span></td>
+                            <td>Friday, 9:00 AM to 11:00 AM</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>More Date Examples</h3>
+                <div class="code-block">Input:  "call mom sunday afternoon"
+Output: Title: "call mom"
+        Date:  Sunday
+        Time:  2:00 PM (afternoon defaults to 2pm)</div>
+
+                <div class="code-block">Input:  "dentist appointment jan 15 at 10:30am"
+Output: Title: "dentist appointment"
+        Date:  January 15
+        Time:  10:30 AM</div>
+
+                <div class="code-block">Input:  "project deadline in 2 weeks"
+Output: Title: "project deadline"
+        Date:  14 days from today</div>
+
+                <h3>Context Detection with @mentions</h3>
+                <p>Use the <span class="code-inline">@</span> symbol to assign context to your tasks:</p>
+
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Context</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="code-inline">@work</span></td>
+                            <td>Work-related tasks, shown during work hours</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">@personal</span></td>
+                            <td>Personal tasks, hidden during focus mode</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">@home</span></td>
+                            <td>Tasks to do at home</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">@errands</span></td>
+                            <td>Tasks to do while out</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">@inbox</span></td>
+                            <td>Uncategorized, needs processing</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">@waiting</span></td>
+                            <td>Blocked, waiting on someone else</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="code-block">Input:  "review pull request @work"
+Output: Title:   "review pull request"
+        Context: work</div>
+
+                <div class="code-block">Input:  "buy groceries @errands @personal"
+Output: Title:    "buy groceries"
+        Contexts: errands, personal (multiple contexts supported)</div>
+
+                <div class="info-card note">
+                    <h4>&#128221; Note</h4>
+                    <p>You can create custom contexts in Settings. Once created, Smart Capture will recognize them automatically. Common custom contexts include <span class="code-inline">@client-name</span>, <span class="code-inline">@project-x</span>, or <span class="code-inline">@gym</span>.</p>
+                </div>
+
+                <h3>Priority Levels with !flags</h3>
+                <p>Set task urgency with exclamation marks:</p>
+
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Flag</th>
+                            <th>Priority</th>
+                            <th>Visual Indicator</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="code-inline">!high</span> or <span class="code-inline">!1</span></td>
+                            <td>High Priority</td>
+                            <td>Red accent, top of list</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">!medium</span> or <span class="code-inline">!2</span></td>
+                            <td>Medium Priority</td>
+                            <td>Yellow accent</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">!low</span> or <span class="code-inline">!3</span></td>
+                            <td>Low Priority</td>
+                            <td>Blue accent, bottom of list</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="code-block">Input:  "fix critical bug !high @work"
+Output: Title:    "fix critical bug"
+        Priority: High
+        Context:  work</div>
+
+                <div class="code-block">Input:  "update documentation !low #docs"
+Output: Title:    "update documentation"
+        Priority: Low
+        Tags:     #docs</div>
+
+                <h3>Tags with #hashtags</h3>
+                <p>Categorize tasks with hashtags for easy filtering and grouping:</p>
+
+                <div class="code-block">Input:  "write blog post #content #marketing @work"
+Output: Title:   "write blog post"
+        Tags:    content, marketing
+        Context: work</div>
+
+                <div class="code-block">Input:  "quarterly planning meeting tomorrow 2pm #q4 #strategy #planning"
+Output: Title: "quarterly planning meeting"
+        Date:  Tomorrow
+        Time:  2:00 PM
+        Tags:  q4, strategy, planning</div>
+
+                <div class="info-card tip">
+                    <h4>&#128161; Pro Tip</h4>
+                    <p>Use consistent tag naming. Tags like <span class="code-inline">#meeting</span>, <span class="code-inline">#review</span>, and <span class="code-inline">#planning</span> help you filter your calendar view to see only certain types of events.</p>
+                </div>
+
+                <h3>Complete Examples</h3>
+                <p>Here are some real-world examples showing all features together:</p>
+
+                <div class="code-block">Input:  "1:1 with Sarah friday 3pm @work !medium #meetings #team"
+
+Output: Title:    "1:1 with Sarah"
+        Date:     Friday
+        Time:     3:00 PM
+        Context:  work
+        Priority: Medium
+        Tags:     meetings, team</div>
+
+                <div class="code-block">Input:  "submit expense report by eod !high @work #finance"
+
+Output: Title:    "submit expense report"
+        Due:      Today 5:00 PM (eod = end of day)
+        Priority: High
+        Context:  work
+        Tags:     finance</div>
+
+                <div class="code-block">Input:  "research competitors next week @work !low #strategy #q4"
+
+Output: Title:    "research competitors"
+        Date:     Next week (7 days from now)
+        Context:  work
+        Priority: Low
+        Tags:     strategy, q4</div>
+            </section>
+
+            <!-- Custom Phrase Mapping Section -->
+            <section class="doc-section" id="custom-phrases">
+                <h2>Custom Phrase Mapping</h2>
+                <p>Teach HyperPlanner your personal shortcuts and abbreviations. Custom phrases let you type faster by expanding short codes into full task properties.</p>
+
+                <h3>Built-in Phrases</h3>
+                <p>HyperPlanner comes with common phrases pre-configured:</p>
+
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Phrase</th>
+                            <th>Expands To</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="code-inline">eod</span></td>
+                            <td>Due today at 5:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">eow</span></td>
+                            <td>Due Friday at 5:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">eom</span></td>
+                            <td>Due last day of month</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">asap</span></td>
+                            <td>Due today + !high priority</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">someday</span></td>
+                            <td>No due date + !low priority</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">tm</span></td>
+                            <td>Tomorrow</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="code-block">Input:  "finish report eod @work"
+Output: Title:   "finish report"
+        Due:     Today at 5:00 PM
+        Context: work</div>
+
+                <div class="code-block">Input:  "fix server crash asap"
+Output: Title:    "fix server crash"
+        Due:      Today
+        Priority: High</div>
+
+                <h3>Creating Custom Phrases</h3>
+                <p>Define your own shortcuts in Settings &gt; Smart Capture &gt; Custom Phrases:</p>
+
+                <div class="code-block">Phrase:    "standup"
+Expands:   tomorrow 9:30am @work #meetings
+
+Usage:     "daily standup"
+Result:    Title: "daily"
+           Date:  Tomorrow 9:30 AM
+           Context: work
+           Tags: meetings</div>
+
+                <div class="code-block">Phrase:    "next sprint"
+Expands:   in 2 weeks @work #sprint
+
+Usage:     "implement auth feature next sprint"
+Result:    Title: "implement auth feature"
+           Due:   14 days from now
+           Context: work
+           Tags: sprint</div>
+
+                <div class="code-block">Phrase:    "urgent"
+Expands:   !high @inbox
+
+Usage:     "client callback urgent"
+Result:    Title:    "client callback"
+           Priority: High
+           Context:  inbox</div>
+
+                <h3>Advanced Phrase Patterns</h3>
+                <p>Phrases can include multiple properties:</p>
+
+                <div class="code-block">Phrase:    "weekly-review"
+Expands:   friday 4pm !medium @work #review #planning
+
+Usage:     "weekly-review"
+Result:    Title:    "weekly-review"
+           Date:     Friday 4:00 PM
+           Priority: Medium
+           Context:  work
+           Tags:     review, planning</div>
+
+                <div class="code-block">Phrase:    "gym"
+Expands:   @personal #health #fitness !medium
+
+Usage:     "gym leg day tomorrow 6am"
+Result:    Title:    "leg day"
+           Date:     Tomorrow 6:00 AM
+           Context:  personal
+           Priority: Medium
+           Tags:     health, fitness</div>
+
+                <div class="info-card tip">
+                    <h4>&#128161; Pro Tip</h4>
+                    <p>Create phrases for recurring meeting types. For example, <span class="code-inline">standup</span> could expand to <span class="code-inline">9:30am @work #daily 15min</span>, automatically setting time, context, tags, and duration.</p>
+                </div>
+
+                <div class="info-card warning">
+                    <h4>&#9888;&#65039; Important</h4>
+                    <p>Custom phrases are case-insensitive. Both <span class="code-inline">EOD</span> and <span class="code-inline">eod</span> will work. However, if a phrase conflicts with a date keyword (like "friday"), the date takes precedence.</p>
+                </div>
+            </section>
+
+            <!-- Inline Subtasks Section -->
+            <section class="doc-section" id="inline-subtasks">
+                <h2>Inline Subtasks</h2>
+                <p>Break down complex tasks as you type using the <span class="code-inline">&gt;</span> separator. Each segment after the first becomes a subtask.</p>
+
+                <h3>Basic Subtask Syntax</h3>
+                <div class="code-block">Input:  "Launch campaign > draft copy > design assets > schedule posts"
+
+Output: Title: "Launch campaign"
+        Subtasks:
+          [ ] draft copy
+          [ ] design assets
+          [ ] schedule posts</div>
+
+                <h3>Subtasks with Properties</h3>
+                <p>The main task inherits all properties; subtasks inherit context and tags:</p>
+
+                <div class="code-block">Input:  "Website redesign !high @work #project > wireframes > mockups > development > testing"
+
+Output: Title:    "Website redesign"
+        Priority: High
+        Context:  work
+        Tags:     project
+        Subtasks:
+          [ ] wireframes     (@work #project)
+          [ ] mockups        (@work #project)
+          [ ] development    (@work #project)
+          [ ] testing        (@work #project)</div>
+
+                <h3>Subtasks with Dates</h3>
+                <p>The due date applies to the parent task. Subtasks can be individually scheduled later:</p>
+
+                <div class="code-block">Input:  "Quarterly report by eom @work > gather data > analyze metrics > write summary > review with team"
+
+Output: Title:    "Quarterly report"
+        Due:      End of month
+        Context:  work
+        Subtasks:
+          [ ] gather data
+          [ ] analyze metrics
+          [ ] write summary
+          [ ] review with team</div>
+
+                <h3>Real-World Examples</h3>
+
+                <div class="code-block">Input:  "Plan vacation @personal #travel > research destinations > book flights > reserve hotel > plan activities"
+
+Output: Title:   "Plan vacation"
+        Context: personal
+        Tags:    travel
+        Subtasks:
+          [ ] research destinations
+          [ ] book flights
+          [ ] reserve hotel
+          [ ] plan activities</div>
+
+                <div class="code-block">Input:  "Sprint planning monday 10am @work #agile > review backlog > estimate stories > assign tasks > set goals"
+
+Output: Title:   "Sprint planning"
+        Date:    Monday 10:00 AM
+        Context: work
+        Tags:    agile
+        Subtasks:
+          [ ] review backlog
+          [ ] estimate stories
+          [ ] assign tasks
+          [ ] set goals</div>
+
+                <div class="code-block">Input:  "Prepare presentation friday !high @work #q4 > outline > slides > speaker notes > practice run"
+
+Output: Title:    "Prepare presentation"
+        Date:     Friday
+        Priority: High
+        Context:  work
+        Tags:     q4
+        Subtasks:
+          [ ] outline
+          [ ] slides
+          [ ] speaker notes
+          [ ] practice run</div>
+
+                <div class="info-card tip">
+                    <h4>&#128161; Pro Tip</h4>
+                    <p>Subtasks are great for checklists. After creating a task with subtasks, you can reorder them by dragging, add due dates to individual subtasks, or convert a subtask into a standalone task.</p>
+                </div>
+
+                <div class="info-card note">
+                    <h4>&#128221; Note</h4>
+                    <p>There's no limit to the number of subtasks, but for readability we recommend keeping it under 10. For larger projects, consider creating separate tasks and linking them with tags.</p>
+                </div>
+            </section>
+
+            <!-- Smart Conflict Hints Section -->
+            <section class="doc-section" id="conflict-hints">
+                <h2>Smart Conflict Hints</h2>
+                <p>HyperPlanner watches your calendar as you type and alerts you to scheduling conflicts before they happen.</p>
+
+                <h3>How Conflict Detection Works</h3>
+                <p>When you enter a date and time, Smart Capture checks your existing events:</p>
+
+                <div class="code-block">You type:  "team meeting tomorrow 2pm"
+
+Calendar shows:  "Design review" scheduled Tomorrow 1:30pm - 3:00pm
+
+Alert:  "Conflict detected: overlaps with 'Design review' (1:30pm - 3:00pm)"
+
+Options:
+  [Schedule Anyway]  [Move to 3pm]  [Find Free Slot]</div>
+
+                <h3>Types of Conflicts</h3>
+
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Conflict Type</th>
+                            <th>Visual Indicator</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Direct Overlap</td>
+                            <td>Red warning border</td>
+                            <td>New event overlaps with existing event</td>
+                        </tr>
+                        <tr>
+                            <td>Back-to-Back</td>
+                            <td>Yellow warning</td>
+                            <td>No buffer between events (configurable)</td>
+                        </tr>
+                        <tr>
+                            <td>Over-scheduled Day</td>
+                            <td>Orange indicator</td>
+                            <td>Day exceeds your meeting limit</td>
+                        </tr>
+                        <tr>
+                            <td>Outside Work Hours</td>
+                            <td>Gray notice</td>
+                            <td>Scheduled outside your defined work hours</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Conflict Resolution Options</h3>
+
+                <div class="code-block">Scenario: Scheduling "client call" at 10am when "standup" runs 10am-10:30am
+
+Option 1 - Schedule Anyway:
+  Both events appear on calendar with overlap highlighting
+  Useful for: optional meetings, background tasks
+
+Option 2 - Move After:
+  Automatically schedules at 10:30am (after conflict ends)
+  Adds "Moved from 10am due to conflict" note
+
+Option 3 - Find Free Slot:
+  Shows next available time slots:
+    - Today: 11am, 2pm, 4pm
+    - Tomorrow: 9am, 10am, 11am
+  Click to select preferred time</div>
+
+                <h3>Real-Time Preview</h3>
+                <p>As you type, the calendar panel highlights where your event will land:</p>
+
+                <div class="code-block">You type:        "interview candidate tomorrow 2pm-3pm"
+
+Calendar shows:   Tomorrow's timeline with:
+                  - 2pm-3pm slot highlighted in blue
+                  - Any conflicts shown with red overlay
+                  - Available slots shown in green</div>
+
+                <h3>Configuring Conflict Settings</h3>
+                <p>Customize how Smart Capture handles conflicts in Settings &gt; Calendar:</p>
+
+                <div class="code-block">Buffer Time:         15 minutes (default)
+                     Time required between events
+
+Work Hours:          9am - 6pm (default)
+                     Warn when scheduling outside these hours
+
+Daily Meeting Limit: 6 hours (default)
+                     Warn when day becomes over-scheduled
+
+Conflict Mode:       Ask (default)
+                     Options: Ask / Auto-move / Allow overlaps</div>
+
+                <div class="info-card tip">
+                    <h4>&#128161; Pro Tip</h4>
+                    <p>Enable "Focus Time Protection" to automatically warn when scheduling over blocks you've marked as focus time. Great for protecting deep work sessions.</p>
+                </div>
+
+                <div class="info-card warning">
+                    <h4>&#9888;&#65039; Important</h4>
+                    <p>Conflict detection only works with timed events. Tasks without specific times (just due dates) won't trigger conflict warnings. Convert them to time-blocked events for full conflict protection.</p>
+                </div>
+
+                <h3>Conflict Hints in Action</h3>
+
+                <div class="code-block">Scenario: Heavy meeting day
+
+Existing calendar for Tuesday:
+  9:00am  - Standup
+  10:00am - Design review (2 hours)
+  12:00pm - Lunch
+  1:30pm  - Sprint planning
+  3:00pm  - 1:1 with manager
+
+You type: "product demo tuesday @work"
+
+Smart Capture response:
+  "Tuesday is heavily scheduled (5 events, 4.5 hours of meetings)"
+
+  Suggested times:
+  - Tuesday 4:00pm (after your last meeting)
+  - Wednesday 10:00am (open morning)
+  - Thursday 9:30am (light day)</div>
+
+                <div class="code-block">Scenario: Scheduling during focus time
+
+You have "Deep Work" blocked Tuesday 9am-12pm
+
+You type: "code review tuesday 10am"
+
+Smart Capture response:
+  "Heads up: This overlaps with your 'Deep Work' focus block (9am-12pm)"
+
+  Options:
+  - [Schedule Anyway] - will mark focus block as interrupted
+  - [Move to 1pm] - first free slot after focus time
+  - [Cancel] - keep your focus time protected</div>
+            </section>
+
+            <!-- Quick Reference Section -->
+            <section class="doc-section">
+                <h2>Quick Reference</h2>
+                <p>A cheat sheet for Smart Capture syntax:</p>
+
+                <h3>Syntax Summary</h3>
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Syntax</th>
+                            <th>Examples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Context</td>
+                            <td><span class="code-inline">@name</span></td>
+                            <td>@work, @personal, @home</td>
+                        </tr>
+                        <tr>
+                            <td>Priority</td>
+                            <td><span class="code-inline">!level</span></td>
+                            <td>!high, !medium, !low, !1, !2, !3</td>
+                        </tr>
+                        <tr>
+                            <td>Tags</td>
+                            <td><span class="code-inline">#tag</span></td>
+                            <td>#planning, #review, #q4</td>
+                        </tr>
+                        <tr>
+                            <td>Subtasks</td>
+                            <td><span class="code-inline">&gt;</span></td>
+                            <td>task &gt; subtask1 &gt; subtask2</td>
+                        </tr>
+                        <tr>
+                            <td>Time Range</td>
+                            <td><span class="code-inline">start-end</span></td>
+                            <td>2pm-4pm, 9:00-11:30</td>
+                        </tr>
+                        <tr>
+                            <td>Duration</td>
+                            <td><span class="code-inline">Xmin</span> or <span class="code-inline">Xhr</span></td>
+                            <td>30min, 1hr, 90min</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Keyboard Shortcuts</h3>
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Shortcut</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="kbd">Ctrl</span> + <span class="kbd">K</span></td>
+                            <td>Open Smart Capture bar</td>
+                        </tr>
+                        <tr>
+                            <td><span class="kbd">Enter</span></td>
+                            <td>Create task/event</td>
+                        </tr>
+                        <tr>
+                            <td><span class="kbd">Tab</span></td>
+                            <td>Auto-complete suggestion</td>
+                        </tr>
+                        <tr>
+                            <td><span class="kbd">Esc</span></td>
+                            <td>Close capture bar</td>
+                        </tr>
+                        <tr>
+                            <td><span class="kbd">Ctrl</span> + <span class="kbd">Enter</span></td>
+                            <td>Create and open detail view</td>
+                        </tr>
+                        <tr>
+                            <td><span class="kbd">&#8593;</span> / <span class="kbd">&#8595;</span></td>
+                            <td>Navigate suggestions</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-card tip">
+                    <h4>&#128161; Pro Tip</h4>
+                    <p>Press <span class="kbd">Ctrl</span> + <span class="kbd">K</span> twice quickly to open Smart Capture with your most recent input, making it easy to create similar tasks.</p>
+                </div>
+            </section>
+
+            <!-- Troubleshooting Section -->
+            <section class="doc-section">
+                <h2>Troubleshooting</h2>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        <span>Date not being recognized</span>
+                        <span class="arrow">&#9660;</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>If a date isn't being parsed, try these formats:</p>
+                        <ul>
+                            <li>Use explicit keywords: "tomorrow", "next monday", "in 3 days"</li>
+                            <li>Use MM/DD format: "12/25" instead of "dec 25"</li>
+                            <li>Add "on" before dates: "on friday" instead of just "friday"</li>
+                            <li>Check that the word isn't part of your task title (use quotes if needed)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        <span>Context not showing up</span>
+                        <span class="arrow">&#9660;</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Make sure there's no space after the @ symbol. <span class="code-inline">@work</span> works, but <span class="code-inline">@ work</span> doesn't. If using custom contexts, ensure they're set up in Settings &gt; Contexts first.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        <span>Subtasks not separating</span>
+                        <span class="arrow">&#9660;</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>The <span class="code-inline">&gt;</span> character needs spaces around it. Use <span class="code-inline">task &gt; subtask</span> not <span class="code-inline">task&gt;subtask</span>. Also check that you haven't disabled subtask parsing in Settings.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        <span>Custom phrase not expanding</span>
+                        <span class="arrow">&#9660;</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Custom phrases are processed after the title is extracted. If your phrase appears at the beginning, try moving it: <span class="code-inline">"my task eod"</span> instead of <span class="code-inline">"eod my task"</span>. Also verify the phrase is saved in Settings &gt; Smart Capture &gt; Custom Phrases.</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // FAQ accordion functionality
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                button.parentElement.classList.toggle('open');
+            });
+        });
+
+        // Smooth scroll for sidebar links
+        document.querySelectorAll('.sidebar-link[href^="#"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+
+        // Highlight current section in sidebar on scroll
+        const sections = document.querySelectorAll('.doc-section[id]');
+        const sidebarLinks = document.querySelectorAll('.sidebar-link[href^="#"]');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            sidebarLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

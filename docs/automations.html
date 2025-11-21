@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automations - HyperPlanner Documentation</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9670;</text></svg>">
+    <link rel="stylesheet" href="docs.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Automation Chip Styles */
+        .automation-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(236, 72, 153, 0.1));
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            margin: 8px 4px;
+            transition: all var(--transition-fast);
+        }
+
+        .automation-chip:hover {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(236, 72, 153, 0.2));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+        }
+
+        .chip-trigger {
+            color: var(--primary-light);
+            font-weight: 600;
+        }
+
+        .chip-arrow {
+            color: var(--text-tertiary);
+            font-size: 1.2rem;
+        }
+
+        .chip-action {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        /* Automation Flow Visual */
+        .automation-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 24px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .flow-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .flow-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-tertiary);
+            min-width: 80px;
+        }
+
+        .flow-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+        }
+
+        .flow-box.trigger {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .flow-box.action {
+            border-color: var(--secondary);
+            background: rgba(236, 72, 153, 0.1);
+        }
+
+        .flow-box.condition {
+            border-color: var(--accent);
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        .flow-connector {
+            color: var(--text-tertiary);
+            font-size: 1.5rem;
+        }
+
+        /* Trigger Type Cards */
+        .trigger-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            transition: all var(--transition-fast);
+        }
+
+        .trigger-card:hover {
+            background: var(--glass-hover);
+            border-color: var(--primary);
+        }
+
+        .trigger-card h4 {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            color: var(--primary-light);
+        }
+
+        .trigger-card .trigger-icon {
+            font-size: 1.5rem;
+        }
+
+        .trigger-card p {
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .trigger-example {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: var(--radius-sm);
+            padding: var(--spacing-md);
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.85rem;
+        }
+
+        /* Coming Soon Badge */
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge.coming-soon {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--accent);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .badge.new {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        /* NLP Rule Builder */
+        .nlp-rule {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px dashed var(--glass-border);
+            border-radius: var(--radius-md);
+            margin: var(--spacing-sm) 0;
+        }
+
+        .nlp-pattern {
+            font-family: 'Monaco', 'Courier New', monospace;
+            color: var(--primary-light);
+            font-size: 0.9rem;
+        }
+
+        .nlp-result {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            padding-left: 16px;
+            border-left: 2px solid var(--secondary);
+        }
+
+        /* Chip Gallery */
+        .chip-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: var(--spacing-md);
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--radius-lg);
+            margin: var(--spacing-md) 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-gradient"></div>
+    <div class="bg-mesh"></div>
+
+    <!-- Navigation -->
+    <nav class="doc-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-icon">&#9670;</span>
+                <span>HyperPlanner</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="getting-started.html" class="nav-link">Docs</a>
+                <a href="../index.html#features" class="nav-link">Features</a>
+                <a href="../index.html#demo" class="nav-link">Try Demo</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Layout -->
+    <div class="doc-layout">
+        <!-- Sidebar -->
+        <aside class="doc-sidebar">
+            <div class="sidebar-section">
+                <h3>Getting Started</h3>
+                <div class="sidebar-links">
+                    <a href="getting-started.html" class="sidebar-link">Quick Start Guide</a>
+                    <a href="video-tutorial.html" class="sidebar-link">Video Tutorial</a>
+                    <a href="keyboard-shortcuts.html" class="sidebar-link">Keyboard Shortcuts</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Features</h3>
+                <div class="sidebar-links">
+                    <a href="smart-capture.html" class="sidebar-link">Smart Capture</a>
+                    <a href="layout-customization.html" class="sidebar-link">Layout Customization</a>
+                    <a href="theme-lab.html" class="sidebar-link">Theme Lab</a>
+                    <a href="automations.html" class="sidebar-link active">Automations</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Automations</h3>
+                <div class="sidebar-links">
+                    <a href="#visual-rules" class="sidebar-link">Visual Rule Building</a>
+                    <a href="#trigger-types" class="sidebar-link">Trigger Types</a>
+                    <a href="#planned-features" class="sidebar-link">Planned Features</a>
+                    <a href="#capture-language" class="sidebar-link">Your Capture Language</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Advanced</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link">API Reference</a>
+                    <a href="#" class="sidebar-link">Custom Integrations</a>
+                    <a href="#" class="sidebar-link">Data Export/Import</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Resources</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link">FAQ</a>
+                    <a href="#" class="sidebar-link">Community Forum</a>
+                    <a href="#" class="sidebar-link">Changelog</a>
+                    <a href="#" class="sidebar-link">Contact Support</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="doc-content">
+            <!-- Header -->
+            <header class="doc-header">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a> / <a href="getting-started.html">Docs</a> / Features / Automations
+                </div>
+                <h1>Visual Automations</h1>
+                <p class="subtitle">Build powerful "When X, Do Y" rules without writing code. Visual chips make automation intuitive and your workflow truly automatic.</p>
+            </header>
+
+            <!-- Overview Section -->
+            <section class="doc-section" id="overview">
+                <h2>Overview</h2>
+                <p>HyperPlanner's Visual Automations let you create rules that run automatically based on triggers you define. No coding required - just connect chips to build your perfect workflow.</p>
+
+                <div class="chip-gallery">
+                    <div class="automation-chip">
+                        <span class="chip-trigger">@work</span>
+                        <span class="chip-arrow">&#8594;</span>
+                        <span class="chip-action">schedule 9am-5pm</span>
+                    </div>
+                    <div class="automation-chip">
+                        <span class="chip-trigger">!high</span>
+                        <span class="chip-arrow">&#8594;</span>
+                        <span class="chip-action">notify immediately</span>
+                    </div>
+                    <div class="automation-chip">
+                        <span class="chip-trigger">#meeting</span>
+                        <span class="chip-arrow">&#8594;</span>
+                        <span class="chip-action">block 30min</span>
+                    </div>
+                    <div class="automation-chip">
+                        <span class="chip-trigger">"eod"</span>
+                        <span class="chip-arrow">&#8594;</span>
+                        <span class="chip-action">due 5pm today</span>
+                    </div>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">&#9881;</div>
+                        <h4>No-Code Rules</h4>
+                        <p>Drag and drop chips to build automations visually</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#9889;</div>
+                        <h4>Instant Triggers</h4>
+                        <p>Actions fire the moment conditions are met</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128279;</div>
+                        <h4>Chain Actions</h4>
+                        <p>One trigger can fire multiple actions in sequence</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128274;</div>
+                        <h4>Local Processing</h4>
+                        <p>All automations run on your device, not in the cloud</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Visual Rule Building Section -->
+            <section class="doc-section" id="visual-rules">
+                <h2>"When X, Do Y" as Chips</h2>
+                <p>Every automation in HyperPlanner follows a simple pattern: when something happens (the trigger), do something else (the action). We represent these as visual chips you can combine and customize.</p>
+
+                <h3>Anatomy of an Automation</h3>
+                <div class="automation-flow">
+                    <div class="flow-row">
+                        <span class="flow-label">When</span>
+                        <div class="flow-box trigger">
+                            <span>&#9654;</span>
+                            <span>Trigger Event</span>
+                        </div>
+                        <span class="flow-connector">&#8594;</span>
+                        <span class="flow-label">Then</span>
+                        <div class="flow-box action">
+                            <span>&#9881;</span>
+                            <span>Perform Action</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Building Your First Automation</h3>
+                <ul class="steps-list">
+                    <li>
+                        <strong>Open the Automations Panel</strong><br>
+                        Go to Settings &gt; Automations or press <span class="kbd">Cmd/Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">A</span>
+                    </li>
+                    <li>
+                        <strong>Click "New Automation"</strong><br>
+                        A blank rule canvas appears with trigger and action slots
+                    </li>
+                    <li>
+                        <strong>Select a Trigger</strong><br>
+                        Choose from the trigger palette: context changes, priority flags, tags, due dates, and more
+                    </li>
+                    <li>
+                        <strong>Choose Your Action</strong><br>
+                        Pick what happens: schedule time, send notification, add tag, move to lane, etc.
+                    </li>
+                    <li>
+                        <strong>Save and Activate</strong><br>
+                        Name your automation and toggle it on. It starts working immediately.
+                    </li>
+                </ul>
+
+                <h3>Example: Work Hours Automation</h3>
+                <div class="automation-flow">
+                    <div class="flow-row">
+                        <span class="flow-label">When</span>
+                        <div class="flow-box trigger">
+                            <span>@</span>
+                            <span>Context is <strong>@work</strong></span>
+                        </div>
+                    </div>
+                    <div class="flow-row">
+                        <span class="flow-label">Then</span>
+                        <div class="flow-box action">
+                            <span>&#128197;</span>
+                            <span>Auto-schedule between <strong>9am - 5pm</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-block">Result: Any task tagged @work will automatically be scheduled
+within your work hours. No more accidentally planning work
+tasks for 10pm on a Saturday.</div>
+
+                <div class="info-card tip">
+                    <h4>&#128161; Pro Tip</h4>
+                    <p>Automations run in order. Place your most specific rules first, then general catch-all rules at the bottom. HyperPlanner processes from top to bottom and stops at the first match (unless you enable "continue processing").</p>
+                </div>
+            </section>
+
+            <!-- Trigger Types Section -->
+            <section class="doc-section" id="trigger-types">
+                <h2>Trigger Types</h2>
+                <p>HyperPlanner supports four primary trigger types, each designed for different workflow scenarios.</p>
+
+                <!-- Context Change Trigger -->
+                <div class="trigger-card">
+                    <h4>
+                        <span class="trigger-icon">&#127919;</span>
+                        Context Change
+                    </h4>
+                    <p>Fire automations when a task is assigned to a specific context like <span class="code-inline">@work</span>, <span class="code-inline">@personal</span>, or <span class="code-inline">@errands</span>.</p>
+                    <div class="trigger-example">
+                        <strong>Trigger:</strong> @work context added<br>
+                        <strong>Action:</strong> Auto-schedule within work hours (9am-5pm weekdays)<br><br>
+                        <div class="automation-chip" style="margin: 8px 0;">
+                            <span class="chip-trigger">@work</span>
+                            <span class="chip-arrow">&#8594;</span>
+                            <span class="chip-action">schedule 9am-5pm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-block">More Context Change Examples:
+
+@personal  &#8594;  hide during focus mode
+@errands   &#8594;  show in location-based reminders
+@urgent    &#8594;  pin to top of today view
+@waiting   &#8594;  move to "Blocked" lane
+@home      &#8594;  schedule after 6pm</div>
+
+                <!-- Priority Set Trigger -->
+                <div class="trigger-card">
+                    <h4>
+                        <span class="trigger-icon">&#9888;&#65039;</span>
+                        Priority Set
+                    </h4>
+                    <p>Trigger actions when a task's priority level changes. Perfect for urgent notifications and workflow escalation.</p>
+                    <div class="trigger-example">
+                        <strong>Trigger:</strong> !high priority assigned<br>
+                        <strong>Action:</strong> Send immediate notification + pin to Today view<br><br>
+                        <div class="automation-chip" style="margin: 8px 0;">
+                            <span class="chip-trigger">!high</span>
+                            <span class="chip-arrow">&#8594;</span>
+                            <span class="chip-action">notify immediately</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-block">Priority Automation Examples:
+
+!high    &#8594;  notify immediately + pin to Today
+!high    &#8594;  add red accent border
+!medium  &#8594;  schedule within 3 days
+!low     &#8594;  move to "Someday" lane
+!1       &#8594;  block 2 hours on calendar</div>
+
+                <!-- Due Offset Trigger -->
+                <div class="trigger-card">
+                    <h4>
+                        <span class="trigger-icon">&#128197;</span>
+                        Due Offset
+                    </h4>
+                    <p>Transform shorthand date phrases into specific times. Your personal date vocabulary becomes actionable.</p>
+                    <div class="trigger-example">
+                        <strong>Trigger:</strong> "eod" phrase detected<br>
+                        <strong>Action:</strong> Set due date to today at 5:00 PM<br><br>
+                        <div class="automation-chip" style="margin: 8px 0;">
+                            <span class="chip-trigger">"eod"</span>
+                            <span class="chip-arrow">&#8594;</span>
+                            <span class="chip-action">due 5pm today</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-block">Due Offset Examples:
+
+"eod"        &#8594;  set to 5pm today
+"eow"        &#8594;  set to Friday 5pm
+"eom"        &#8594;  set to last day of month
+"asap"       &#8594;  set to today + !high priority
+"someday"    &#8594;  clear due date + !low priority
+"next sprint"&#8594;  set to 2 weeks from today</div>
+
+                <div class="info-card note">
+                    <h4>&#128221; Note</h4>
+                    <p>Due Offset triggers process during Smart Capture, transforming your input before the task is created. This makes them perfect for personal shorthand that works every time you type.</p>
+                </div>
+
+                <!-- Tag Added Trigger -->
+                <div class="trigger-card">
+                    <h4>
+                        <span class="trigger-icon">&#127991;&#65039;</span>
+                        Tag Added
+                    </h4>
+                    <p>Execute actions when specific hashtags are applied to tasks. Great for categorization-based workflows.</p>
+                    <div class="trigger-example">
+                        <strong>Trigger:</strong> #meeting tag added<br>
+                        <strong>Action:</strong> Block 30 minutes on calendar automatically<br><br>
+                        <div class="automation-chip" style="margin: 8px 0;">
+                            <span class="chip-trigger">#meeting</span>
+                            <span class="chip-arrow">&#8594;</span>
+                            <span class="chip-action">block 30min</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-block">Tag-Based Automation Examples:
+
+#meeting     &#8594;  block 30 minutes on calendar
+#call        &#8594;  block 15 minutes on calendar
+#review      &#8594;  add to Code Review kanban lane
+#planning    &#8594;  schedule during morning hours
+#deep-work   &#8594;  block 2 hours + enable focus mode
+#recurring   &#8594;  prompt for repeat schedule
+#1on1        &#8594;  block 45 minutes + add video link</div>
+
+                <h3>Combining Multiple Triggers</h3>
+                <p>Create sophisticated automations by combining triggers:</p>
+
+                <div class="automation-flow">
+                    <div class="flow-row">
+                        <span class="flow-label">When</span>
+                        <div class="flow-box trigger">
+                            <span>@work</span>
+                        </div>
+                        <span style="color: var(--accent); font-weight: bold;">AND</span>
+                        <div class="flow-box trigger">
+                            <span>!high</span>
+                        </div>
+                    </div>
+                    <div class="flow-row">
+                        <span class="flow-label">Then</span>
+                        <div class="flow-box action">
+                            <span>Schedule today 9am</span>
+                        </div>
+                        <span style="color: var(--text-tertiary);">+</span>
+                        <div class="flow-box action">
+                            <span>Notify via push</span>
+                        </div>
+                        <span style="color: var(--text-tertiary);">+</span>
+                        <div class="flow-box action">
+                            <span>Add to Today view</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-block">Result: High-priority work tasks get immediate attention -
+scheduled for first thing in the morning, you get a push
+notification, and they appear prominently in Today view.</div>
+            </section>
+
+            <!-- Planned Features Section -->
+            <section class="doc-section" id="planned-features">
+                <h2>Planned Features</h2>
+                <p>We're constantly expanding HyperPlanner's automation capabilities. Here's what's coming next:</p>
+
+                <!-- Condition Groups -->
+                <div class="trigger-card">
+                    <h4>
+                        <span class="trigger-icon">&#128279;</span>
+                        Condition Groups (AND/OR Logic)
+                        <span class="badge new">Beta</span>
+                    </h4>
+                    <p>Build complex conditional logic by grouping triggers with AND/OR operators. Create rules that match multiple conditions or any of several options.</p>
+                    <div class="automation-flow">
+                        <div class="flow-row">
+                            <span class="flow-label">When</span>
+                            <div class="flow-box condition">
+                                <span>(@work AND !high)</span>
+                            </div>
+                            <span style="color: var(--accent); font-weight: bold;">OR</span>
+                            <div class="flow-box condition">
+                                <span>(#urgent)</span>
+                            </div>
+                        </div>
+                        <div class="flow-row">
+                            <span class="flow-label">Then</span>
+                            <div class="flow-box action">
+                                <span>Escalate to immediate</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-block">Condition Group Examples:
+
+(@work AND due:today)         &#8594;  morning notification
+(#bug OR #critical)           &#8594;  add to urgent queue
+(@personal AND !low)          &#8594;  schedule for evening
+(#meeting AND @work) OR #1on1 &#8594;  add calendar block</div>
+
+                <!-- Webhooks -->
+                <div class="trigger-card">
+                    <h4>
+                        <span class="trigger-icon">&#127760;</span>
+                        Webhooks
+                        <span class="badge coming-soon">Coming Soon</span>
+                    </h4>
+                    <p>Connect HyperPlanner to external services. Trigger automations from external events or send task data to other apps.</p>
+                    <div class="trigger-example">
+                        <strong>Incoming:</strong> GitHub PR merged &#8594; Create "Deploy to staging" task<br>
+                        <strong>Outgoing:</strong> Task completed &#8594; Post to Slack channel<br><br>
+                        <span style="color: var(--text-tertiary); font-size: 0.85rem;">Webhooks will support popular services: GitHub, Slack, Discord, Zapier, Make, and custom endpoints.</span>
+                    </div>
+                </div>
+
+                <div class="code-block">Planned Webhook Integrations:
+
+GitHub       &#8594;  PR events, issue updates
+Slack        &#8594;  Post notifications, receive commands
+Discord      &#8594;  Channel notifications
+Calendar     &#8594;  Google Calendar, Outlook sync
+Zapier/Make  &#8594;  Connect to 5000+ apps
+Custom URL   &#8594;  Your own API endpoints</div>
+
+                <!-- Time-Based Triggers -->
+                <div class="trigger-card">
+                    <h4>
+                        <span class="trigger-icon">&#9202;</span>
+                        Time-Based Automations
+                        <span class="badge coming-soon">Coming Soon</span>
+                    </h4>
+                    <p>Trigger actions based on the passage of time. Auto-archive old tasks, escalate stale items, or run daily maintenance routines.</p>
+                    <div class="trigger-example">
+                        <strong>Example:</strong> If task is completed AND older than 7 days &#8594; Auto-archive<br>
+                        <strong>Example:</strong> If task has no activity for 14 days &#8594; Move to "Stale" lane<br><br>
+                        <div class="automation-chip" style="margin: 8px 0;">
+                            <span class="chip-trigger">completed 7+ days</span>
+                            <span class="chip-arrow">&#8594;</span>
+                            <span class="chip-action">auto-archive</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-block">Time-Based Automation Ideas:
+
+completed + 7 days     &#8594;  auto-archive
+no activity + 14 days  &#8594;  move to "Stale" lane
+due in 1 hour          &#8594;  send reminder notification
+overdue + 3 days       &#8594;  escalate priority to !high
+every Monday 9am       &#8594;  create weekly review task
+every day 6pm          &#8594;  generate daily summary</div>
+
+                <div class="info-card warning">
+                    <h4>&#9888;&#65039; Coming Features</h4>
+                    <p>Features marked "Coming Soon" are in active development. Join our <a href="#">beta program</a> to get early access and help shape these features with your feedback.</p>
+                </div>
+            </section>
+
+            <!-- Your Capture Language Section -->
+            <section class="doc-section" id="capture-language">
+                <h2>Your Capture Language</h2>
+                <p>Beyond predefined automations, HyperPlanner lets you define your own natural language processing rules. Create a personal vocabulary that the capture system understands.</p>
+
+                <h3>Custom NLP Rules</h3>
+                <p>Define patterns that Smart Capture recognizes and transforms automatically:</p>
+
+                <div class="nlp-rule">
+                    <div class="nlp-pattern">Pattern: "standup"</div>
+                    <div class="nlp-result">Expands to: tomorrow 9:30am @work #daily #meeting 15min</div>
+                </div>
+
+                <div class="nlp-rule">
+                    <div class="nlp-pattern">Pattern: "deploy [project]"</div>
+                    <div class="nlp-result">Expands to: [project] deployment @work !high #release > pre-deploy checks > run deployment > verify > notify team</div>
+                </div>
+
+                <div class="nlp-rule">
+                    <div class="nlp-pattern">Pattern: "1on1 [name]"</div>
+                    <div class="nlp-result">Expands to: 1:1 with [name] @work #1on1 45min > prep notes > discussion > action items</div>
+                </div>
+
+                <h3>Creating Custom Rules</h3>
+                <ul class="steps-list">
+                    <li>
+                        <strong>Open Capture Settings</strong><br>
+                        Go to Settings &gt; Smart Capture &gt; Custom Rules
+                    </li>
+                    <li>
+                        <strong>Define Your Pattern</strong><br>
+                        Enter the phrase or pattern you want to recognize. Use [brackets] for variable parts.
+                    </li>
+                    <li>
+                        <strong>Set the Expansion</strong><br>
+                        Define what your pattern expands to, including dates, contexts, tags, and even subtasks.
+                    </li>
+                    <li>
+                        <strong>Test and Refine</strong><br>
+                        Use the preview to see how your rule transforms input before saving.
+                    </li>
+                </ul>
+
+                <h3>Advanced Pattern Syntax</h3>
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Syntax</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="code-inline">[word]</span></td>
+                            <td>Capture single word variable</td>
+                            <td>"call [name]" matches "call Sarah"</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">[phrase...]</span></td>
+                            <td>Capture multiple words</td>
+                            <td>"review [title...]" matches "review Q4 budget proposal"</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">[time]</span></td>
+                            <td>Capture time expression</td>
+                            <td>"meeting [time]" matches "meeting 2pm"</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">[date]</span></td>
+                            <td>Capture date expression</td>
+                            <td>"deadline [date]" matches "deadline friday"</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">[duration]</span></td>
+                            <td>Capture duration</td>
+                            <td>"block [duration]" matches "block 2hrs"</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="code-block">Advanced Custom Rule Examples:
+
+Pattern:   "weekly [topic...]"
+Expansion: Weekly [topic...] review friday 4pm @work #review #planning
+
+Pattern:   "bug [id] [description...]"
+Expansion: Fix bug [id]: [description...] @work !high #bug #dev
+
+Pattern:   "ship [feature] by [date]"
+Expansion: Ship [feature] @work !high #release due:[date] > final testing > deploy > announce
+
+Pattern:   "learn [topic] [duration]"
+Expansion: Study: [topic] @personal #learning [duration]</div>
+
+                <h3>Rule Priority and Conflicts</h3>
+                <p>When multiple rules could match, HyperPlanner uses these priorities:</p>
+                <ol>
+                    <li><strong>Most specific match wins</strong> - Longer patterns beat shorter ones</li>
+                    <li><strong>Custom rules before built-in</strong> - Your rules override defaults</li>
+                    <li><strong>Order matters</strong> - Earlier rules in your list take precedence</li>
+                </ol>
+
+                <div class="info-card tip">
+                    <h4>&#128161; Pro Tip</h4>
+                    <p>Start simple. Create rules for phrases you type repeatedly, like project names, meeting types, or workflow stages. As you get comfortable, add more sophisticated patterns with variables and subtasks.</p>
+                </div>
+
+                <h3>Sharing Your Language</h3>
+                <p>Export your custom rules to share with teammates or across devices:</p>
+
+                <div class="code-block"># Export format (JSON)
+{
+  "capture_rules": [
+    {
+      "pattern": "standup",
+      "expansion": "tomorrow 9:30am @work #daily 15min",
+      "enabled": true
+    },
+    {
+      "pattern": "deploy [project]",
+      "expansion": "[project] deployment @work !high #release",
+      "enabled": true
+    }
+  ]
+}</div>
+
+                <div class="info-card note">
+                    <h4>&#128221; Note</h4>
+                    <p>Custom capture rules are powerful but require care. Test new rules thoroughly before relying on them for important tasks. Use the preview feature to verify transformations match your expectations.</p>
+                </div>
+            </section>
+
+            <!-- Quick Reference Section -->
+            <section class="doc-section">
+                <h2>Quick Reference</h2>
+                <p>Common automation patterns at a glance:</p>
+
+                <h3>Context Automations</h3>
+                <div class="chip-gallery">
+                    <div class="automation-chip">
+                        <span class="chip-trigger">@work</span>
+                        <span class="chip-arrow">&#8594;</span>
+                        <span class="chip-action">9am-5pm weekdays</span>
+                    </div>
+                    <div class="automation-chip">
+                        <span class="chip-trigger">@personal</span>
+                        <span class="chip-arrow">&#8594;</span>
+                        <span class="chip-action">evenings/weekends</span>
+                    </div>
+                    <div class="automation-chip">
+                        <span class="chip-trigger">@errands</span>
+                        <span class="chip-arrow">&#8594;</span>
+                        <span class="chip-action">location reminder</span>
+                    </div>
+                </div>
+
+                <h3>Priority Automations</h3>
+                <div class="chip-gallery">
+                    <div class="automation-chip">
+                        <span class="chip-trigger">!high</span>
+                        <span class="chip-arrow">&#8594;</span>
+                        <span class="chip-action">notify + pin</span>
+                    </div>
+                    <div class="automation-chip">
+                        <span class="chip-trigger">!medium</span>
+                        <span class="chip-arrow">&#8594;</span>
+                        <span class="chip-action">schedule 3 days</span>
+                    </div>
+                    <div class="automation-chip">
+                        <span class="chip-trigger">!low</span>
+                        <span class="chip-arrow">&#8594;</span>
+                        <span class="chip-action">someday lane</span>
+                    </div>
+                </div>
+
+                <h3>Tag Automations</h3>
+                <div class="chip-gallery">
+                    <div class="automation-chip">
+                        <span class="chip-trigger">#meeting</span>
+                        <span class="chip-arrow">&#8594;</span>
+                        <span class="chip-action">block 30min</span>
+                    </div>
+                    <div class="automation-chip">
+                        <span class="chip-trigger">#call</span>
+                        <span class="chip-arrow">&#8594;</span>
+                        <span class="chip-action">block 15min</span>
+                    </div>
+                    <div class="automation-chip">
+                        <span class="chip-trigger">#deep-work</span>
+                        <span class="chip-arrow">&#8594;</span>
+                        <span class="chip-action">block 2hr + focus</span>
+                    </div>
+                </div>
+
+                <h3>Keyboard Shortcuts</h3>
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Shortcut</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="kbd">Cmd/Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">A</span></td>
+                            <td>Open Automations panel</td>
+                        </tr>
+                        <tr>
+                            <td><span class="kbd">Cmd/Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">N</span></td>
+                            <td>New automation</td>
+                        </tr>
+                        <tr>
+                            <td><span class="kbd">Cmd/Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">T</span></td>
+                            <td>Toggle automation on/off</td>
+                        </tr>
+                        <tr>
+                            <td><span class="kbd">Cmd/Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">D</span></td>
+                            <td>Duplicate automation</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Troubleshooting Section -->
+            <section class="doc-section">
+                <h2>Troubleshooting</h2>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        <span>Automation not triggering</span>
+                        <span class="arrow">&#9660;</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Check these common issues:</p>
+                        <ul>
+                            <li>Ensure the automation is toggled ON (green indicator)</li>
+                            <li>Verify the trigger conditions exactly match your task</li>
+                            <li>Check if another automation is catching the task first</li>
+                            <li>Look at the automation log (Settings &gt; Automations &gt; History) to see what ran</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        <span>Multiple automations conflicting</span>
+                        <span class="arrow">&#9660;</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Automations run in order from top to bottom. By default, only the first matching automation runs. To allow multiple automations to process the same task, enable "Continue processing" on each rule. Reorder automations by dragging to change priority.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        <span>Custom phrase not expanding</span>
+                        <span class="arrow">&#9660;</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Custom phrases process after the title is extracted. Try placing your phrase after the main task text: <span class="code-inline">"review document eod"</span> instead of <span class="code-inline">"eod review document"</span>. Also verify the phrase is saved in Settings &gt; Smart Capture &gt; Custom Rules.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        <span>Time blocks not appearing on calendar</span>
+                        <span class="arrow">&#9660;</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Calendar blocking requires both a date/time AND a duration. Ensure your automation or task includes both. For tags like #meeting, verify the default duration is set in Settings &gt; Automations &gt; Default Durations.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page Navigation -->
+            <div class="doc-section" style="display: flex; justify-content: space-between; padding-top: var(--spacing-lg); border-top: 1px solid var(--glass-border);">
+                <a href="theme-lab.html" class="btn" style="text-decoration: none; background: var(--glass); border: 1px solid var(--glass-border);">
+                    &larr; Theme Lab
+                </a>
+                <a href="#" class="btn" style="text-decoration: none;">
+                    Next: Templates &rarr;
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // FAQ accordion functionality
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                button.parentElement.classList.toggle('open');
+            });
+        });
+
+        // Smooth scroll for sidebar links
+        document.querySelectorAll('.sidebar-link[href^="#"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+
+        // Highlight current section in sidebar on scroll
+        const sections = document.querySelectorAll('.doc-section[id]');
+        const sidebarLinks = document.querySelectorAll('.sidebar-link[href^="#"]');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            sidebarLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Animate chips on hover
+        document.querySelectorAll('.automation-chip').forEach(chip => {
+            chip.addEventListener('mouseenter', () => {
+                chip.style.transform = 'translateY(-2px) scale(1.02)';
+            });
+            chip.addEventListener('mouseleave', () => {
+                chip.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

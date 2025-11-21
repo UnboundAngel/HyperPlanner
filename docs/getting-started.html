@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started - HyperPlanner Documentation</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9670;</text></svg>">
+    <link rel="stylesheet" href="docs.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-gradient"></div>
+    <div class="bg-mesh"></div>
+
+    <!-- Navigation -->
+    <nav class="doc-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-icon">&#9670;</span>
+                <span>HyperPlanner</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="getting-started.html" class="nav-link">Docs</a>
+                <a href="../index.html#features" class="nav-link">Features</a>
+                <a href="../index.html#demo" class="nav-link">Try Demo</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Layout -->
+    <div class="doc-layout">
+        <!-- Sidebar -->
+        <aside class="doc-sidebar">
+            <div class="sidebar-section">
+                <h3>Quick Start</h3>
+                <div class="sidebar-links">
+                    <a href="getting-started.html" class="sidebar-link active">Getting Started</a>
+                    <a href="#" class="sidebar-link">Video Tutorial</a>
+                    <a href="#" class="sidebar-link">Keyboard Shortcuts</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Features</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link">Smart Capture Guide</a>
+                    <a href="#" class="sidebar-link">Layout Customization</a>
+                    <a href="#" class="sidebar-link">Theme Lab Tutorial</a>
+                    <a href="#" class="sidebar-link">Automations 101</a>
+                    <a href="#" class="sidebar-link">Templates & Workflows</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Advanced</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link">API Documentation</a>
+                    <a href="#" class="sidebar-link">Custom Integrations</a>
+                    <a href="#" class="sidebar-link">Data Export/Import</a>
+                    <a href="#" class="sidebar-link">Privacy & Security</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Resources</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link">Community Forum</a>
+                    <a href="#" class="sidebar-link">FAQ</a>
+                    <a href="#" class="sidebar-link">Contact Support</a>
+                    <a href="#" class="sidebar-link">Changelog</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="doc-content">
+            <!-- Header -->
+            <header class="doc-header">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a> / <a href="getting-started.html">Docs</a> / Getting Started
+                </div>
+                <h1>Getting Started with HyperPlanner</h1>
+                <p class="subtitle">Your personal ops layer, set up in 5 minutes. Learn to capture tasks, customize layouts, and make HyperPlanner truly yours.</p>
+            </header>
+
+            <!-- Welcome Section -->
+            <section class="doc-section" id="welcome">
+                <h2>Welcome to HyperPlanner</h2>
+                <p>
+                    HyperPlanner is a personal productivity tool designed to adapt to the way you think, not the other way around.
+                    Whether you prefer visual kanban boards, time-blocked calendars, or simple task lists, HyperPlanner molds itself
+                    to your workflow.
+                </p>
+
+                <div class="info-card tip">
+                    <h4>Why HyperPlanner?</h4>
+                    <p>
+                        Most productivity tools force you into rigid structures. HyperPlanner gives you full control over layouts,
+                        themes, automations, and how you capture tasks. It's offline-first, privacy-respecting, and AI is completely optional.
+                    </p>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">&#9889;</div>
+                        <h4>Offline-First</h4>
+                        <p>All your data stays local. No internet required to plan your day.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#127912;</div>
+                        <h4>Fully Customizable</h4>
+                        <p>Themes, layouts, and automations - every detail is yours to change.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128274;</div>
+                        <h4>Privacy-Respecting</h4>
+                        <p>Your tasks stay on your device. End-to-end encrypted sync when you want it.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#129302;</div>
+                        <h4>AI Optional</h4>
+                        <p>Smart features when you want them, completely off when you don't.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Setup Section -->
+            <section class="doc-section" id="quick-setup">
+                <h2>1. Quick Setup in 5 Minutes</h2>
+                <p>
+                    Getting started with HyperPlanner is fast. You can try everything in Demo Mode without creating an account,
+                    or sign up to unlock sync and AI features.
+                </p>
+
+                <h3>Option A: Try Demo Mode (No Account)</h3>
+                <ul class="steps-list">
+                    <li>
+                        <strong>Visit the homepage</strong><br>
+                        Navigate to <span class="code-inline">hyperplanner.app</span> and click <strong>"Try Demo Mode"</strong>
+                    </li>
+                    <li>
+                        <strong>Complete the quick onboarding</strong><br>
+                        Answer 3 quick questions about your usage, planning style, and preferred theme
+                    </li>
+                    <li>
+                        <strong>Start planning immediately</strong><br>
+                        Your workspace loads with your chosen layout. All data is stored locally in your browser.
+                    </li>
+                </ul>
+
+                <div class="info-card note">
+                    <h4>Demo Mode Limitations</h4>
+                    <p>
+                        Demo mode includes full access to layouts, themes, basic automations, and local storage.
+                        Features like AI suggestions, advanced automations, multi-device sync, and template sharing require an account.
+                    </p>
+                </div>
+
+                <h3>Option B: Create an Account</h3>
+                <ul class="steps-list">
+                    <li>
+                        <strong>Click "Create Account"</strong><br>
+                        Choose to sign up with email, Google, or GitHub
+                    </li>
+                    <li>
+                        <strong>Verify your email</strong><br>
+                        Check your inbox and click the verification link (not required for OAuth)
+                    </li>
+                    <li>
+                        <strong>Complete onboarding</strong><br>
+                        Set your preferences and customize your initial workspace
+                    </li>
+                    <li>
+                        <strong>Enable sync (optional)</strong><br>
+                        Go to Settings &gt; Sync to enable cross-device synchronization
+                    </li>
+                </ul>
+
+                <h3>System Requirements</h3>
+                <p>HyperPlanner runs in any modern browser. For the best experience:</p>
+                <ul>
+                    <li><strong>Chrome/Edge:</strong> Version 90 or later (recommended)</li>
+                    <li><strong>Firefox:</strong> Version 88 or later</li>
+                    <li><strong>Safari:</strong> Version 14 or later</li>
+                    <li><strong>Storage:</strong> At least 50MB free local storage</li>
+                </ul>
+            </section>
+
+            <!-- Understanding the Interface Section -->
+            <section class="doc-section" id="interface">
+                <h2>2. Understanding the Interface</h2>
+                <p>
+                    HyperPlanner's interface is built around flexible panels that you can arrange, resize, and customize to match
+                    your workflow.
+                </p>
+
+                <h3>Main Components</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">&#128203;</div>
+                        <h4>Command Bar</h4>
+                        <p>Quick access to everything. Press <span class="kbd">Cmd/Ctrl</span> + <span class="kbd">K</span> to open.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128197;</div>
+                        <h4>Calendar Panel</h4>
+                        <p>Day, week, or month views with time-blocking support.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128196;</div>
+                        <h4>Kanban Board</h4>
+                        <p>Visual task management with customizable lanes.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#127919;</div>
+                        <h4>Focus Panel</h4>
+                        <p>Today's priorities and your next actions at a glance.</p>
+                    </div>
+                </div>
+
+                <h3>Keyboard Shortcuts</h3>
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Shortcut</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="kbd">Cmd/Ctrl</span> + <span class="kbd">K</span></td>
+                            <td>Open Command Bar</td>
+                        </tr>
+                        <tr>
+                            <td><span class="kbd">Cmd/Ctrl</span> + <span class="kbd">N</span></td>
+                            <td>New Task/Event</td>
+                        </tr>
+                        <tr>
+                            <td><span class="kbd">Cmd/Ctrl</span> + <span class="kbd">Enter</span></td>
+                            <td>Quick Capture</td>
+                        </tr>
+                        <tr>
+                            <td><span class="kbd">Cmd/Ctrl</span> + <span class="kbd">1-4</span></td>
+                            <td>Switch Layout Preset</td>
+                        </tr>
+                        <tr>
+                            <td><span class="kbd">Cmd/Ctrl</span> + <span class="kbd">,</span></td>
+                            <td>Open Settings</td>
+                        </tr>
+                        <tr>
+                            <td><span class="kbd">?</span></td>
+                            <td>Show All Shortcuts</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-card tip">
+                    <h4>Pro Tip: Learn as You Go</h4>
+                    <p>
+                        Press <span class="kbd">?</span> at any time to see all available keyboard shortcuts for your current view.
+                        Shortcuts adapt based on what panel is focused.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Creating Your First Task Section -->
+            <section class="doc-section" id="first-task">
+                <h2>3. Creating Your First Task</h2>
+                <p>
+                    HyperPlanner's Smart Capture feature lets you type naturally and automatically extracts dates, contexts,
+                    priorities, and tags from your input.
+                </p>
+
+                <h3>Smart Capture Basics</h3>
+                <p>Open the command bar (<span class="kbd">Cmd/Ctrl</span> + <span class="kbd">K</span>) and start typing:</p>
+
+                <div class="code-block">
+# Simple task
+Buy groceries
+
+# Task with due date
+Finish report by Friday
+
+# Task with time
+Team standup tomorrow 10am
+
+# Full example with all modifiers
+Review PR @work !high #code due:tomorrow 2pm
+                </div>
+
+                <h3>Smart Capture Syntax</h3>
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Syntax</th>
+                            <th>What It Does</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="code-inline">@context</span></td>
+                            <td>Assigns a context</td>
+                            <td><span class="code-inline">@work</span>, <span class="code-inline">@home</span>, <span class="code-inline">@errands</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">!priority</span></td>
+                            <td>Sets priority level</td>
+                            <td><span class="code-inline">!high</span>, <span class="code-inline">!medium</span>, <span class="code-inline">!low</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">#tag</span></td>
+                            <td>Adds a tag</td>
+                            <td><span class="code-inline">#planning</span>, <span class="code-inline">#meeting</span>, <span class="code-inline">#code</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">due:date</span></td>
+                            <td>Sets due date</td>
+                            <td><span class="code-inline">due:tomorrow</span>, <span class="code-inline">due:friday</span>, <span class="code-inline">due:2024-01-15</span></td>
+                        </tr>
+                        <tr>
+                            <td>Natural dates</td>
+                            <td>Auto-parsed dates</td>
+                            <td><span class="code-inline">tomorrow</span>, <span class="code-inline">next week</span>, <span class="code-inline">in 3 days</span></td>
+                        </tr>
+                        <tr>
+                            <td>Times</td>
+                            <td>Auto-parsed times</td>
+                            <td><span class="code-inline">10am</span>, <span class="code-inline">2:30pm</span>, <span class="code-inline">14:00</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Example: Complete Task Entry</h3>
+                <div class="code-block">
+Input:  "team sync tomorrow 10am @work !high #planning"
+
+Parsed result:
+  - Title: "team sync"
+  - Date: Tomorrow at 10:00 AM
+  - Context: Work
+  - Priority: High
+  - Tags: [planning]
+                </div>
+
+                <h3>Inline Subtasks</h3>
+                <p>Break down complex tasks using the <span class="code-inline">&gt;</span> separator:</p>
+
+                <div class="code-block">
+Input:  "Launch campaign > draft copy > design assets > schedule posts"
+
+Creates:
+  - Parent: "Launch campaign"
+    - Subtask 1: "draft copy"
+    - Subtask 2: "design assets"
+    - Subtask 3: "schedule posts"
+                </div>
+
+                <h3>Custom Phrase Mapping</h3>
+                <p>Teach HyperPlanner your own shortcuts in Settings &gt; Capture:</p>
+
+                <div class="code-block">
+# Custom mappings
+"eod"       ->  due today at 5pm
+"next sprint" ->  due in 2 weeks
+"urgent"    ->  !high + @inbox
+"meeting"   ->  #meeting + block 30min
+                </div>
+
+                <div class="info-card warning">
+                    <h4>Conflict Detection</h4>
+                    <p>
+                        When you schedule a task over an existing event, HyperPlanner shows a visual warning.
+                        You can choose to overlap, move the new task, or reschedule the existing one.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Choosing Your Layout Section -->
+            <section class="doc-section" id="layout">
+                <h2>4. Choosing Your Layout</h2>
+                <p>
+                    HyperPlanner offers multiple layout presets, and you can create your own custom arrangements.
+                    Switch between them instantly with <span class="kbd">Cmd/Ctrl</span> + <span class="kbd">1-4</span>.
+                </p>
+
+                <h3>Built-in Layout Presets</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">&#128203;</div>
+                        <h4>Kanban Focus</h4>
+                        <p>Full-screen kanban board with Inbox, In Progress, Done, and Archive lanes.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128197;</div>
+                        <h4>Calendar View</h4>
+                        <p>Week calendar with time slots. Perfect for time-blocking enthusiasts.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#8596;</div>
+                        <h4>Split View</h4>
+                        <p>Calendar on the left, kanban on the right. Best of both worlds.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#127919;</div>
+                        <h4>Focus Duo</h4>
+                        <p>Today's tasks + backlog. Minimal distractions, maximum clarity.</p>
+                    </div>
+                </div>
+
+                <h3>Customizing Panels</h3>
+                <ul class="steps-list">
+                    <li>
+                        <strong>Resize panels</strong><br>
+                        Drag the borders between panels to adjust their size
+                    </li>
+                    <li>
+                        <strong>Rearrange panels</strong><br>
+                        Drag panel headers to move them to new positions
+                    </li>
+                    <li>
+                        <strong>Add/remove panels</strong><br>
+                        Click the <span class="code-inline">+</span> button to add new panels, or <span class="code-inline">x</span> to remove
+                    </li>
+                    <li>
+                        <strong>Save as preset</strong><br>
+                        Click "Save Layout" in the layout menu to create a custom preset
+                    </li>
+                </ul>
+
+                <h3>Calendar Density Options</h3>
+                <p>Control how much detail you see in your calendar view:</p>
+                <ul>
+                    <li><strong>60-minute slots:</strong> Overview of your day, less scrolling</li>
+                    <li><strong>30-minute slots:</strong> Balanced view for most users</li>
+                    <li><strong>15-minute slots:</strong> Granular time-blocking for detailed schedules</li>
+                </ul>
+
+                <h3>Card Display Modes</h3>
+                <p>Each task card can be displayed in different modes based on your needs:</p>
+
+                <div class="code-block">
+Minimal:    Title only - maximum density
+Compact:    Title + due date + priority indicator
+Detailed:   Full description, tags, subtasks visible
+Wide:       Expanded view for focused work
+                </div>
+
+                <div class="info-card tip">
+                    <h4>Device-Specific Layouts</h4>
+                    <p>
+                        HyperPlanner remembers different layouts per device. Your desktop might have a three-panel split,
+                        while your phone automatically switches to single-column focus mode.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Customizing Your Theme Section -->
+            <section class="doc-section" id="theme">
+                <h2>5. Customizing Your Theme</h2>
+                <p>
+                    Make HyperPlanner visually yours. Start with a base theme and adjust every token,
+                    or dive into the Theme Lab for complete control.
+                </p>
+
+                <h3>Base Themes</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">&#10024;</div>
+                        <h4>Glassy & Warm</h4>
+                        <p>Frosted glass panels with purple-pink gradients. The default aesthetic.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#127769;</div>
+                        <h4>Midnight Focus</h4>
+                        <p>Deep blacks, high contrast. Zero distractions for night owls.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#9889;</div>
+                        <h4>Neon Edge</h4>
+                        <p>Vibrant accents and bold gradients. Electric energy.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#10052;</div>
+                        <h4>Nordic Light</h4>
+                        <p>Clean, light theme with soft blues. Easy on the eyes.</p>
+                    </div>
+                </div>
+
+                <h3>Quick Theme Changes</h3>
+                <p>Access theme controls from the top-right corner:</p>
+                <ul class="steps-list">
+                    <li>
+                        <strong>Click the palette icon</strong><br>
+                        Opens the quick theme switcher with preset options
+                    </li>
+                    <li>
+                        <strong>Choose a base theme</strong><br>
+                        Select from Glassy, Midnight, Neon, or Nordic
+                    </li>
+                    <li>
+                        <strong>Adjust blur and glow</strong><br>
+                        Use the sliders to fine-tune the glass effect intensity
+                    </li>
+                </ul>
+
+                <h3>Theme Lab (Advanced)</h3>
+                <p>For complete control, open Settings &gt; Theme Lab. You can customize:</p>
+
+                <div class="code-block">
+# Color Tokens
+--primary:       #6366f1    // Main accent color
+--secondary:     #ec4899    // Secondary accent
+--accent:        #f59e0b    // Highlights and alerts
+--success:       #10b981    // Completed states
+
+# Background Tokens
+--bg-primary:    #0f0f1a    // Main background
+--bg-secondary:  #1a1a2e    // Panel backgrounds
+--glass:         rgba(255, 255, 255, 0.05)  // Glass effect
+
+# Design Tokens
+--blur-md:       16px       // Glass blur amount
+--radius-md:     12px       // Border radius
+--shadow-md:     0 4px 16px rgba(0, 0, 0, 0.4)
+                </div>
+
+                <h3>Export and Share Themes</h3>
+                <p>Created a theme you love? Share it with others:</p>
+                <ul>
+                    <li><strong>Export as JSON:</strong> Download your theme configuration</li>
+                    <li><strong>Import themes:</strong> Load themes from files or URLs</li>
+                    <li><strong>Share link:</strong> Generate a link that others can use to import your theme</li>
+                </ul>
+
+                <div class="info-card note">
+                    <h4>Accessibility Guardrails</h4>
+                    <p>
+                        HyperPlanner automatically adjusts text contrast to maintain WCAG AA compliance.
+                        You stay creative; we ensure readability.
+                    </p>
+                </div>
+            </section>
+
+            <!-- What's Next Section -->
+            <section class="doc-section" id="next">
+                <h2>6. What's Next?</h2>
+                <p>
+                    You've learned the basics! Here's where to go next to master HyperPlanner:
+                </p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">&#128218;</div>
+                        <h4>Smart Capture Guide</h4>
+                        <p>Master natural language input and custom phrase mappings.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#9881;</div>
+                        <h4>Automations 101</h4>
+                        <p>Create "When X, Do Y" rules to automate your workflow.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128196;</div>
+                        <h4>Templates Guide</h4>
+                        <p>Build reusable task and project templates.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128272;</div>
+                        <h4>Privacy & Security</h4>
+                        <p>Learn about encryption, data storage, and export options.</p>
+                    </div>
+                </div>
+
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Video Tutorial: 5-Minute Overview</a></li>
+                    <li><a href="#">All Keyboard Shortcuts</a></li>
+                    <li><a href="#">Layout Customization Deep Dive</a></li>
+                    <li><a href="#">Theme Lab Tutorial</a></li>
+                    <li><a href="#">API Documentation</a></li>
+                    <li><a href="#">Community Forum</a></li>
+                </ul>
+
+                <div class="info-card tip">
+                    <h4>Need Help?</h4>
+                    <p>
+                        Join our <a href="#">Community Forum</a> to ask questions, share your setups, and connect with other users.
+                        For direct support, visit our <a href="#">Contact Page</a>.
+                    </p>
+                </div>
+
+                <h3>Feedback Welcome</h3>
+                <p>
+                    HyperPlanner is built for thinkers, makers, and planners like you. If you have suggestions,
+                    feature requests, or found a bug, we'd love to hear from you:
+                </p>
+                <ul>
+                    <li><strong>Feature requests:</strong> Submit on our <a href="#">feedback board</a></li>
+                    <li><strong>Bug reports:</strong> Open an issue on <a href="#">GitHub</a></li>
+                    <li><strong>General questions:</strong> Post in the <a href="#">community forum</a></li>
+                </ul>
+            </section>
+
+            <!-- Page Navigation -->
+            <div class="doc-section" style="display: flex; justify-content: space-between; padding-top: var(--spacing-lg); border-top: 1px solid var(--glass-border);">
+                <div></div>
+                <a href="#" class="btn" style="text-decoration: none;">
+                    Next: Smart Capture Guide &rarr;
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // FAQ accordion functionality (for future use)
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('open');
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Highlight current section in sidebar based on scroll
+        const sections = document.querySelectorAll('.doc-section[id]');
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+
+        function updateActiveSection() {
+            let currentSection = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+
+            // Update sidebar links (keeping "Getting Started" as primary active)
+        }
+
+        window.addEventListener('scroll', updateActiveSection);
+    </script>
+</body>
+</html>

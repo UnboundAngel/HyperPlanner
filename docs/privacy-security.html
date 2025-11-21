@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy & Security - HyperPlanner Documentation</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9670;</text></svg>">
+    <link rel="stylesheet" href="docs.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-gradient"></div>
+    <div class="bg-mesh"></div>
+
+    <!-- Navigation -->
+    <nav class="doc-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-icon">&#9670;</span>
+                <span>HyperPlanner</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="getting-started.html" class="nav-link">Docs</a>
+                <a href="../index.html#features" class="nav-link">Features</a>
+                <a href="../index.html#demo" class="nav-link">Try Demo</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Layout -->
+    <div class="doc-layout">
+        <!-- Sidebar -->
+        <aside class="doc-sidebar">
+            <div class="sidebar-section">
+                <h3>Quick Start</h3>
+                <div class="sidebar-links">
+                    <a href="getting-started.html" class="sidebar-link">Getting Started</a>
+                    <a href="video-tutorial.html" class="sidebar-link">Video Tutorial</a>
+                    <a href="keyboard-shortcuts.html" class="sidebar-link">Keyboard Shortcuts</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Features</h3>
+                <div class="sidebar-links">
+                    <a href="smart-capture.html" class="sidebar-link">Smart Capture Guide</a>
+                    <a href="layout-customization.html" class="sidebar-link">Layout Customization</a>
+                    <a href="theme-lab.html" class="sidebar-link">Theme Lab Tutorial</a>
+                    <a href="#" class="sidebar-link">Automations 101</a>
+                    <a href="#" class="sidebar-link">Templates & Workflows</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Advanced</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link">API Documentation</a>
+                    <a href="#" class="sidebar-link">Custom Integrations</a>
+                    <a href="#" class="sidebar-link">Data Export/Import</a>
+                    <a href="privacy-security.html" class="sidebar-link active">Privacy & Security</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Resources</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link">Community Forum</a>
+                    <a href="#" class="sidebar-link">FAQ</a>
+                    <a href="#" class="sidebar-link">Contact Support</a>
+                    <a href="#" class="sidebar-link">Changelog</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="doc-content">
+            <!-- Header -->
+            <header class="doc-header">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a> / <a href="getting-started.html">Docs</a> / Privacy & Security
+                </div>
+                <h1>Privacy & Security</h1>
+                <p class="subtitle">Your data belongs to you. Learn how HyperPlanner protects your privacy and keeps your information secure.</p>
+            </header>
+
+            <!-- Privacy First Philosophy Section -->
+            <section class="doc-section" id="philosophy">
+                <h2>1. Privacy First Philosophy</h2>
+                <p>
+                    At HyperPlanner, we believe that your productivity data is deeply personal. Your tasks, goals, and schedules
+                    reveal how you think and work. That information should remain yours and yours alone.
+                </p>
+
+                <div class="info-card tip">
+                    <h4>Our Core Promise</h4>
+                    <p>
+                        HyperPlanner is built offline-first. Your data lives on your device by default.
+                        We cannot see, access, or monetize your tasks, notes, or personal information. Period.
+                    </p>
+                </div>
+
+                <h3>What "Offline-First" Means</h3>
+                <p>
+                    Unlike cloud-dependent productivity apps, HyperPlanner works entirely without an internet connection.
+                    When you open the app:
+                </p>
+                <ul>
+                    <li><strong>No server calls required:</strong> All features work instantly, even in airplane mode</li>
+                    <li><strong>No account needed:</strong> Use Demo Mode indefinitely without ever sharing personal information</li>
+                    <li><strong>No tracking pixels:</strong> We don't embed analytics that follow you across the web</li>
+                    <li><strong>No data harvesting:</strong> Your task data is never collected, analyzed, or sold</li>
+                </ul>
+
+                <h3>Your Data Stays Yours</h3>
+                <p>
+                    We designed HyperPlanner with a simple principle: if we never have your data, we can never misuse it.
+                    This architecture means:
+                </p>
+                <ul>
+                    <li>Government requests cannot reveal data we don't possess</li>
+                    <li>Data breaches cannot expose information stored only on your device</li>
+                    <li>Company acquisitions cannot transfer data we never collected</li>
+                    <li>Policy changes cannot retroactively affect data we don't have</li>
+                </ul>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">&#128274;</div>
+                        <h4>Local by Default</h4>
+                        <p>All data stored in your browser's local storage. Never uploaded without explicit consent.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128683;</div>
+                        <h4>No Tracking</h4>
+                        <p>Zero third-party analytics. No cookies for advertising. No behavioral profiling.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#9989;</div>
+                        <h4>Full Control</h4>
+                        <p>Export everything anytime. Delete everything instantly. Your data, your rules.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128737;</div>
+                        <h4>Transparent Code</h4>
+                        <p>Our privacy practices are auditable. No hidden data collection endpoints.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Data Storage Section -->
+            <section class="doc-section" id="data-storage">
+                <h2>2. Data Storage</h2>
+                <p>
+                    Understanding where your data lives and how it's protected is essential for trusting any productivity tool.
+                    Here's exactly how HyperPlanner handles your information.
+                </p>
+
+                <h3>Local Storage in Browser</h3>
+                <p>
+                    By default, all HyperPlanner data is stored locally using your browser's built-in storage APIs.
+                    This includes:
+                </p>
+
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Data Type</th>
+                            <th>Storage Location</th>
+                            <th>Encryption</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Tasks & Events</td>
+                            <td>IndexedDB (local)</td>
+                            <td>Optional AES-256</td>
+                        </tr>
+                        <tr>
+                            <td>Layout Preferences</td>
+                            <td>LocalStorage</td>
+                            <td>Not encrypted</td>
+                        </tr>
+                        <tr>
+                            <td>Theme Settings</td>
+                            <td>LocalStorage</td>
+                            <td>Not encrypted</td>
+                        </tr>
+                        <tr>
+                            <td>Automation Rules</td>
+                            <td>IndexedDB (local)</td>
+                            <td>Optional AES-256</td>
+                        </tr>
+                        <tr>
+                            <td>Attachments</td>
+                            <td>IndexedDB (local)</td>
+                            <td>Optional AES-256</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-card note">
+                    <h4>Storage Limits</h4>
+                    <p>
+                        Browser local storage typically allows 50MB-unlimited depending on your browser settings.
+                        For heavy users with thousands of tasks and attachments, we recommend enabling sync
+                        which provides additional cloud backup with full encryption.
+                    </p>
+                </div>
+
+                <h3>End-to-End Encryption for Sync</h3>
+                <p>
+                    When you enable optional sync to use HyperPlanner across multiple devices, all data is protected
+                    with end-to-end encryption (E2EE). This means:
+                </p>
+
+                <ul class="steps-list">
+                    <li>
+                        <strong>Encryption happens on your device</strong><br>
+                        Before any data leaves your browser, it's encrypted using AES-256-GCM with a key derived from your password
+                    </li>
+                    <li>
+                        <strong>We never see your data</strong><br>
+                        Our servers only store encrypted blobs. Without your encryption key, the data is unreadable
+                    </li>
+                    <li>
+                        <strong>Decryption happens on your device</strong><br>
+                        When syncing to another device, the encrypted data is downloaded and decrypted locally
+                    </li>
+                    <li>
+                        <strong>Keys never leave your control</strong><br>
+                        Your encryption key is derived from your password and never transmitted to our servers
+                    </li>
+                </ul>
+
+                <div class="code-block">
+# Encryption Process (simplified)
+1. User data + Password -> PBKDF2 -> Encryption Key
+2. Encryption Key + Data -> AES-256-GCM -> Encrypted Blob
+3. Encrypted Blob -> Sync to server
+4. Server stores only: Encrypted Blob + Metadata (timestamps, not content)
+
+# We NEVER have access to:
+- Your raw task data
+- Your encryption key
+- Your password (only salted hash for authentication)
+                </div>
+
+                <div class="info-card warning">
+                    <h4>Important: Password Recovery</h4>
+                    <p>
+                        Because we use true end-to-end encryption, we cannot recover your data if you forget your password.
+                        Your encryption key is derived from your password. No password = no key = no data recovery.
+                        We strongly recommend setting up a recovery key during account creation.
+                    </p>
+                </div>
+
+                <h3>Data Export Options</h3>
+                <p>You can export all your data at any time in multiple formats:</p>
+                <ul>
+                    <li><strong>JSON:</strong> Complete data export including all metadata</li>
+                    <li><strong>ICS:</strong> Calendar events compatible with any calendar app</li>
+                    <li><strong>CSV:</strong> Task lists for spreadsheet analysis</li>
+                    <li><strong>Markdown:</strong> Human-readable notes and task descriptions</li>
+                </ul>
+            </section>
+
+            <!-- Account Security Section -->
+            <section class="doc-section" id="account-security">
+                <h2>3. Account Security</h2>
+                <p>
+                    If you choose to create an account for sync and additional features, we implement industry-leading
+                    security practices to protect your credentials and sessions.
+                </p>
+
+                <h3>Password Requirements</h3>
+                <p>
+                    Strong passwords are your first line of defense. HyperPlanner enforces the following requirements:
+                </p>
+
+                <div class="info-card tip">
+                    <h4>Password Standards</h4>
+                    <p>
+                        Minimum 12 characters with at least: one uppercase letter, one lowercase letter,
+                        one number, and one special character. We check against databases of known
+                        compromised passwords and reject commonly used combinations.
+                    </p>
+                </div>
+
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Requirement</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Minimum Length</td>
+                            <td>12 characters (16+ recommended)</td>
+                        </tr>
+                        <tr>
+                            <td>Character Types</td>
+                            <td>Must include uppercase, lowercase, number, and symbol</td>
+                        </tr>
+                        <tr>
+                            <td>Breach Check</td>
+                            <td>Compared against HaveIBeenPwned database (k-anonymity)</td>
+                        </tr>
+                        <tr>
+                            <td>Common Patterns</td>
+                            <td>Rejects "password123", keyboard walks, etc.</td>
+                        </tr>
+                        <tr>
+                            <td>Password Storage</td>
+                            <td>Argon2id hashing with unique salt per user</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Two-Factor Authentication (2FA)</h3>
+                <p>
+                    Add an extra layer of security by enabling two-factor authentication.
+                    Even if someone obtains your password, they cannot access your account without the second factor.
+                </p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">&#128241;</div>
+                        <h4>Authenticator Apps</h4>
+                        <p>Use Google Authenticator, Authy, 1Password, or any TOTP-compatible app.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128273;</div>
+                        <h4>Hardware Keys</h4>
+                        <p>YubiKey, Titan, and other WebAuthn/FIDO2 security keys supported.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128231;</div>
+                        <h4>Email Codes</h4>
+                        <p>Backup option for one-time codes sent to your verified email.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128190;</div>
+                        <h4>Recovery Codes</h4>
+                        <p>10 single-use backup codes generated when you enable 2FA.</p>
+                    </div>
+                </div>
+
+                <div class="info-card warning">
+                    <h4>Store Recovery Codes Safely</h4>
+                    <p>
+                        When you enable 2FA, save your recovery codes in a secure location (password manager, safe deposit box).
+                        If you lose access to your authenticator and don't have recovery codes, account recovery is extremely limited
+                        to protect against social engineering attacks.
+                    </p>
+                </div>
+
+                <h3>Session Management</h3>
+                <p>
+                    HyperPlanner gives you full visibility and control over your active sessions:
+                </p>
+
+                <ul>
+                    <li><strong>View all sessions:</strong> See every device and browser where you're logged in</li>
+                    <li><strong>Session details:</strong> IP address, device type, browser, location, and last activity</li>
+                    <li><strong>Remote logout:</strong> End any session instantly from any device</li>
+                    <li><strong>Logout all:</strong> Sign out of all devices with one click</li>
+                    <li><strong>Session timeouts:</strong> Configure automatic logout after inactivity (default: 30 days)</li>
+                </ul>
+
+                <div class="code-block">
+# Session Security Features
+- Sessions expire after 30 days of inactivity (configurable)
+- Sensitive actions require re-authentication
+- IP change detection triggers security notification
+- Concurrent session limit: 10 devices (configurable)
+- Session tokens use secure, httpOnly cookies
+                </div>
+
+                <h3>Login Notifications</h3>
+                <p>
+                    Receive alerts when your account is accessed:
+                </p>
+                <ul>
+                    <li>Email notification for new device logins</li>
+                    <li>Alerts for logins from new locations</li>
+                    <li>Notifications for failed login attempts</li>
+                    <li>Weekly security summary (optional)</li>
+                </ul>
+            </section>
+
+            <!-- AI Privacy Section -->
+            <section class="doc-section" id="ai-privacy">
+                <h2>4. AI Privacy</h2>
+                <p>
+                    HyperPlanner offers optional AI-powered features to help with task organization and smart suggestions.
+                    We designed these features with privacy at their core.
+                </p>
+
+                <div class="info-card tip">
+                    <h4>AI is Off By Default</h4>
+                    <p>
+                        All AI features are disabled by default. You must explicitly opt-in to use them.
+                        HyperPlanner is fully functional without any AI assistance.
+                    </p>
+                </div>
+
+                <h3>How AI Features Work</h3>
+                <p>
+                    When you choose to enable AI features, here's exactly what happens with your data:
+                </p>
+
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>AI Feature</th>
+                            <th>Data Used</th>
+                            <th>Processing</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Smart Suggestions</td>
+                            <td>Current task text only</td>
+                            <td>On-device model (no server)</td>
+                        </tr>
+                        <tr>
+                            <td>Natural Language Parsing</td>
+                            <td>Input text</td>
+                            <td>On-device model (no server)</td>
+                        </tr>
+                        <tr>
+                            <td>Task Prioritization</td>
+                            <td>Task metadata (anonymized)</td>
+                            <td>Optional cloud processing</td>
+                        </tr>
+                        <tr>
+                            <td>Schedule Optimization</td>
+                            <td>Time patterns (anonymized)</td>
+                            <td>Optional cloud processing</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>We Never Train On Your Data</h3>
+                <p>
+                    This is non-negotiable. Your personal task data, notes, and schedules are never used to train
+                    AI models. Here's our commitment:
+                </p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">&#128683;</div>
+                        <h4>No Training Data</h4>
+                        <p>Your tasks, notes, and schedules are never used to train or improve AI models.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128274;</div>
+                        <h4>No Data Retention</h4>
+                        <p>Cloud AI requests are processed and immediately discarded. No logs kept.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#127760;</div>
+                        <h4>On-Device First</h4>
+                        <p>Most AI features run entirely on your device using lightweight models.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128065;</div>
+                        <h4>Full Transparency</h4>
+                        <p>Clear indicators show when any data is processed off-device.</p>
+                    </div>
+                </div>
+
+                <h3>AI Data Controls</h3>
+                <p>You have complete control over AI features:</p>
+                <ul>
+                    <li><strong>Global toggle:</strong> Turn all AI features on/off with one switch</li>
+                    <li><strong>Per-feature control:</strong> Enable only the specific AI features you want</li>
+                    <li><strong>On-device only mode:</strong> Restrict AI to local processing only</li>
+                    <li><strong>Data review:</strong> See exactly what data is sent for cloud processing</li>
+                    <li><strong>Instant deletion:</strong> Remove any AI-related data from our systems</li>
+                </ul>
+
+                <div class="info-card note">
+                    <h4>Third-Party AI Providers</h4>
+                    <p>
+                        When cloud AI features are enabled, processing is handled by vetted providers under strict
+                        data processing agreements. We only work with providers who commit to not training on
+                        customer data and who meet our security standards.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Third-Party Data Sharing Section -->
+            <section class="doc-section" id="data-sharing">
+                <h2>5. Third-Party Data Sharing</h2>
+                <p>
+                    Let's be direct: <strong>we do not sell your data</strong>. Not to advertisers, data brokers,
+                    or anyone else. Your information is not our product.
+                </p>
+
+                <div class="info-card tip">
+                    <h4>Our Business Model</h4>
+                    <p>
+                        HyperPlanner makes money through optional premium subscriptions, not by selling user data.
+                        Your productivity information has no place in advertising or data markets.
+                    </p>
+                </div>
+
+                <h3>What We Never Share</h3>
+                <ul>
+                    <li>Your task content, notes, or descriptions</li>
+                    <li>Your schedule or calendar events</li>
+                    <li>Your personal information (email, name, etc.)</li>
+                    <li>Your usage patterns or behavioral data</li>
+                    <li>Any data that could identify you personally</li>
+                </ul>
+
+                <h3>Limited Sharing Circumstances</h3>
+                <p>
+                    The only circumstances where any information might be shared:
+                </p>
+
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Circumstance</th>
+                            <th>What's Shared</th>
+                            <th>Why</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Payment Processing</td>
+                            <td>Billing info to Stripe</td>
+                            <td>Required for subscriptions</td>
+                        </tr>
+                        <tr>
+                            <td>Email Delivery</td>
+                            <td>Email address to provider</td>
+                            <td>Send notifications you requested</td>
+                        </tr>
+                        <tr>
+                            <td>Legal Requirements</td>
+                            <td>Minimal data if legally compelled</td>
+                            <td>Court orders with valid jurisdiction</td>
+                        </tr>
+                        <tr>
+                            <td>Your Consent</td>
+                            <td>Whatever you explicitly approve</td>
+                            <td>Integrations you enable</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Integration Privacy</h3>
+                <p>
+                    When you connect HyperPlanner to third-party services (calendar sync, etc.), data sharing
+                    is governed by those services' privacy policies. We provide:
+                </p>
+                <ul>
+                    <li>Clear disclosure of what data each integration accesses</li>
+                    <li>Granular permissions - share only what's needed</li>
+                    <li>Easy disconnection that revokes all access</li>
+                    <li>No data retained after integration is removed</li>
+                </ul>
+
+                <div class="info-card warning">
+                    <h4>Review Third-Party Policies</h4>
+                    <p>
+                        Before enabling integrations, review the privacy policies of connected services.
+                        While we protect your data within HyperPlanner, third-party services operate under their own policies.
+                    </p>
+                </div>
+            </section>
+
+            <!-- GDPR/CCPA Compliance Section -->
+            <section class="doc-section" id="compliance">
+                <h2>6. GDPR/CCPA Compliance</h2>
+                <p>
+                    HyperPlanner is designed to comply with major privacy regulations including the
+                    General Data Protection Regulation (GDPR) and California Consumer Privacy Act (CCPA).
+                </p>
+
+                <h3>Your Rights Under GDPR</h3>
+                <p>If you're in the European Economic Area, you have the following rights:</p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">&#128269;</div>
+                        <h4>Right to Access</h4>
+                        <p>Request a copy of all personal data we hold about you.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#9999;</div>
+                        <h4>Right to Rectification</h4>
+                        <p>Correct any inaccurate personal data we have.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128465;</div>
+                        <h4>Right to Erasure</h4>
+                        <p>Request deletion of your personal data ("right to be forgotten").</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#9203;</div>
+                        <h4>Right to Restrict</h4>
+                        <p>Limit how we process your personal data.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128230;</div>
+                        <h4>Right to Portability</h4>
+                        <p>Receive your data in a machine-readable format.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#9995;</div>
+                        <h4>Right to Object</h4>
+                        <p>Object to processing of your personal data.</p>
+                    </div>
+                </div>
+
+                <h3>Your Rights Under CCPA</h3>
+                <p>If you're a California resident, you have the right to:</p>
+                <ul>
+                    <li><strong>Know:</strong> What personal information we collect and how it's used</li>
+                    <li><strong>Delete:</strong> Request deletion of your personal information</li>
+                    <li><strong>Opt-out:</strong> Opt-out of the sale of personal information (we don't sell, but you can still opt-out)</li>
+                    <li><strong>Non-discrimination:</strong> Equal service regardless of privacy choices</li>
+                </ul>
+
+                <div class="info-card tip">
+                    <h4>Exercising Your Rights</h4>
+                    <p>
+                        To exercise any of these rights, go to Settings > Privacy > Data Rights, or email
+                        privacy@hyperplanner.app. We respond to all requests within 30 days.
+                    </p>
+                </div>
+
+                <h3>Data Processing Basis</h3>
+                <p>We process your data under the following legal bases:</p>
+
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Data Processing</th>
+                            <th>Legal Basis</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Account creation & management</td>
+                            <td>Contract performance</td>
+                        </tr>
+                        <tr>
+                            <td>Optional sync features</td>
+                            <td>Consent (opt-in)</td>
+                        </tr>
+                        <tr>
+                            <td>AI features</td>
+                            <td>Consent (opt-in)</td>
+                        </tr>
+                        <tr>
+                            <td>Security & fraud prevention</td>
+                            <td>Legitimate interest</td>
+                        </tr>
+                        <tr>
+                            <td>Legal compliance</td>
+                            <td>Legal obligation</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Data Retention</h3>
+                <p>We retain your data only as long as necessary:</p>
+                <ul>
+                    <li><strong>Local data:</strong> Stored indefinitely on your device until you delete it</li>
+                    <li><strong>Synced data:</strong> Retained while your account is active, deleted within 30 days of account closure</li>
+                    <li><strong>Account data:</strong> Deleted within 30 days of account deletion request</li>
+                    <li><strong>Backup retention:</strong> Encrypted backups purged within 90 days of deletion</li>
+                </ul>
+            </section>
+
+            <!-- Security Best Practices Section -->
+            <section class="doc-section" id="best-practices">
+                <h2>7. Security Best Practices</h2>
+                <p>
+                    While HyperPlanner implements strong security measures, your personal practices are equally important.
+                    Follow these recommendations to maximize your security.
+                </p>
+
+                <h3>Password Security</h3>
+                <div class="info-card tip">
+                    <h4>Use a Password Manager</h4>
+                    <p>
+                        Password managers like 1Password, Bitwarden, or Dashlane generate and store strong,
+                        unique passwords for every service. This is the single best thing you can do for your online security.
+                    </p>
+                </div>
+
+                <ul>
+                    <li><strong>Never reuse passwords:</strong> Use a unique password for HyperPlanner</li>
+                    <li><strong>Make it long:</strong> 16+ characters is significantly stronger than 12</li>
+                    <li><strong>Use passphrases:</strong> "correct-horse-battery-staple" is stronger and easier to remember than "Tr0ub4dor!"</li>
+                    <li><strong>Enable 2FA:</strong> Add a second layer of protection to your account</li>
+                </ul>
+
+                <h3>Device Security</h3>
+                <ul>
+                    <li><strong>Lock your devices:</strong> Use strong PINs, passwords, or biometrics</li>
+                    <li><strong>Keep software updated:</strong> Install browser and OS updates promptly</li>
+                    <li><strong>Use secure connections:</strong> Avoid accessing HyperPlanner on public WiFi without a VPN</li>
+                    <li><strong>Log out on shared devices:</strong> Never stay logged in on computers others can access</li>
+                </ul>
+
+                <h3>Browser Security</h3>
+                <div class="code-block">
+# Recommended Browser Settings
+- Enable HTTPS-only mode
+- Block third-party cookies
+- Use a reputable ad blocker
+- Keep browser updated
+- Review extension permissions regularly
+
+# HyperPlanner Works Best On:
+- Chrome/Edge 90+ (recommended)
+- Firefox 88+
+- Safari 14+
+                </div>
+
+                <h3>Recognizing Threats</h3>
+                <p>Be aware of common attack vectors:</p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">&#128231;</div>
+                        <h4>Phishing Emails</h4>
+                        <p>We never ask for your password via email. Check sender addresses carefully.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#127760;</div>
+                        <h4>Fake Websites</h4>
+                        <p>Always verify you're on hyperplanner.app. Check for HTTPS lock icon.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128187;</div>
+                        <h4>Malware</h4>
+                        <p>Only install HyperPlanner from official sources. Keep antivirus updated.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128100;</div>
+                        <h4>Social Engineering</h4>
+                        <p>Support will never ask for your password. Verify requests through official channels.</p>
+                    </div>
+                </div>
+
+                <div class="info-card warning">
+                    <h4>Report Security Issues</h4>
+                    <p>
+                        Found a security vulnerability? Please report it responsibly to security@hyperplanner.app.
+                        We have a bug bounty program and appreciate security researchers who help keep our users safe.
+                    </p>
+                </div>
+
+                <h3>Regular Security Checkup</h3>
+                <p>Perform these checks periodically:</p>
+                <ul class="steps-list">
+                    <li>
+                        <strong>Review active sessions</strong><br>
+                        Go to Settings > Security > Sessions and remove any you don't recognize
+                    </li>
+                    <li>
+                        <strong>Update your password</strong><br>
+                        Change your password every 6-12 months, especially if you've used it elsewhere
+                    </li>
+                    <li>
+                        <strong>Verify 2FA is enabled</strong><br>
+                        Confirm your two-factor authentication is active and recovery codes are saved
+                    </li>
+                    <li>
+                        <strong>Check connected apps</strong><br>
+                        Review integrations and remove any you no longer use
+                    </li>
+                    <li>
+                        <strong>Export your data</strong><br>
+                        Keep regular backups of your data in case you need to recover it
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Contact Section -->
+            <section class="doc-section" id="contact">
+                <h2>Questions or Concerns?</h2>
+                <p>
+                    We take privacy and security seriously. If you have any questions about this document,
+                    your data, or our practices, please reach out:
+                </p>
+
+                <ul>
+                    <li><strong>Privacy questions:</strong> privacy@hyperplanner.app</li>
+                    <li><strong>Security reports:</strong> security@hyperplanner.app</li>
+                    <li><strong>Data rights requests:</strong> Settings > Privacy > Data Rights</li>
+                    <li><strong>General support:</strong> support@hyperplanner.app</li>
+                </ul>
+
+                <div class="info-card note">
+                    <h4>Policy Updates</h4>
+                    <p>
+                        We may update this document as our practices evolve or regulations change.
+                        Significant changes will be communicated via email and in-app notifications.
+                        Last updated: November 2025.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Page Navigation -->
+            <div class="doc-section" style="display: flex; justify-content: space-between; padding-top: var(--spacing-lg); border-top: 1px solid var(--glass-border);">
+                <a href="getting-started.html" class="btn" style="text-decoration: none; background: var(--glass); border: 1px solid var(--glass-border);">
+                    &larr; Getting Started
+                </a>
+                <a href="getting-started.html" class="btn" style="text-decoration: none;">
+                    Back to Docs &rarr;
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // FAQ accordion functionality (for future use)
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('open');
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Highlight current section in sidebar based on scroll
+        const sections = document.querySelectorAll('.doc-section[id]');
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+
+        function updateActiveSection() {
+            let currentSection = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveSection);
+    </script>
+</body>
+</html>
