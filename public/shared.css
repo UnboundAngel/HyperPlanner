@@ -1,0 +1,126 @@
+:root {
+  --hp-bg: #0d0c10;
+  --hp-surface: rgba(255, 255, 255, 0.07);
+  --hp-glass: rgba(255, 255, 255, 0.12);
+  --hp-glass-strong: rgba(255, 255, 255, 0.2);
+  --hp-accent: #ff9f43;
+  --hp-accent-secondary: #6ad1ff;
+  --hp-text: #ffffff;
+  --hp-text-muted: rgba(255, 255, 255, 0.65);
+  --hp-border: rgba(255, 255, 255, 0.16);
+  --hp-radius: 22px;
+  --hp-shadow: 0 24px 70px rgba(0, 0, 0, 0.35), 0 10px 30px rgba(255, 159, 67, 0.2);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  background: linear-gradient(120deg, #110f17, #0c1018, #0f0c14);
+  color: var(--hp-text);
+  padding: 20px;
+}
+
+.bg {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 10% 20%, rgba(255, 159, 67, 0.12), transparent 45%),
+    radial-gradient(circle at 80% 10%, rgba(106, 209, 255, 0.12), transparent 45%),
+    radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0.06), transparent 50%);
+  filter: blur(18px);
+  z-index: 0;
+}
+
+.glass {
+  background: var(--hp-surface);
+  border: 1px solid var(--hp-border);
+  border-radius: var(--hp-radius);
+  backdrop-filter: blur(18px) saturate(180%);
+  box-shadow: var(--hp-shadow);
+}
+
+.guide-header {
+  position: relative;
+  z-index: 1;
+  padding: 18px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.guide-content {
+  position: relative;
+  z-index: 1;
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 12px;
+}
+
+.guide {
+  padding: 16px;
+}
+
+h1,
+h2 {
+  margin: 6px 0 8px;
+}
+
+.eyebrow {
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  color: var(--hp-text-muted);
+}
+
+.muted {
+  color: var(--hp-text-muted);
+}
+
+ul {
+  padding-left: 18px;
+  color: var(--hp-text-muted);
+  line-height: 1.5;
+}
+
+strong {
+  color: var(--hp-text);
+}
+
+.btn {
+  border-radius: 999px;
+  border: 1px solid var(--hp-border);
+  padding: 10px 16px;
+  background: linear-gradient(135deg, var(--hp-accent), var(--hp-accent-secondary));
+  color: #0b1116;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.drop-box {
+  border: 2px dashed var(--hp-border);
+  border-radius: 16px;
+  padding: 24px;
+  color: var(--hp-text-muted);
+  text-align: center;
+  background: rgba(255, 255, 255, 0.04);
+  margin-top: 10px;
+}
+
+.section-block {
+  padding: 12px 0;
+}
+
+@media (max-width: 640px) {
+  body {
+    padding: 12px;
+  }
+}

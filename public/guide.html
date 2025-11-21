@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HyperPlanner Guides — Small & Large Details</title>
+  <link rel="stylesheet" href="./shared.css" />
+</head>
+<body>
+  <div class="bg"></div>
+  <header class="guide-header glass">
+    <div>
+      <p class="eyebrow">HyperPlanner Guides</p>
+      <h1>Advanced walkthroughs of every detail.</h1>
+      <p class="muted">From onboarding to theming to automations and accessibility—this is the human-written manual.</p>
+    </div>
+    <a class="btn" href="/index.html">← Back to landing</a>
+  </header>
+
+  <main class="guide-content">
+    <section class="guide glass">
+      <h2>Setup & Onboarding</h2>
+      <ul>
+        <li><strong>Local-first start:</strong> Boots offline. Data lives in localStorage until you sign in to sync.</li>
+        <li><strong>Demo vs full:</strong> Demo blurs AI, Automations, Templates, Sync, Insights. Everything else works locally.</li>
+        <li><strong>Panels & layout:</strong> Left capture, center calendar/board, right insights. Presets save per device.</li>
+        <li><strong>Data model:</strong> Title, description, context, priority, due/start/end, recurrence, tags, status, location, subtasks.</li>
+      </ul>
+    </section>
+
+    <section class="guide glass">
+      <h2>Layouts & Panels</h2>
+      <ul>
+        <li><strong>Presets:</strong> Minimal, Dense, Creative, Dashboard, Kanban-first, Focus Duo, Split, Airy.</li>
+        <li><strong>Handles:</strong> Hover top-right dots to drag/hide; drop targets glow with glass outlines.</li>
+        <li><strong>Calendar density:</strong> 60/30/15m; “now” line pulses in dark mode.</li>
+        <li><strong>Board lanes:</strong> Inbox, In Progress, Done, Archived; rename/recolor via statuses.</li>
+        <li><strong>Hero cards:</strong> Next up, Focus load, Alerts adapt to dominant context colors.</li>
+      </ul>
+    </section>
+
+    <section class="guide glass">
+      <h2>Theming & Visual System</h2>
+      <ul>
+        <li><strong>Tokens:</strong> --hp-accent, --hp-accent-secondary, --hp-surface, --hp-glass, --hp-border, --hp-text, --hp-text-muted.</li>
+        <li><strong>Glass rules:</strong> 7–12% glass, 18px blur, edge lighting, warm accent glows.</li>
+        <li><strong>Modes:</strong> Light/dark morph, contrast guardrails for inputs and cards on mixed backgrounds.</li>
+        <li><strong>Motion:</strong> 180ms hover, 220ms lift, 30–45s background drift, optional parallax hero.</li>
+      </ul>
+    </section>
+
+    <section class="guide glass">
+      <h2>Icons & Illustration</h2>
+      <ul>
+        <li><strong>Packs:</strong> Minimal, Color chips, Mono. Semantic map: work, personal, study, travel, finance, health, focus, errands.</li>
+        <li><strong>Overrides:</strong> Context overrides saved in localStorage; filenames match UI expectations.</li>
+        <li><strong>Locked indicators:</strong> Padlocks + blur on icon labs and AI panels in demo mode.</li>
+      </ul>
+    </section>
+
+    <section class="guide glass">
+      <h2>Automations & NLP</h2>
+      <ul>
+        <li><strong>NLP capture:</strong> Detects time phrases, explicit times, weekdays, “every” rules, contexts, priorities.</li>
+        <li><strong>Custom NLP rules:</strong> Trigger → context/priority/due offset, applied before built-ins.</li>
+        <li><strong>Automation rules:</strong> “When X → do Y” visual builder; demo shows locks/teasers.</li>
+        <li><strong>AI:</strong> Optional, blurred in demo; unlock with account or API key.</li>
+      </ul>
+    </section>
+
+    <section class="guide glass">
+      <h2>Calendar, Tasks, Boards</h2>
+      <ul>
+        <li><strong>Calendar:</strong> ISO weeks, configurable start/end; conflicts outline in soft red.</li>
+        <li><strong>Tasks:</strong> Context icon + tags; descriptions ellipsize; location pin supported.</li>
+        <li><strong>Boards:</strong> Drag ghost with blur shadow; drop highlights lanes; counts in headers.</li>
+        <li><strong>Capture tips:</strong> “tomorrow 3pm”, “every monday”, “after lunch”, “in 45m”, “next week tuesday”, “daily 7am”.</li>
+      </ul>
+    </section>
+
+    <section class="guide glass">
+      <h2>Demo vs Full</h2>
+      <ul>
+        <li><strong>Demo includes:</strong> Capture, calendar, boards, drag/drop, offline data.</li>
+        <li><strong>Demo locks:</strong> Theme Lab, Automations, Smart Templates, Multi-device sync, Cloud backup, AI Suggestions, Insights dashboards.</li>
+        <li><strong>Watermarks:</strong> Demo pill + upgrade banners encourage sign-up.</li>
+      </ul>
+    </section>
+
+    <section class="guide glass">
+      <h2>Performance & Accessibility</h2>
+      <ul>
+        <li><strong>Offline-first:</strong> Local cache; sync queue flushes after sign-in.</li>
+        <li><strong>Rendering:</strong> Lean shadows, few gradients per card, throttled parallax for low-power devices.</li>
+        <li><strong>A11y:</strong> Focus rings in accent; respects prefers-reduced-motion; high-contrast text guardrails.</li>
+        <li><strong>Keyboard reachability:</strong> All primary buttons are tabbable; skip-links planned.</li>
+        <li><strong>Color safety:</strong> Automated contrast check for inputs on mixed glass/light surfaces.</li>
+      </ul>
+    </section>
+
+    <section class="guide glass">
+      <h2>Shortcuts & Micro-interactions</h2>
+      <ul>
+        <li><strong>N:</strong> New task. <strong>T:</strong> Today. <strong>/:</strong> Search (planned). <strong>Cmd/Ctrl + K:</strong> Command palette (planned).</li>
+        <li><strong>Drags:</strong> Cards scale to 0.98 on drag; drop zones thicken borders.</li>
+        <li><strong>Hover:</strong> Accent glow on primary CTAs; ghost buttons remain flat.</li>
+        <li><strong>Edge cases:</strong> Empty states show status lines; locked states show blur + padlock copy.</li>
+        <li><strong>Tooltips:</strong> Locked tooltips read “Unlock by creating a free account.”</li>
+      </ul>
+    </section>
+
+    <section class="guide glass">
+      <h2>Security & Privacy</h2>
+      <ul>
+        <li><strong>Local demo:</strong> No network calls in demo; mock data stored locally.</li>
+        <li><strong>Sync:</strong> Requires sign-in; encrypted in transit. Per-device sessions.</li>
+        <li><strong>Telemetry:</strong> Off by default; future opt-in only.</li>
+        <li><strong>Exports:</strong> Planned JSON/ICS export from Settings.</li>
+      </ul>
+    </section>
+
+    <section class="guide glass">
+      <h2>Data schema references</h2>
+      <ul>
+        <li><strong>Task fields:</strong> id, title, description, context, priority, due_date, start_time, end_time, recurring_rule, tags, status, location, subtasks.</li>
+        <li><strong>Calendar slotting:</strong> start_of_day, density (60/30/15), conflict detection per slotKey.</li>
+        <li><strong>Automations:</strong> trigger (string), action (context|priority|due), offset (minutes), value (string), id.</li>
+        <li><strong>NLP rules:</strong> trigger → context/priority/due; stored in localStorage.</li>
+      </ul>
+    </section>
+
+    <section class="guide glass">
+      <h2>Copy & Upgrade UX</h2>
+      <ul>
+        <li><strong>Locked CTA:</strong> “Unlock by creating a free account.”</li>
+        <li><strong>Demo watermark:</strong> “Demo Mode — Changes Are Not Saved.”</li>
+        <li><strong>Banners:</strong> Soft, non-blocking nudges near locked panels.</li>
+        <li><strong>Download buttons:</strong> Disabled until release; show “Coming soon.”</li>
+        <li><strong>AI disclaimers:</strong> Clear labels on AI-only panels; blurred previews in demo.</li>
+      </ul>
+    </section>
+
+    <section class="guide glass">
+      <h2>Roadmap (Public)</h2>
+      <ul>
+        <li>Command palette (Cmd/Ctrl + K) with actions for layouts, filters, navigation.</li>
+        <li>Template marketplace for shared routines and icon packs.</li>
+        <li>Webhooks for automations (condition/action builder).</li>
+        <li>ICS/CalDAV import/export.</li>
+        <li>Shared workspaces with per-panel visibility.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

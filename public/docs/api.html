@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Planner API overview.</title>
+  <link rel="stylesheet" href="../shared.css" />
+</head>
+<body>
+  <div class="bg"></div>
+  <header class="guide-header glass">
+    <div>
+      <p class="eyebrow">API</p>
+      <h1>Planner API overview.</h1>
+      <p class="muted">Local Express + SQLite with simple JSON endpoints.</p>
+    </div>
+    <a class="btn" href="/index.html">← Back to landing</a>
+  </header>
+  <main class="guide-content">
+    
+    <section class="guide glass">
+      <h2>Core endpoints</h2>
+      <ul>
+        <li>GET/POST/PUT/PATCH/DELETE /api/tasks — CRUD tasks.</li>
+        <li>GET /api/smart-terms — seed terms for NLP.</li>
+        <li>GET/PUT /api/email-settings — email config.</li>
+        <li>POST /api/email-settings/test — send test email.</li>
+      </ul>
+    </section>
+
+    <section class="guide glass">
+      <h2>Notes</h2>
+      <ul>
+        <li>Auth is not enforced in demo; deploy with your own auth proxy.</li>
+        <li>SQLite file lives under server/planner.db; WAL enabled.</li>
+        <li>Rate-limit and add CORS rules before production use.</li>
+        <li>Contact: noreply@hyperplanner.today.</li>
+      </ul>
+    </section>
+
+  </main>
+</body>
+</html>

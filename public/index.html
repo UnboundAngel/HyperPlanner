@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>HyperPlanner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="icon" href="./assets/icon.png" type="image/png" />
+</head>
+<body>
+  <div id="app" data-view="calendar">
+    <header class="app-header">
+      <div class="header-left">
+        <div class="logo-block">
+          <span class="logo-pill">
+            <img src="./assets/icon.png" alt="HyperPlanner icon" />
+          </span>
+          <div class="logo-text">
+            <h1>HyperPlanner</h1>
+            <p>Calendar · automations · focus ops</p>
+          </div>
+        </div>
+
+        <div class="card card-tonal drawer-cta" data-panel-id="panel-drawer">
+          <div class="row space-between">
+            <div>
+              <p class="eyebrow">Side panel</p>
+              <h3>Open the glass drawer</h3>
+              <p class="status-line">Settings, layouts, and templates live here now.</p>
+            </div>
+            <button type="button" class="btn primary" id="openDrawerFromCard">Open</button>
+          </div>
+        </div>
+        <div class="header-tabs" role="tablist">
+          <button class="nav-tab active" type="button" data-view="calendar">Calendar</button>
+          <button class="nav-tab" type="button" data-view="tasks">Tasks</button>
+          <button class="nav-tab" type="button" data-view="automations">Automations</button>
+          <button class="nav-tab" type="button" data-view="insights">Insights</button>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="refreshTasksBtn" class="btn ghost">Refresh</button>
+        <div class="layout-picker">
+          <select id="layoutPresetSelect" aria-label="Layout preset">
+            <option value="default">Default</option>
+            <option value="minimal">Minimal</option>
+            <option value="dense">Dense</option>
+            <option value="creative">Creative</option>
+            <option value="dashboard">Dashboard</option>
+            <option value="kanban">Kanban-first</option>
+            <option value="focus">Focus duo</option>
+            <option value="split">Split desk</option>
+            <option value="airy">Airy</option>
+          </select>
+          <button id="applyLayoutPresetBtn" class="btn ghost small">Apply</button>
+          <button id="saveLayoutPresetBtn" class="btn ghost small">Save current</button>
+        </div>
+        <button id="openWidgetDrawerBtn" class="btn ghost">Widgets</button>
+        <button id="openCaptureSheetBtn" class="btn secondary mobile-only">Quick capture</button>
+        <button id="resetPanelsBtn" class="btn ghost">Reset layout</button>
+        <button id="newTaskBtn" class="btn primary">+ New Task</button>
+      </div>
+    </header>
+
+    <section class="hero-panel" data-panel-container="hero" data-panel-axis="row">
+      <article class="hero-card hero-card-next" data-panel-id="hero-next">
+        <div class="hero-card-head">
+          <span class="hero-label">Next up</span>
+          <span class="hero-chip" id="heroNextDue">No schedule</span>
+        </div>
+        <h3 id="heroNextTitle">No upcoming tasks</h3>
+        <p id="heroNextDescription">Add a due date to light up your week.</p>
+      </article>
+      <article class="hero-card hero-card-focus" data-panel-id="hero-focus">
+        <div class="hero-card-head">
+          <span class="hero-label">Focus load</span>
+          <span class="hero-chip" id="heroFocusDistribution">0 high priority</span>
+        </div>
+        <div class="hero-metric">
+          <strong id="heroFocusCount">0</strong>
+          <span>Active tasks</span>
+        </div>
+        <div class="hero-progress">
+          <div class="hero-progress-bar" id="heroFocusProgressBar"></div>
+        </div>
+      </article>
+      <article class="hero-card hero-card-alerts" data-panel-id="hero-alerts">
+        <div class="hero-card-head">
+          <span class="hero-label">Automation</span>
+          <span class="hero-chip" id="heroAlertsStatus">Alerts off</span>
+        </div>
+        <h3>Email delivery</h3>
+        <p id="heroAlertsMeta">Connect alerts so HyperPlanner can nudge you.</p>
+        <div class="hero-mini-actions">
+          <button class="btn ghost small" type="button" id="heroAlertsEdit">
+            Edit alerts
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <section class="phase-row">
+      <article class="phase-card">
+        <header>
+          <span>Phase 1</span>
+          <strong>Shipped</strong>
+        </header>
+        <p>Foundations: backend, calendar, email, smart capture.</p>
+      </article>
+      <article class="phase-card">
+        <header>
+          <span>Phase 2</span>
+          <strong>In progress</strong>
+        </header>
+        <p>Automation hub, templates, insights, NLP helpers.</p>
+      </article>
+      <article class="phase-card">
+        <header>
+          <span>Phase 3</span>
+          <strong>Queued</strong>
+        </header>
+        <p>Integrations, pro metrics, shared workspaces.</p>
+        <ul class="phase-task-list">
+          <li>Build binder-view calendar + flip animation</li>
+          <li>Offer full 24h grid / scrollable timeline</li>
+          <li>Wire a true AI description endpoint</li>
+        </ul>
+      </article>
+    </section>
+
+    <main class="layout">
+      <!-- LEFT: inbox / quick capture / filters -->
+      <section class="column column-left" data-panel-container="left">
+        <div class="card card-quick" data-panel-id="panel-quick">
+          <div class="card-header-row quick-header-row">
+            <h2>Inbox / Quick capture</h2>
+            <button
+              type="button"
+              id="closeCaptureSheetBtn"
+              class="btn ghost small mobile-only sheet-close"
+            >
+              Done
+            </button>
+          </div>
+          <form id="quickTaskForm" class="stack">
+            <div class="smart-input" id="quickTitleField">
+              <div id="quickTitleHighlights" class="smart-input-highlights"></div>
+              <input
+                type="text"
+                id="quickTitle"
+                placeholder=""
+                data-placeholder="Task title..."
+                autocomplete="off"
+                required
+              />
+            </div>
+            <div id="smartTokenRow" class="smart-token-row"></div>
+            <div id="inlineSubtaskPreview" class="inline-subtasks"></div>
+            <div class="textarea-field">
+              <textarea id="quickDescription" rows="3" placeholder="Short description"></textarea>
+              <div class="field-actions">
+                <span id="quickAssistStatus">Smart helpers ready.</span>
+                <button type="button" id="quickGenerateDescBtn" class="link-btn">
+                  Generate
+                </button>
+              </div>
+            </div>
+            <div class="row row-wrap">
+              <label>
+                Date & time
+                <input type="datetime-local" id="quickDueDate" />
+              </label>
+              <div class="row gap">
+                <label>
+                  Start
+                  <input type="time" id="quickStartTime" />
+                </label>
+                <label>
+                  Finish
+                  <input type="time" id="quickEndTime" />
+                </label>
+              </div>
+            </div>
+            <label>
+              Priority
+              <select id="quickPriority">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+              </select>
+            </label>
+            <label>
+              Location
+              <div class="location-row">
+                <input type="text" id="quickLocation" placeholder="Address or place" />
+                <button type="button" class="btn ghost small" id="quickLocationAutoBtn">
+                  Auto
+                </button>
+                <button type="button" class="btn ghost small" id="quickLocationMapBtn">Map</button>
+              </div>
+              <div class="location-suggestions" id="quickLocationSuggestions"></div>
+              <p class="location-status" id="quickLocationStatus" aria-live="polite"></p>
+            </label>
+            <details class="quick-advanced" open>
+              <summary>Automations & templates</summary>
+              <div class="quick-advanced-grid">
+                <label>
+                  Context label
+                  <input type="text" id="quickContext" placeholder="e.g. work, personal, errands" />
+                </label>
+                <label>
+                  Tags (comma-separated)
+                  <input type="text" id="quickTags" placeholder="e.g. gym, focus" />
+                </label>
+                <label>
+                  Reminder (minutes before)
+                  <input
+                    type="number"
+                    id="quickReminderMinutes"
+                    min="5"
+                    max="1440"
+                    step="5"
+                    value="60"
+                  />
+                </label>
+              </div>
+              <div class="smart-hint-block">
+                <p id="smartHintText" class="smart-hint-text">Smart capture ready.</p>
+                <button type="button" id="clearSmartHintBtn" class="btn ghost small">
+                  Clear smart fill
+                </button>
+              </div>
+              <div class="focus-suggestion" id="focusSuggestion">
+                <div>
+                  <strong>Suggested slot</strong>
+                  <p id="focusSuggestionText">Looking for the best block…</p>
+                </div>
+                <button type="button" id="focusSuggestionBtn" class="btn secondary small">
+                  Use slot
+                </button>
+              </div>
+              <div class="conflict-hint" id="conflictHint">Pick a time to check conflicts.</div>
+              <div class="template-panel">
+                <label>
+                  Apply template
+                  <div class="template-inline">
+                    <select id="templateSelect">
+                      <option value="">Select template…</option>
+                    </select>
+                    <button type="button" id="applyTemplateBtn" class="btn secondary small">
+                      Apply
+                    </button>
+                  </div>
+                </label>
+                <div class="template-actions">
+                  <button type="button" id="openTemplateSettingsBtn" class="btn ghost small">
+                    Manage templates
+                  </button>
+                  <span class="template-hint">Save and edit presets inside Settings.</span>
+                </div>
+              </div>
+            </details>
+            <button type="submit" class="btn primary full">Add task</button>
+          </form>
+        </div>
+
+        <details class="card card-tonal panel-collapsible" data-panel-id="panel-filters" open>
+          <summary>Filters</summary>
+          <div class="stack">
+            <label>
+              Status
+              <select id="filterStatus">
+                <option value="">Any</option>
+                <option value="pending">Pending</option>
+                <option value="in_progress">In progress</option>
+                <option value="done">Done</option>
+                <option value="archived">Archived</option>
+              </select>
+            </label>
+            <label>
+              Priority
+              <select id="filterPriority">
+                <option value="">Any</option>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </label>
+            <div class="row">
+              <label>
+                From
+                <input type="date" id="filterFrom" />
+              </label>
+              <label>
+                To
+                <input type="date" id="filterTo" />
+              </label>
+            </div>
+            <button id="applyFiltersBtn" class="btn secondary full">Apply filters</button>
+          </div>
+        </details>
+
+        <div class="card card-tonal" data-panel-id="panel-tasklist">
+          <h2>Task list</h2>
+          <div class="card-header-row">
+            <span class="pill" id="taskCount">0 tasks</span>
+          </div>
+          <div id="taskList" class="task-list"></div>
+        </div>
+
+        <div class="card card-tonal task-board-card" data-panel-id="panel-kanban">
+          <div class="card-header-row">
+            <h2>Workflow board</h2>
+            <span class="pill small" id="taskBoardSummary">Balanced</span>
+          </div>
+          <p class="board-subtitle">
+            Drag tasks to reorder status columns or onto the calendar to schedule.
+          </p>
+          <div id="taskBoardColumns" class="task-board"></div>
+        </div>
+      </section>
+
+      <!-- CENTER: calendar -->
+      <section class="column column-center" data-panel-container="center">
+        <div class="card card-stretch calendar-shell" data-panel-id="panel-calendar">
+          <div class="calendar-header">
+            <div class="calendar-nav">
+              <button id="prevWeekBtn" class="btn ghost icon">&lsaquo;</button>
+              <div class="calendar-label">
+                <span id="calendarRange"></span>
+                <span class="calendar-week-tag" id="calendarWeekTag"></span>
+              </div>
+              <button id="nextWeekBtn" class="btn ghost icon">&rsaquo;</button>
+            </div>
+            <div class="calendar-header-tools">
+              <div class="density-switch" role="group" aria-label="Calendar density">
+                <button class="density-btn active" data-density="60">60m</button>
+                <button class="density-btn" data-density="30">30m</button>
+                <button class="density-btn" data-density="15">15m</button>
+              </div>
+              <button id="todayBtn" class="btn secondary small">Today</button>
+            </div>
+          </div>
+
+          <div class="calendar-legend">
+            <span class="legend-dot legend-high"></span><span>High priority</span>
+            <span class="legend-dot legend-medium"></span><span>Medium</span>
+            <span class="legend-dot legend-low"></span><span>Low</span>
+          </div>
+
+          <div class="calendar-grid-wrapper">
+            <div class="calendar-grid" id="calendarGrid"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: email + stats -->
+      <section class="column column-right" data-panel-container="right">
+        <div class="mobile-stats-tabs" id="mobileStatsTabs">
+          <button type="button" class="mobile-tab active" data-mobile-tab="panel-email">Alerts</button>
+          <button type="button" class="mobile-tab" data-mobile-tab="panel-overview">Overview</button>
+          <button type="button" class="mobile-tab" data-mobile-tab="panel-insights">Insights</button>
+          <button type="button" class="mobile-tab" data-mobile-tab="panel-settings">Settings</button>
+        </div>
+        <div class="card card-tonal email-card" data-panel-id="panel-email">
+          <div class="email-head">
+            <div>
+              <p class="eyebrow">Alerts & summaries</p>
+              <h2>Email delivery</h2>
+              <p class="email-sub">Control due-soon nudges and daily rollups.</p>
+            </div>
+            <div class="email-status-pill" id="emailAlertsBadge">Alerts off</div>
+          </div>
+          <form id="emailSettingsForm" class="email-grid">
+            <label class="email-field email-span-2">
+              Alert email
+              <input type="email" id="emailAddress" required />
+            </label>
+            <label class="email-field email-span-2">
+              Allowed domains (comma-separated)
+              <input type="text" id="allowedDomains" placeholder="e.g. company.com, team.org" />
+            </label>
+            <label class="toggle-field">
+              <span>Instant due-soon alerts</span>
+              <input type="checkbox" id="alertsEnabled" />
+            </label>
+            <label class="toggle-field">
+              <span>Daily summary</span>
+              <input type="checkbox" id="summaryEnabled" />
+            </label>
+            <label>
+              Summary hour (0–23)
+              <input
+                type="number"
+                id="summaryHour"
+                min="0"
+                max="23"
+                step="1"
+                value="8"
+              />
+            </label>
+            <div class="email-actions email-span-2">
+              <div class="email-chips">
+                <span class="pill small" id="emailNextSummary">Summary off</span>
+                <span class="pill small" id="emailNextAlert">Alerts off</span>
+              </div>
+              <div class="row gap">
+                <button type="button" id="testEmailBtn" class="btn ghost small">
+                  Send test
+                </button>
+                <button type="submit" class="btn secondary">Save</button>
+              </div>
+            </div>
+            <p id="emailStatus" class="status-line email-span-2"></p>
+          </form>
+        </div>
+
+        <details class="card card-tonal panel-collapsible settings-card" data-panel-id="panel-settings">
+          <summary>Settings</summary>
+            <div class="settings-section">
+              <div class="settings-header">
+                <div>
+                  <p class="eyebrow">Templates</p>
+                  <h3>Capture presets</h3>
+                <p id="templateStatus" class="status-line">Save and reuse quick capture presets per device.</p>
+              </div>
+              <div class="settings-template-save">
+                <input type="text" id="templateNameInput" placeholder="Template name" />
+                <button type="button" id="settingsSaveTemplateBtn" class="btn secondary small">
+                  Save current form
+                </button>
+                <button type="button" id="templateExportBtn" class="btn ghost small">
+                  Export
+                </button>
+                <button type="button" id="templateImportBtn" class="btn ghost small">
+                  Import
+                </button>
+                <button type="button" id="templateDownloadBtn" class="btn ghost small">
+                  Download
+                </button>
+                <input type="file" id="templateImportFile" accept="application/json" class="hidden" />
+              </div>
+              <div class="template-advanced-grid">
+                <label>
+                  Tags (comma-separated)
+                  <input type="text" id="templateTagsInput" placeholder="ops, planning" />
+                </label>
+                <label>
+                  Due offset (minutes from now)
+                  <input type="number" id="templateDueOffsetInput" min="-10080" max="10080" step="15" placeholder="e.g. 60" />
+                </label>
+                <label>
+                  Pre-select layout
+                  <select id="templateLayoutSelect">
+                    <option value="">None</option>
+                    <option value="minimal">Minimal</option>
+                    <option value="dense">Dense</option>
+                    <option value="dashboard">Dashboard</option>
+                    <option value="kanban">Kanban-first</option>
+                  </select>
+                </label>
+                <label>
+                  Recurring rule
+                  <select id="templateRecurringSelect">
+                    <option value="">None</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+            <div id="templateManagerList" class="template-manager"></div>
+            <div class="template-gallery">
+              <div class="template-gallery-head">
+                <div>
+                  <p class="eyebrow">Template gallery</p>
+                  <h4>Instant starters</h4>
+                </div>
+                <button type="button" class="btn ghost small" id="refreshTemplateGalleryBtn">Refresh</button>
+              </div>
+              <div id="templateGalleryGrid" class="template-gallery-grid"></div>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <p class="eyebrow">Local calendar (opt-in)</p>
+            <h3>County / region sharing</h3>
+            <p class="status-line">Share an anonymized view with nearby users. Off by default.</p>
+            <label class="toggle-field">
+              <span>Enable local calendar</span>
+              <input type="checkbox" id="localCalendarToggle" />
+            </label>
+            <label>
+              County / region
+              <input type="text" id="localCalendarCounty" placeholder="e.g. Orange County, CA" />
+            </label>
+            <p id="localCalendarStatus" class="status-line"></p>
+          </div>
+
+          <div class="settings-section">
+            <p class="eyebrow">Iconography</p>
+            <h3>Icon packs + overrides</h3>
+            <p class="status-line">Pick a pack and override icons per context.</p>
+            <label>
+              Pack
+              <select id="iconPackSelect">
+                <option value="minimal">Minimal</option>
+                <option value="colorful">Colorful</option>
+                <option value="mono">Monochrome</option>
+              </select>
+            </label>
+            <div class="icon-override-grid">
+              <label>
+                Context (e.g. work)
+                <input type="text" id="iconOverrideContext" placeholder="work, personal, study" />
+              </label>
+              <label>
+                Icon / emoji
+                <input type="text" id="iconOverrideValue" placeholder="💼" />
+              </label>
+              <button type="button" id="iconOverrideSave" class="btn secondary small">Save override</button>
+            </div>
+            <div id="iconOverrideList" class="icon-override-list"></div>
+          </div>
+
+          <div class="settings-section">
+            <p class="eyebrow">Component variants</p>
+            <h3>Cards & density</h3>
+            <p class="status-line">Swap task/list/hero variants and tweak density, corners, and shadows.</p>
+            <div class="variant-grid">
+              <label>
+                Task list cards
+                <select id="taskVariantSelect">
+                  <option value="detailed">Detailed</option>
+                  <option value="minimal">Minimal</option>
+                  <option value="compact">Compact</option>
+                  <option value="wide">Wide</option>
+                </select>
+              </label>
+              <label>
+                Board cards
+                <select id="boardVariantSelect">
+                  <option value="detailed">Detailed</option>
+                  <option value="minimal">Minimal</option>
+                  <option value="compact">Compact</option>
+                  <option value="wide">Wide</option>
+                </select>
+              </label>
+              <label>
+                Hero cards
+                <select id="heroVariantSelect">
+                  <option value="wide">Wide</option>
+                  <option value="detailed">Detailed</option>
+                  <option value="compact">Compact</option>
+                  <option value="minimal">Minimal</option>
+                </select>
+              </label>
+            </div>
+            <div class="variant-toggle-row">
+              <div class="variant-toggle">
+                <span>Density</span>
+                <div class="chip-toggle" id="variantDensityToggle">
+                  <button type="button" class="chip-btn" data-variant-density="compact">Compact</button>
+                  <button type="button" class="chip-btn" data-variant-density="default">Default</button>
+                  <button type="button" class="chip-btn" data-variant-density="spacious">Spacious</button>
+                </div>
+              </div>
+              <div class="variant-toggle">
+                <span>Roundedness</span>
+                <div class="chip-toggle" id="variantRadiusToggle">
+                  <button type="button" class="chip-btn" data-variant-radius="sharp">Sharp</button>
+                  <button type="button" class="chip-btn" data-variant-radius="round">Rounded</button>
+                  <button type="button" class="chip-btn" data-variant-radius="pill">Pill</button>
+                </div>
+              </div>
+              <div class="variant-toggle">
+                <span>Shadow</span>
+                <div class="chip-toggle" id="variantShadowToggle">
+                  <button type="button" class="chip-btn" data-variant-shadow="flat">Flat</button>
+                  <button type="button" class="chip-btn" data-variant-shadow="subtle">Subtle</button>
+                  <button type="button" class="chip-btn" data-variant-shadow="lifted">Lifted</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <p class="eyebrow">Input logic</p>
+            <h3>Custom NLP rules</h3>
+            <p class="status-line">Map keywords to contexts, priority, or due offsets.</p>
+            <div class="nlp-grid">
+              <label>
+                Trigger phrase
+                <input type="text" id="nlpTriggerInput" placeholder="e.g. sprint, doctor, taxes" />
+              </label>
+              <label>
+                Action
+                <select id="nlpActionSelect">
+                  <option value="context">Context</option>
+                  <option value="priority">Priority</option>
+                  <option value="due">Due offset</option>
+                </select>
+              </label>
+              <label id="nlpValueLabel">
+                Value
+                <input type="text" id="nlpValueInput" placeholder="e.g. Work, high, personal" />
+              </label>
+              <label id="nlpOffsetLabel" class="hidden">
+                Offset (minutes)
+                <input type="number" id="nlpOffsetInput" placeholder="60" min="1" step="5" />
+              </label>
+              <button type="button" id="nlpAddRuleBtn" class="btn secondary small">Add rule</button>
+            </div>
+            <div id="nlpRuleList" class="nlp-rule-list"></div>
+          </div>
+
+          <div class="settings-section">
+            <p class="eyebrow">Automation rules</p>
+            <h3>When X → do Y</h3>
+            <p class="status-line">Apply field changes when the title contains keywords.</p>
+            <div class="automation-grid">
+              <label>
+                Trigger phrase
+                <input type="text" id="autoTriggerInput" placeholder="e.g. invoices, exam, workout" />
+              </label>
+              <label>
+                Action
+                <select id="autoActionSelect">
+                  <option value="context">Set context</option>
+                  <option value="priority">Set priority</option>
+                  <option value="due">Set due offset</option>
+                </select>
+              </label>
+              <label id="autoValueLabel">
+                Value
+                <input type="text" id="autoValueInput" placeholder="e.g. Finance, health, high" />
+              </label>
+              <label id="autoOffsetLabel" class="hidden">
+                Offset (minutes)
+                <input type="number" id="autoOffsetInput" placeholder="90" min="1" step="5" />
+              </label>
+              <button type="button" id="autoAddRuleBtn" class="btn secondary small">Add rule</button>
+            </div>
+            <div id="autoRuleList" class="automation-rule-list"></div>
+          </div>
+        </details>
+
+        <details class="card card-tonal panel-collapsible theme-card" data-panel-id="panel-theme" open>
+          <summary>Theme lab</summary>
+          <div class="theme-lab">
+            <div class="theme-section">
+              <div class="theme-section-head">
+                <div>
+                  <p class="eyebrow">Quick themes</p>
+                  <h3>Choose your vibe</h3>
+                  <p class="status-line">One-tap presets for 90% of users.</p>
+                </div>
+              </div>
+              <div class="quick-theme-grid">
+                <button type="button" class="quick-theme" data-quick-theme="minimal">Minimal</button>
+                <button type="button" class="quick-theme" data-quick-theme="soft">Soft</button>
+                <button type="button" class="quick-theme" data-quick-theme="modern">Modern</button>
+                <button type="button" class="quick-theme" data-quick-theme="neon">Neon</button>
+                <button type="button" class="quick-theme" data-quick-theme="pastel">Pastel</button>
+                <button type="button" class="quick-theme" data-quick-theme="highContrast">High-Contrast</button>
+                <button type="button" class="quick-theme" data-quick-theme="darkMatte">Dark Matte</button>
+                <button type="button" class="quick-theme" data-quick-theme="oled">OLED Black</button>
+                <button type="button" class="quick-theme" data-quick-theme="fantasy">Fantasy / Paper</button>
+                <button type="button" class="quick-theme" data-quick-theme="cyber">Cyber / Tech</button>
+              </div>
+            </div>
+
+            <div class="theme-section">
+              <div class="theme-section-head">
+                <div>
+                  <p class="eyebrow">Theme packs</p>
+                  <h3>Curated aesthetics</h3>
+                  <p class="status-line">Pick a pack, tweak a few friendly controls.</p>
+                </div>
+              </div>
+              <div class="theme-pack-grid">
+                <label>
+                  Pack
+                  <select id="themePackSelect">
+                    <option value="notebook">Notebook</option>
+                    <option value="synthetic">Synthetic</option>
+                    <option value="productivity">Productivity</option>
+                    <option value="artistic">Artistic</option>
+                    <option value="darkenergy">Dark Energy</option>
+                    <option value="cozy">Cozy</option>
+                    <option value="retro">Retro UI</option>
+                    <option value="fantasy">Fantasy</option>
+                  </select>
+                </label>
+                <label>
+                  Accent color
+                  <input type="color" id="themePackAccent" />
+                </label>
+                <label>
+                  Background type
+                  <select id="themePackBackground">
+                    <option value="solid">Solid</option>
+                    <option value="texture">Texture</option>
+                    <option value="gradient">Gradient</option>
+                  </select>
+                </label>
+                <label>
+                  Card style
+                  <select id="themePackCardStyle">
+                    <option value="flat">Flat</option>
+                    <option value="soft">Soft shadow</option>
+                    <option value="glass">Glass</option>
+                  </select>
+                </label>
+                <label>
+                  Edge style
+                  <select id="themePackEdges">
+                    <option value="minimal">Minimal</option>
+                    <option value="medium">Medium</option>
+                    <option value="rounded">Rounded</option>
+                    <option value="pill">Pill</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <div class="theme-preview-grid">
+              <div class="theme-thumb" id="themePreviewCalendar">
+                <div class="theme-thumb-head">
+                  <div>
+                    <p class="eyebrow">Calendar</p>
+                    <h4>Live preview</h4>
+                  </div>
+                  <select id="themeOverrideCalendar" class="theme-override-select">
+                    <option value="auto">Auto (context)</option>
+                    <option value="custom">Custom theme</option>
+                    <option value="work">Work</option>
+                    <option value="personal">Personal</option>
+                    <option value="study">Study</option>
+                    <option value="health">Health</option>
+                    <option value="travel">Travel</option>
+                    <option value="finance">Finance</option>
+                  </select>
+                </div>
+                <div class="theme-thumb-body">
+                  <div class="thumb-calendar">
+                    <div class="thumb-calendar-header">
+                      <span class="pill tiny">Week</span>
+                      <span class="pill tiny accent">Focus</span>
+                    </div>
+                    <div class="thumb-calendar-grid">
+                      <span class="thumb-block accent"></span>
+                      <span class="thumb-block warm"></span>
+                      <span class="thumb-block cool"></span>
+                      <span class="thumb-block accent"></span>
+                    </div>
+                    <div class="thumb-calendar-grid compact">
+                      <span class="thumb-block cool"></span>
+                      <span class="thumb-block warm"></span>
+                      <span class="thumb-block accent"></span>
+                      <span class="thumb-block cool"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="theme-thumb" id="themePreviewTasks">
+                <div class="theme-thumb-head">
+                  <div>
+                    <p class="eyebrow">Tasks</p>
+                    <h4>Live preview</h4>
+                  </div>
+                  <select id="themeOverrideTasks" class="theme-override-select">
+                    <option value="auto">Auto (context)</option>
+                    <option value="custom">Custom theme</option>
+                    <option value="work">Work</option>
+                    <option value="personal">Personal</option>
+                    <option value="study">Study</option>
+                    <option value="health">Health</option>
+                    <option value="travel">Travel</option>
+                    <option value="finance">Finance</option>
+                  </select>
+                </div>
+                <div class="theme-thumb-body">
+                  <div class="thumb-list">
+                    <div class="thumb-task">
+                      <div class="thumb-task-title"></div>
+                      <div class="thumb-task-meta"></div>
+                    </div>
+                    <div class="thumb-task accent">
+                      <div class="thumb-task-title"></div>
+                      <div class="thumb-task-meta"></div>
+                    </div>
+                    <div class="thumb-task soft">
+                      <div class="thumb-task-title"></div>
+                      <div class="thumb-task-meta"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p id="themeOverrideStatus" class="status-line"></p>
+
+            <div class="theme-section">
+              <div class="theme-section-head inline">
+                <div>
+                  <p class="eyebrow">Advanced theme lab</p>
+                  <h3>Deep customization</h3>
+                  <p class="status-line">Show only when you want the granular controls.</p>
+                </div>
+                <button type="button" class="btn ghost small" id="toggleAdvancedTheme">Show advanced</button>
+              </div>
+              <div id="themeAdvancedPanel" class="theme-advanced hidden">
+                <div class="theme-grid">
+                  <div class="theme-column">
+                    <p class="eyebrow">Global colors</p>
+                    <label class="theme-field">
+                      Accent
+                      <input type="color" id="themeAccent" />
+                    </label>
+                    <label class="theme-field">
+                      Page base
+                      <input type="color" id="themePageBg" />
+                    </label>
+                    <label class="theme-field">
+                      Gradient A
+                      <input type="color" id="themeGradA" />
+                    </label>
+                    <label class="theme-field">
+                      Gradient B
+                      <input type="color" id="themeGradB" />
+                    </label>
+                    <label class="theme-field">
+                      Gradient C
+                      <input type="color" id="themeGradC" />
+                    </label>
+                    <label class="theme-field">
+                      Card glass
+                      <input type="color" id="themeCardGlass" />
+                    </label>
+                    <label class="theme-field">
+                      Text main
+                      <input type="color" id="themeTextMain" />
+                    </label>
+                    <label class="theme-field">
+                      Text muted
+                      <input type="color" id="themeTextMuted" />
+                    </label>
+                  </div>
+                  <div class="theme-column">
+                    <p class="eyebrow">Surfaces & shadows</p>
+                    <label class="theme-field">
+                      High priority
+                      <input type="color" id="themePrioHigh" />
+                    </label>
+                    <label class="theme-field">
+                      Medium priority
+                      <input type="color" id="themePrioMed" />
+                    </label>
+                    <label class="theme-field">
+                      Low priority
+                      <input type="color" id="themePrioLow" />
+                    </label>
+                    <label class="theme-field">
+                      Card radius
+                      <input type="range" id="themeRadiusLg" min="8" max="32" step="1" />
+                    </label>
+                    <label class="theme-field">
+                      Control radius
+                      <input type="range" id="themeRadiusMd" min="6" max="20" step="1" />
+                    </label>
+                    <label class="theme-field">
+                      Chip radius
+                      <input type="range" id="themeRadiusSm" min="4" max="14" step="1" />
+                    </label>
+                    <label class="theme-field">
+                      Shadow style
+                      <select id="themeShadowStyle">
+                        <option value="soft">Soft</option>
+                        <option value="lift">Lifted</option>
+                        <option value="flat">Flat</option>
+                      </select>
+                    </label>
+                    <div class="theme-inline">
+                      <label class="toggle-field">
+                        <span>Lock contextual themes</span>
+                        <input type="checkbox" id="themeLockToggle" />
+                      </label>
+                      <button type="button" id="themeResetBtn" class="btn ghost small">Reset</button>
+                    </div>
+                  </div>
+                  <div class="theme-column">
+                    <p class="eyebrow">Presets & I/O</p>
+                    <div class="theme-presets">
+                      <label>
+                        Preset
+                        <select id="themePresetSelect">
+                          <option value="">Choose a preset…</option>
+                          <option value="calm">Calm bay</option>
+                          <option value="noir">Noir glass</option>
+                          <option value="sunrise">Sunrise</option>
+                          <option value="forest">Forest air</option>
+                          <option value="aurora">Aurora night</option>
+                          <option value="sandstone">Sandstone glow</option>
+                        </select>
+                      </label>
+                      <button type="button" id="themeApplyPresetBtn" class="btn secondary small">
+                        Apply preset
+                      </button>
+                    </div>
+                    <label>
+                      Import / edit JSON
+                      <textarea id="themeJsonInput" rows="6" placeholder='{"accent":"#6366f1",...}'></textarea>
+                    </label>
+                    <div class="theme-actions">
+                      <button type="button" id="themeImportBtn" class="btn ghost small">Import JSON</button>
+                      <button type="button" id="themeExportBtn" class="btn secondary small">Export</button>
+                    </div>
+                    <p id="themeStatus" class="status-line"></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="card card-tonal panel-collapsible overview-card" data-panel-id="panel-overview" open>
+          <summary>Overview</summary>
+          <div id="statsOverview" class="stats-block"></div>
+        </details>
+
+        <details class="card card-tonal panel-collapsible insights-card" data-panel-id="panel-insights">
+          <summary>Insights</summary>
+          <div id="insightsPanel" class="insights-panel">
+            <p class="status-line">Loading insights…</p>
+          </div>
+        </details>
+      </section>
+    </main>
+
+    <div id="captureSheetBackdrop" class="capture-sheet-backdrop"></div>
+
+    <!-- Modal for editing a task -->
+    <div id="taskModal" class="modal hidden">
+      <div class="modal-backdrop"></div>
+      <div class="modal-panel">
+        <header class="modal-header">
+          <h2 id="modalTitle">Edit Task</h2>
+          <button id="closeModalBtn" class="btn icon">&times;</button>
+        </header>
+          <form id="taskForm" class="stack">
+          <input type="hidden" id="taskId" />
+          <label>
+            Title
+            <input type="text" id="taskTitle" required />
+          </label>
+          <label>
+            Description
+            <textarea id="taskDescription" rows="4"></textarea>
+            <div class="field-actions">
+              <span>Need better copy?</span>
+              <button type="button" id="modalGenerateDescBtn" class="link-btn">Generate</button>
+            </div>
+          </label>
+            <label>
+              Context label
+              <input type="text" id="taskContext" placeholder="e.g. work, personal" />
+            </label>
+          <label>
+            Tags (comma-separated)
+            <input type="text" id="taskTags" placeholder="e.g. gym, focus" />
+          </label>
+          <div class="row row-wrap">
+            <label>
+              Start date & time
+              <input type="datetime-local" id="taskStartDateTime" />
+            </label>
+            <label>
+              Finish time
+              <input type="time" id="taskEndTimeOnly" />
+            </label>
+          </div>
+            <label>
+              Location
+              <div class="location-row">
+                <input type="text" id="taskLocation" placeholder="Address" />
+                <button type="button" class="btn ghost small" id="taskLocationAutoBtn">Auto</button>
+                <button type="button" class="btn ghost small" id="taskLocationMapBtn">Map</button>
+              </div>
+              <div class="location-suggestions" id="taskLocationSuggestions"></div>
+              <p class="location-status" id="taskLocationStatus" aria-live="polite"></p>
+            </label>
+          <div class="row">
+            <label>
+              Status
+              <select id="taskStatus">
+                <option value="pending">Pending</option>
+                <option value="in_progress">In progress</option>
+                <option value="done">Done</option>
+                <option value="archived">Archived</option>
+              </select>
+            </label>
+            <label>
+              Priority
+              <select id="taskPriority">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </label>
+          </div>
+          <div class="row">
+            <label>
+              Due date & time
+              <input type="datetime-local" id="taskDueDate" />
+            </label>
+            <label>
+              Reminder (minutes before)
+              <input
+                type="number"
+                id="taskReminderMinutes"
+                min="5"
+                max="1440"
+                step="5"
+              />
+            </label>
+          </div>
+          <div class="snooze-bar">
+            <span>Smart snooze</span>
+            <div class="snooze-buttons">
+              <button type="button" class="btn ghost small" data-snooze="60">+1h</button>
+              <button type="button" class="btn ghost small" data-snooze="180">+3h</button>
+              <button type="button" class="btn ghost small" data-snooze="tomorrow">Tomorrow AM</button>
+              <button type="button" class="btn ghost small" data-snooze="focus">Next free slot</button>
+            </div>
+          </div>
+          <p id="snoozeStatus" class="status-line"></p>
+          <label>
+            Recurring
+            <select id="taskRecurringRule">
+              <option value="none">None</option>
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+            </select>
+          </label>
+
+          <div class="row space-between">
+            <button type="button" id="deleteTaskBtn" class="btn danger">
+              Delete
+            </button>
+            <div class="row gap">
+              <button type="button" id="markDoneBtn" class="btn secondary">
+                Mark done
+              </button>
+              <button type="submit" class="btn primary">Save</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="widget-drawer" id="widgetDrawer">
+    <div class="widget-drawer-backdrop" id="widgetDrawerBackdrop"></div>
+    <aside class="widget-drawer-panel">
+      <div class="widget-drawer-header">
+        <div>
+          <p class="eyebrow">Widgets &amp; settings</p>
+          <h3>Glassy side panel</h3>
+        </div>
+        <button type="button" id="closeWidgetDrawerBtn" class="btn ghost widget-drawer-close" aria-label="Close widget panel">
+          &times;
+        </button>
+      </div>
+      <div class="widget-grid">
+        <div class="widget-card">
+          <h4>Settings</h4>
+          <p>Open the full settings card without hunting for it.</p>
+          <div class="widget-chip-row">
+            <button type="button" class="btn secondary small" id="jumpToSettingsBtn">Open settings</button>
+            <button type="button" class="btn ghost small" id="jumpToThemeBtn">Theme lab</button>
+          </div>
+        </div>
+        <div class="widget-card">
+          <h4>Layouts</h4>
+          <p>Swap between lean and rich layouts instantly.</p>
+          <div class="widget-chip-row">
+            <button type="button" class="btn ghost small" data-widget-layout="minimal">Minimal</button>
+            <button type="button" class="btn ghost small" data-widget-layout="dense">Dense</button>
+            <button type="button" class="btn ghost small" data-widget-layout="dashboard">Dashboard</button>
+          </div>
+        </div>
+        <div class="widget-card">
+          <h4>Templates</h4>
+          <p>Surface your capture presets from the drawer.</p>
+          <div class="widget-chip-row">
+            <button type="button" class="btn ghost small" id="widgetTemplateListBtn">Show templates</button>
+            <button type="button" class="btn secondary small" id="widgetSaveTemplateBtn">Save current</button>
+          </div>
+        </div>
+      </div>
+      <ul class="widget-list">
+        <li>
+          <div class="widget-toggle-row">
+            <span>Space saver</span>
+            <label class="switch">
+              <input type="checkbox" id="widgetSpaceSaverToggle" />
+              <span class="slider"></span>
+            </label>
+          </div>
+          <small>Lightweight view that tucks away extra panels and hero stats</small>
+        </li>
+        <li>
+          <span>Animation guardrails</span>
+          <small>Drawer slides + panel hover lifts</small>
+        </li>
+        <li>
+          <span>Widget lab (Phase 2)</span>
+          <small>Dock + resize individual widgets</small>
+        </li>
+      </ul>
+    </aside>
+  </div>
+
+  <button type="button" class="sidebar-toggle" id="openGlassSidebar" aria-label="Open side panel">➤ Guides</button>
+  <aside class="glass-sidebar" id="glassSidebar">
+    <div class="sidebar-head">
+      <div>
+        <p class="eyebrow">Side panel</p>
+        <h3>Planner utilities</h3>
+        <p class="status-line">Layouts, settings, and quick links live here.</p>
+      </div>
+      <button type="button" class="btn ghost small" id="closeGlassSidebar" aria-label="Close panel">Close</button>
+    </div>
+    <div class="sidebar-links">
+      <button class="sidebar-chip" id="sidebarOpenDrawer">Open drawer</button>
+      <button class="sidebar-chip" data-widget-layout="minimal">Minimal layout</button>
+      <button class="sidebar-chip" data-widget-layout="dense">Dense layout</button>
+      <button class="sidebar-chip" data-widget-layout="dashboard">Dashboard layout</button>
+      <button class="sidebar-chip" id="sidebarOpenSettings">Settings</button>
+      <button class="sidebar-chip" id="sidebarOpenTheme">Theme Lab</button>
+    </div>
+    <div class="sidebar-list">
+      <div class="sidebar-card">
+        <h4>Templates</h4>
+        <p>Save/apply capture presets without cluttering the top bar.</p>
+        <button class="btn ghost small" id="sidebarOpenTemplates">Manage templates</button>
+      </div>
+      <div class="sidebar-card">
+        <h4>Shortcuts</h4>
+        <p>N: New task · T: Today · /: Search (planned)</p>
+      </div>
+    </div>
+  </aside>
+
+  <div id="layoutOnboarding" class="layout-onboarding hidden">
+    <div class="layout-onboarding-backdrop"></div>
+    <div class="layout-onboarding-panel">
+      <p class="eyebrow">Choose your starting layout</p>
+      <h3>Pick a planner template for this device</h3>
+      <p class="onboarding-sub">You can swap layouts anytime; we'll remember your pick.</p>
+      <div class="layout-choice-grid">
+        <button type="button" class="layout-choice" data-layout-choice="dense">
+          <span class="choice-label">Rich calendar</span>
+          <small>Hero stats, calendar, email + insights.</small>
+        </button>
+        <button type="button" class="layout-choice" data-layout-choice="minimal">
+          <span class="choice-label">Minimal focus</span>
+          <small>Quick capture + calendar, everything else tucked away.</small>
+        </button>
+        <button type="button" class="layout-choice" data-layout-choice="dashboard">
+          <span class="choice-label">Dashboard</span>
+          <small>Stats and insights on the right, tasks on the left.</small>
+        </button>
+        <button type="button" class="layout-choice" data-layout-choice="kanban">
+          <span class="choice-label">Kanban-first</span>
+          <small>Workflow board front-and-center with scheduling handy.</small>
+        </button>
+      </div>
+      <div class="layout-onboarding-actions">
+        <label class="checkbox-row">
+          <input type="checkbox" id="layoutOnboardingRemember" checked />
+          <span>Don't show this again on this device</span>
+        </label>
+        <div class="row gap">
+          <button type="button" class="btn ghost small" id="skipLayoutOnboarding">
+            Skip for now
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

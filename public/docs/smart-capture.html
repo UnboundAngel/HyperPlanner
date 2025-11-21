@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Type naturally; we parse the details.</title>
+  <link rel="stylesheet" href="../shared.css" />
+</head>
+<body>
+  <div class="bg"></div>
+  <header class="guide-header glass">
+    <div>
+      <p class="eyebrow">Smart Capture</p>
+      <h1>Type naturally; we parse the details.</h1>
+      <p class="muted">Dates, times, contexts, priorities, and tags from one line.</p>
+    </div>
+    <a class="btn" href="/index.html">← Back to landing</a>
+  </header>
+  <main class="guide-content">
+    
+    <section class="guide glass">
+      <h2>Patterns to try</h2>
+      <ul>
+        <li>"handoff tomorrow 3pm @work !high #launch" → fills due, context, priority, tag.</li>
+        <li>"call mom sat 10am @personal" → schedules weekend call.</li>
+        <li>"desk setup every monday 9am" → recurrence planned.</li>
+        <li>Macro phrases like “before lunch” or “next sprint” are recognized from the seed list.</li>
+      </ul>
+    </section>
+
+    <section class="guide glass">
+      <h2>Tips</h2>
+      <ul>
+        <li>Use @context, !priority, #tags inline; we strip and store them.</li>
+        <li>We seed smart terms from server/data/smart_terms_seed.json; extend there.</li>
+        <li>Highlights preview parsed fields before submit.</li>
+        <li>Seed requests? noreply@hyperplanner.today.</li>
+      </ul>
+    </section>
+
+  </main>
+</body>
+</html>
