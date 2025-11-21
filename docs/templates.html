@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Templates & Workflows - HyperPlanner Documentation</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9670;</text></svg>">
+    <link rel="stylesheet" href="docs.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-gradient"></div>
+    <div class="bg-mesh"></div>
+
+    <!-- Navigation -->
+    <nav class="doc-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-icon">&#9670;</span>
+                <span>HyperPlanner</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="getting-started.html" class="nav-link">Docs</a>
+                <a href="../index.html#features" class="nav-link">Features</a>
+                <a href="../index.html#demo" class="nav-link">Try Demo</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Layout -->
+    <div class="doc-layout">
+        <!-- Sidebar -->
+        <aside class="doc-sidebar">
+            <div class="sidebar-section">
+                <h3>Quick Start</h3>
+                <div class="sidebar-links">
+                    <a href="getting-started.html" class="sidebar-link">Getting Started</a>
+                    <a href="video-tutorial.html" class="sidebar-link">Video Tutorial</a>
+                    <a href="keyboard-shortcuts.html" class="sidebar-link">Keyboard Shortcuts</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Features</h3>
+                <div class="sidebar-links">
+                    <a href="smart-capture.html" class="sidebar-link">Smart Capture Guide</a>
+                    <a href="layout-customization.html" class="sidebar-link">Layout Customization</a>
+                    <a href="theme-lab.html" class="sidebar-link">Theme Lab Tutorial</a>
+                    <a href="#" class="sidebar-link">Automations 101</a>
+                    <a href="templates.html" class="sidebar-link active">Templates & Workflows</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>On This Page</h3>
+                <div class="sidebar-links">
+                    <a href="#task-event-templates" class="sidebar-link">Task & Event Templates</a>
+                    <a href="#template-variables" class="sidebar-link">Template Variables</a>
+                    <a href="#export-import" class="sidebar-link">Export & Import</a>
+                    <a href="#marketplace" class="sidebar-link">Planned Marketplace</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Resources</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link">Community Forum</a>
+                    <a href="#" class="sidebar-link">FAQ</a>
+                    <a href="#" class="sidebar-link">Contact Support</a>
+                    <a href="#" class="sidebar-link">Changelog</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="doc-content">
+            <!-- Header -->
+            <header class="doc-header">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a> / <a href="getting-started.html">Docs</a> / Templates & Workflows
+                </div>
+                <h1>Templates & Workflows</h1>
+                <p class="subtitle">Create reusable blueprints for tasks, meetings, and projects. Stop reinventing the wheel and automate your recurring workflows.</p>
+            </header>
+
+            <!-- Overview Section -->
+            <section class="doc-section" id="overview">
+                <h2>What Are Templates?</h2>
+                <p>
+                    Templates in HyperPlanner are reusable blueprints that capture the structure of recurring tasks, events, and projects.
+                    Instead of manually creating the same meeting agenda or project checklist every time, define it once and instantiate it with a single command.
+                </p>
+
+                <div class="info-card tip">
+                    <h4>Templates vs. Automations</h4>
+                    <p>
+                        Templates are structures you invoke on demand (e.g., "create a new 1:1 meeting").
+                        Automations are triggered rules that run automatically (e.g., "when a task is tagged #urgent, move it to Today").
+                        They work great together!
+                    </p>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">&#128203;</div>
+                        <h4>Task Templates</h4>
+                        <p>Single tasks with pre-filled fields, subtasks, and metadata.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128197;</div>
+                        <h4>Event Templates</h4>
+                        <p>Calendar events with agendas, attendees, and time blocks.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128193;</div>
+                        <h4>Project Templates</h4>
+                        <p>Multi-task workflows with dependencies and milestones.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128260;</div>
+                        <h4>Workflow Templates</h4>
+                        <p>Combine tasks, events, and automations into complete systems.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Task & Event Templates Section -->
+            <section class="doc-section" id="task-event-templates">
+                <h2>Task & Event Templates</h2>
+                <p>
+                    HyperPlanner comes with several built-in templates, and you can create unlimited custom ones.
+                    Here are three essential templates that most users find valuable:
+                </p>
+
+                <h3>Weekly Review Template</h3>
+                <p>
+                    A structured reflection session to review your past week and plan the next one.
+                    Based on GTD principles, this template guides you through a complete weekly review process.
+                </p>
+
+                <div class="code-block">
+{
+  "id": "weekly-review",
+  "name": "Weekly Review",
+  "type": "task",
+  "icon": "calendar-check",
+  "description": "Structured weekly reflection and planning session",
+  "defaults": {
+    "title": "Weekly Review - Week of {next_monday}",
+    "context": "@planning",
+    "priority": "high",
+    "duration": 60,
+    "tags": ["review", "planning", "gtd"]
+  },
+  "subtasks": [
+    {
+      "title": "Clear inbox to zero",
+      "description": "Process all items in inbox - delete, delegate, defer, or do"
+    },
+    {
+      "title": "Review completed tasks",
+      "description": "Celebrate wins from the past week. What went well?"
+    },
+    {
+      "title": "Review calendar (past week)",
+      "description": "Any follow-ups needed from meetings or events?"
+    },
+    {
+      "title": "Review calendar (next week)",
+      "description": "Prepare for upcoming commitments. Block focus time."
+    },
+    {
+      "title": "Review project list",
+      "description": "Is each project moving forward? What's the next action?"
+    },
+    {
+      "title": "Review Someday/Maybe",
+      "description": "Anything to activate? Anything to delete?"
+    },
+    {
+      "title": "Identify top 3 priorities",
+      "description": "What are the most important outcomes for next week?"
+    }
+  ],
+  "prompts": [
+    {
+      "field": "reflection_wins",
+      "label": "What were your biggest wins this week?",
+      "type": "textarea"
+    },
+    {
+      "field": "reflection_challenges",
+      "label": "What challenges did you face?",
+      "type": "textarea"
+    },
+    {
+      "field": "next_week_focus",
+      "label": "What's your main focus for next week?",
+      "type": "text"
+    }
+  ],
+  "schedule": {
+    "suggested_day": "friday",
+    "suggested_time": "16:00",
+    "recurring": true,
+    "frequency": "weekly"
+  }
+}
+                </div>
+
+                <div class="info-card note">
+                    <h4>Using the Weekly Review</h4>
+                    <p>
+                        Invoke this template with <span class="code-inline">/template weekly-review</span> or press <span class="kbd">Cmd/Ctrl</span> + <span class="kbd">T</span> and search for "Weekly Review".
+                        Schedule it for Friday afternoon to close out your week with intention.
+                    </p>
+                </div>
+
+                <h3>Project Kickoff Template</h3>
+                <p>
+                    Start any new project with clarity. This template creates a complete project structure with
+                    planning tasks, stakeholder tracking, and timeline milestones.
+                </p>
+
+                <div class="code-block">
+{
+  "id": "project-kickoff",
+  "name": "Project Kickoff",
+  "type": "project",
+  "icon": "rocket",
+  "description": "Complete project setup with timeline and stakeholders",
+  "variables": [
+    {
+      "key": "project_name",
+      "label": "Project Name",
+      "type": "text",
+      "required": true
+    },
+    {
+      "key": "project_deadline",
+      "label": "Target Deadline",
+      "type": "date",
+      "required": true
+    },
+    {
+      "key": "stakeholders",
+      "label": "Key Stakeholders",
+      "type": "text",
+      "placeholder": "e.g., Sarah (PM), Mike (Design), Lisa (Eng)"
+    }
+  ],
+  "defaults": {
+    "title": "{project_name}",
+    "context": "@projects",
+    "priority": "high",
+    "tags": ["project", "active"]
+  },
+  "subtasks": [
+    {
+      "title": "Define project scope and objectives",
+      "description": "What does success look like? What's out of scope?",
+      "due_offset": "+1d"
+    },
+    {
+      "title": "Identify deliverables and milestones",
+      "description": "Break down the project into measurable checkpoints",
+      "due_offset": "+2d"
+    },
+    {
+      "title": "Create timeline and set deadlines",
+      "description": "Work backwards from {project_deadline}",
+      "due_offset": "+2d"
+    },
+    {
+      "title": "Assign responsibilities",
+      "description": "Stakeholders: {stakeholders}",
+      "due_offset": "+3d"
+    },
+    {
+      "title": "Set up communication channels",
+      "description": "Slack channel? Weekly sync? Status updates?",
+      "due_offset": "+3d"
+    },
+    {
+      "title": "Identify risks and blockers",
+      "description": "What could go wrong? What dependencies exist?",
+      "due_offset": "+4d"
+    },
+    {
+      "title": "Schedule kickoff meeting",
+      "description": "Get alignment with all stakeholders",
+      "due_offset": "+5d",
+      "create_event": true,
+      "event_duration": 60
+    }
+  ],
+  "metadata": {
+    "stakeholders": "{stakeholders}",
+    "deadline": "{project_deadline}",
+    "status": "planning"
+  }
+}
+                </div>
+
+                <h3>1:1 Meeting Template</h3>
+                <p>
+                    Never go into a one-on-one unprepared. This template creates a meeting event with
+                    a structured agenda, talking points, and a notes section.
+                </p>
+
+                <div class="code-block">
+{
+  "id": "one-on-one",
+  "name": "1:1 Meeting",
+  "type": "event",
+  "icon": "users",
+  "description": "Structured one-on-one meeting with agenda and notes",
+  "variables": [
+    {
+      "key": "attendee_name",
+      "label": "Meeting With",
+      "type": "text",
+      "required": true
+    },
+    {
+      "key": "meeting_date",
+      "label": "Date & Time",
+      "type": "datetime",
+      "default": "{next_weekday}"
+    },
+    {
+      "key": "meeting_type",
+      "label": "Meeting Type",
+      "type": "select",
+      "options": ["Regular Check-in", "Performance Review", "Career Discussion", "Project Sync"],
+      "default": "Regular Check-in"
+    }
+  ],
+  "defaults": {
+    "title": "1:1 with {attendee_name}",
+    "duration": 30,
+    "context": "@meetings",
+    "tags": ["1:1", "meeting"],
+    "location": "Conference Room / Zoom"
+  },
+  "agenda": [
+    {
+      "section": "Check-in",
+      "duration": 5,
+      "items": [
+        "How are you doing? (personal & professional)",
+        "Any blockers or frustrations?"
+      ]
+    },
+    {
+      "section": "Their Topics",
+      "duration": 10,
+      "items": [
+        "What's on your mind?",
+        "Questions or concerns?",
+        "Feedback for me?"
+      ]
+    },
+    {
+      "section": "My Topics",
+      "duration": 10,
+      "items": [
+        "[Add your discussion points here]"
+      ]
+    },
+    {
+      "section": "Action Items & Wrap-up",
+      "duration": 5,
+      "items": [
+        "Summarize action items",
+        "Confirm next meeting"
+      ]
+    }
+  ],
+  "notes_template": "## 1:1 Notes - {attendee_name} - {today}\n\n### Key Discussion Points\n- \n\n### Action Items\n- [ ] \n\n### Follow-up Topics\n- \n\n### Private Notes\n- ",
+  "recurring_options": {
+    "enabled": true,
+    "suggested_frequency": "weekly",
+    "suggested_day": "same_weekday"
+  }
+}
+                </div>
+
+                <div class="info-card tip">
+                    <h4>Pro Tip: Prepare Before the Meeting</h4>
+                    <p>
+                        When you create a 1:1 from this template, HyperPlanner automatically creates a linked task
+                        "Prepare for 1:1 with {attendee_name}" due 1 hour before the meeting.
+                        Use this time to review past notes and add your talking points.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Template Variables Section -->
+            <section class="doc-section" id="template-variables">
+                <h2>Template Variables</h2>
+                <p>
+                    Variables make templates dynamic. Instead of hardcoding dates or names, use placeholders
+                    that get filled in when you instantiate the template.
+                </p>
+
+                <h3>Built-in Date Variables</h3>
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Variable</th>
+                            <th>Description</th>
+                            <th>Example Output</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="code-inline">{today}</span></td>
+                            <td>Current date</td>
+                            <td>2024-01-15</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">{tomorrow}</span></td>
+                            <td>Next day</td>
+                            <td>2024-01-16</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">{next_monday}</span></td>
+                            <td>Next Monday's date</td>
+                            <td>2024-01-22</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">{next_weekday}</span></td>
+                            <td>Next business day</td>
+                            <td>2024-01-16</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">{end_of_week}</span></td>
+                            <td>Friday of current week</td>
+                            <td>2024-01-19</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">{end_of_month}</span></td>
+                            <td>Last day of current month</td>
+                            <td>2024-01-31</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">{week_number}</span></td>
+                            <td>ISO week number</td>
+                            <td>3</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Custom Variables</h3>
+                <p>
+                    Define your own variables that prompt for input when creating from a template:
+                </p>
+
+                <div class="code-block">
+"variables": [
+  {
+    "key": "project_name",
+    "label": "Project Name",
+    "type": "text",
+    "required": true,
+    "placeholder": "e.g., Website Redesign"
+  },
+  {
+    "key": "client_name",
+    "label": "Client",
+    "type": "text",
+    "default": ""
+  },
+  {
+    "key": "priority_level",
+    "label": "Priority",
+    "type": "select",
+    "options": ["low", "medium", "high", "urgent"],
+    "default": "medium"
+  },
+  {
+    "key": "deadline",
+    "label": "Due Date",
+    "type": "date",
+    "default": "{end_of_month}"
+  },
+  {
+    "key": "estimated_hours",
+    "label": "Time Estimate (hours)",
+    "type": "number",
+    "min": 1,
+    "max": 100
+  }
+]
+                </div>
+
+                <h3>Using Variables in Templates</h3>
+                <p>
+                    Reference variables anywhere in your template using curly braces.
+                    Variables can be used in titles, descriptions, subtasks, and metadata:
+                </p>
+
+                <div class="code-block">
+{
+  "title": "{project_name} - {client_name}",
+  "description": "Project deadline: {deadline}\nEstimated effort: {estimated_hours} hours",
+  "subtasks": [
+    {
+      "title": "Initial meeting with {client_name}",
+      "due_offset": "+1d"
+    },
+    {
+      "title": "Send proposal to {client_name}",
+      "due_offset": "+3d"
+    },
+    {
+      "title": "Complete {project_name} deliverables",
+      "due": "{deadline}"
+    }
+  ],
+  "tags": ["{project_name}", "{priority_level}"]
+}
+                </div>
+
+                <h3>Date Offset Syntax</h3>
+                <p>
+                    Use relative date offsets to create dynamic due dates that calculate from the template creation date:
+                </p>
+
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Offset</th>
+                            <th>Description</th>
+                            <th>If created Jan 15</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="code-inline">+1d</span></td>
+                            <td>1 day from now</td>
+                            <td>Jan 16</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">+1w</span></td>
+                            <td>1 week from now</td>
+                            <td>Jan 22</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">+2w</span></td>
+                            <td>2 weeks from now</td>
+                            <td>Jan 29</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">+1m</span></td>
+                            <td>1 month from now</td>
+                            <td>Feb 15</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">+3m</span></td>
+                            <td>3 months from now</td>
+                            <td>Apr 15</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">-1d</span></td>
+                            <td>1 day before reference</td>
+                            <td>(relative to deadline)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-card warning">
+                    <h4>Variable Validation</h4>
+                    <p>
+                        Required variables must be filled in before a template can be instantiated.
+                        If you leave a required field empty, HyperPlanner will prompt you to complete it.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Export & Import Section -->
+            <section class="doc-section" id="export-import">
+                <h2>Export & Import Templates</h2>
+                <p>
+                    Share your templates with teammates or the community. HyperPlanner uses a portable JSON format
+                    that works across all platforms and can be version-controlled.
+                </p>
+
+                <h3>Exporting Templates</h3>
+                <ul class="steps-list">
+                    <li>
+                        <strong>Open Template Manager</strong><br>
+                        Press <span class="kbd">Cmd/Ctrl</span> + <span class="kbd">T</span> or go to Settings &gt; Templates
+                    </li>
+                    <li>
+                        <strong>Select templates to export</strong><br>
+                        Check the templates you want to share. You can select multiple.
+                    </li>
+                    <li>
+                        <strong>Click "Export Selected"</strong><br>
+                        Choose between JSON file download or copy to clipboard
+                    </li>
+                    <li>
+                        <strong>Share the file</strong><br>
+                        Send via email, Slack, or upload to your team's shared drive
+                    </li>
+                </ul>
+
+                <h3>Export Format</h3>
+                <p>
+                    Exported templates use a standardized JSON structure that includes all metadata:
+                </p>
+
+                <div class="code-block">
+{
+  "hyperplanner_templates": {
+    "version": "1.0",
+    "exported_at": "2024-01-15T10:30:00Z",
+    "exported_by": "user@example.com"
+  },
+  "templates": [
+    {
+      "id": "weekly-review",
+      "name": "Weekly Review",
+      "type": "task",
+      "version": "1.2",
+      "created_at": "2023-06-01T00:00:00Z",
+      "updated_at": "2024-01-10T14:22:00Z",
+      "author": {
+        "name": "HyperPlanner Team",
+        "url": "https://hyperplanner.app"
+      },
+      "license": "CC-BY-4.0",
+      "tags": ["gtd", "productivity", "planning"],
+      "template": {
+        // ... full template definition
+      }
+    }
+  ]
+}
+                </div>
+
+                <h3>Importing Templates</h3>
+                <ul class="steps-list">
+                    <li>
+                        <strong>Open Template Manager</strong><br>
+                        Press <span class="kbd">Cmd/Ctrl</span> + <span class="kbd">T</span> or go to Settings &gt; Templates
+                    </li>
+                    <li>
+                        <strong>Click "Import"</strong><br>
+                        Choose "From File" or "From URL"
+                    </li>
+                    <li>
+                        <strong>Review the templates</strong><br>
+                        HyperPlanner shows a preview with any conflicts highlighted
+                    </li>
+                    <li>
+                        <strong>Resolve conflicts (if any)</strong><br>
+                        If a template ID already exists, choose to skip, rename, or overwrite
+                    </li>
+                    <li>
+                        <strong>Confirm import</strong><br>
+                        Templates are added to your library and ready to use
+                    </li>
+                </ul>
+
+                <h3>Remixing Templates</h3>
+                <p>
+                    Found a template that's almost perfect? Remix it to create your own version:
+                </p>
+
+                <div class="code-block">
+// Original template
+{
+  "id": "weekly-review",
+  "name": "Weekly Review",
+  "subtasks": [/* 7 subtasks */]
+}
+
+// Your remixed version
+{
+  "id": "weekly-review-minimal",
+  "name": "Weekly Review (Minimal)",
+  "based_on": "weekly-review",
+  "subtasks": [
+    // Keep only 3 essential subtasks
+    { "title": "Clear inbox to zero" },
+    { "title": "Review calendar (next week)" },
+    { "title": "Identify top 3 priorities" }
+  ]
+}
+                </div>
+
+                <div class="info-card tip">
+                    <h4>Template Versioning</h4>
+                    <p>
+                        When you modify a template, HyperPlanner automatically increments the version number.
+                        You can view the change history and revert to previous versions from the Template Manager.
+                    </p>
+                </div>
+
+                <h3>Sharing via URL</h3>
+                <p>
+                    Generate a shareable link that others can use to import your template directly:
+                </p>
+
+                <div class="code-block">
+# Shareable template URL format
+https://hyperplanner.app/t/abc123xyz
+
+# When someone visits this link:
+1. Template preview is displayed
+2. User can review all fields and subtasks
+3. "Add to My Templates" button imports it
+4. Original author gets credit
+                </div>
+            </section>
+
+            <!-- Planned Marketplace Section -->
+            <section class="doc-section" id="marketplace">
+                <h2>Planned: Template Marketplace</h2>
+                <p>
+                    We're building a community-curated marketplace where you can discover, share, and remix templates
+                    from productivity enthusiasts around the world.
+                </p>
+
+                <div class="info-card note">
+                    <h4>Coming Soon</h4>
+                    <p>
+                        The Template Marketplace is currently in development. Sign up for our newsletter to be notified when it launches.
+                        In the meantime, share templates manually via JSON export/import.
+                    </p>
+                </div>
+
+                <h3>Featured Collections (Preview)</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">&#128229;</div>
+                        <h4>GTD Essentials</h4>
+                        <p>Weekly Review, Mind Sweep, Project Planning, and Someday/Maybe review templates.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128221;</div>
+                        <h4>Bullet Journal</h4>
+                        <p>Daily Log, Monthly Migration, Future Log, and Collection templates for BuJo fans.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#127813;</div>
+                        <h4>Pomodoro Workflow</h4>
+                        <p>Focus Session, Break Timer, Daily Pomodoro Log, and Weekly Productivity Report.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128188;</div>
+                        <h4>Manager Toolkit</h4>
+                        <p>1:1 Meeting, Team Retrospective, Quarterly Planning, and Performance Review templates.</p>
+                    </div>
+                </div>
+
+                <h3>GTD Collection (Sample)</h3>
+                <div class="code-block">
+{
+  "collection": {
+    "id": "gtd-essentials",
+    "name": "GTD Essentials",
+    "description": "Core templates for Getting Things Done methodology",
+    "author": "HyperPlanner Team",
+    "downloads": 12453,
+    "rating": 4.8,
+    "tags": ["gtd", "david-allen", "productivity"]
+  },
+  "templates": [
+    {
+      "id": "gtd-weekly-review",
+      "name": "GTD Weekly Review",
+      "type": "task",
+      "description": "Complete weekly review following David Allen's methodology"
+    },
+    {
+      "id": "gtd-mind-sweep",
+      "name": "Mind Sweep",
+      "type": "task",
+      "description": "Capture everything on your mind - 50+ trigger questions"
+    },
+    {
+      "id": "gtd-project-planning",
+      "name": "Natural Project Planning",
+      "type": "project",
+      "description": "5-phase planning: Purpose, Vision, Brainstorm, Organize, Next Actions"
+    },
+    {
+      "id": "gtd-someday-maybe",
+      "name": "Someday/Maybe Review",
+      "type": "task",
+      "description": "Monthly review of your someday/maybe list"
+    }
+  ]
+}
+                </div>
+
+                <h3>Bullet Journal Collection (Sample)</h3>
+                <div class="code-block">
+{
+  "collection": {
+    "id": "bullet-journal",
+    "name": "Bullet Journal Digital",
+    "description": "Ryder Carroll's BuJo method, adapted for digital",
+    "author": "Community Contributors",
+    "downloads": 8921,
+    "rating": 4.7,
+    "tags": ["bujo", "journaling", "reflection"]
+  },
+  "templates": [
+    {
+      "id": "bujo-daily-log",
+      "name": "Daily Log",
+      "type": "task",
+      "defaults": {
+        "title": "Daily Log - {today}",
+        "tags": ["bujo", "daily"]
+      },
+      "sections": [
+        { "title": "Rapid Log", "type": "task-list" },
+        { "title": "Notes", "type": "textarea" },
+        { "title": "Events", "type": "event-list" }
+      ]
+    },
+    {
+      "id": "bujo-monthly-migration",
+      "name": "Monthly Migration",
+      "type": "task",
+      "schedule": {
+        "suggested_day": "last_day_of_month",
+        "recurring": true,
+        "frequency": "monthly"
+      },
+      "subtasks": [
+        { "title": "Review incomplete tasks from this month" },
+        { "title": "Cross out tasks that no longer matter" },
+        { "title": "Migrate relevant tasks to next month" },
+        { "title": "Review and update Future Log" }
+      ]
+    }
+  ]
+}
+                </div>
+
+                <h3>Pomodoro Collection (Sample)</h3>
+                <div class="code-block">
+{
+  "collection": {
+    "id": "pomodoro-workflow",
+    "name": "Pomodoro Technique",
+    "description": "Time-boxing templates for focused work sessions",
+    "author": "Community Contributors",
+    "downloads": 6234,
+    "rating": 4.6,
+    "tags": ["pomodoro", "focus", "time-management"]
+  },
+  "templates": [
+    {
+      "id": "pomo-focus-session",
+      "name": "Focus Session",
+      "type": "task",
+      "variables": [
+        {
+          "key": "focus_task",
+          "label": "What will you focus on?",
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "pomodoro_count",
+          "label": "How many pomodoros?",
+          "type": "number",
+          "default": 4,
+          "min": 1,
+          "max": 12
+        }
+      ],
+      "defaults": {
+        "title": "Focus: {focus_task}",
+        "tags": ["pomodoro", "focus"],
+        "duration": 25
+      },
+      "automation": {
+        "on_complete": "start_break_timer",
+        "break_duration": 5,
+        "long_break_after": 4,
+        "long_break_duration": 15
+      }
+    },
+    {
+      "id": "pomo-daily-log",
+      "name": "Daily Pomodoro Log",
+      "type": "task",
+      "defaults": {
+        "title": "Pomodoro Log - {today}",
+        "tags": ["pomodoro", "tracking"]
+      },
+      "fields": [
+        { "key": "planned_pomodoros", "label": "Planned", "type": "number" },
+        { "key": "completed_pomodoros", "label": "Completed", "type": "number" },
+        { "key": "interruptions", "label": "Interruptions", "type": "number" },
+        { "key": "notes", "label": "Reflection", "type": "textarea" }
+      ]
+    }
+  ]
+}
+                </div>
+
+                <h3>Marketplace Features (Planned)</h3>
+                <ul>
+                    <li><strong>Browse by category:</strong> GTD, Bullet Journal, Pomodoro, Agile, Personal, Work, Creative</li>
+                    <li><strong>User ratings and reviews:</strong> See what works for others</li>
+                    <li><strong>One-click install:</strong> Add templates directly to your library</li>
+                    <li><strong>Fork and remix:</strong> Customize community templates and share your versions</li>
+                    <li><strong>Author profiles:</strong> Follow your favorite template creators</li>
+                    <li><strong>Version updates:</strong> Get notified when templates you use are improved</li>
+                </ul>
+
+                <div class="info-card tip">
+                    <h4>Submit Your Templates</h4>
+                    <p>
+                        Have a template that works great for you? We'd love to feature it in the marketplace!
+                        Export your template and email it to <span class="code-inline">templates@hyperplanner.app</span> with a brief description of how you use it.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Creating Your Own Section -->
+            <section class="doc-section" id="creating-templates">
+                <h2>Creating Your Own Templates</h2>
+                <p>
+                    Ready to build your own templates? Here's a quick guide to get you started.
+                </p>
+
+                <h3>Method 1: From an Existing Task</h3>
+                <ul class="steps-list">
+                    <li>
+                        <strong>Right-click any task or project</strong><br>
+                        Select "Save as Template" from the context menu
+                    </li>
+                    <li>
+                        <strong>Name your template</strong><br>
+                        Give it a clear, descriptive name
+                    </li>
+                    <li>
+                        <strong>Choose what to include</strong><br>
+                        Select which fields, subtasks, and metadata to save
+                    </li>
+                    <li>
+                        <strong>Convert values to variables</strong><br>
+                        Replace specific dates/names with placeholders like <span class="code-inline">{project_name}</span>
+                    </li>
+                </ul>
+
+                <h3>Method 2: From Scratch</h3>
+                <ul class="steps-list">
+                    <li>
+                        <strong>Open Template Manager</strong><br>
+                        Press <span class="kbd">Cmd/Ctrl</span> + <span class="kbd">T</span>, then click "New Template"
+                    </li>
+                    <li>
+                        <strong>Choose template type</strong><br>
+                        Task, Event, Project, or Workflow
+                    </li>
+                    <li>
+                        <strong>Define variables</strong><br>
+                        Add the fields you want to prompt for when instantiating
+                    </li>
+                    <li>
+                        <strong>Build the structure</strong><br>
+                        Add subtasks, agenda items, or workflow steps
+                    </li>
+                    <li>
+                        <strong>Set defaults and scheduling</strong><br>
+                        Configure default values and recurring options
+                    </li>
+                    <li>
+                        <strong>Test and refine</strong><br>
+                        Create a test instance and adjust as needed
+                    </li>
+                </ul>
+
+                <h3>Template Best Practices</h3>
+                <ul>
+                    <li><strong>Keep templates focused:</strong> One template per workflow, not everything in one</li>
+                    <li><strong>Use descriptive variable names:</strong> <span class="code-inline">{client_name}</span> is better than <span class="code-inline">{name}</span></li>
+                    <li><strong>Add helpful descriptions:</strong> Future you will thank present you</li>
+                    <li><strong>Include sensible defaults:</strong> Reduce friction when instantiating</li>
+                    <li><strong>Test with real data:</strong> Make sure variables render correctly</li>
+                    <li><strong>Version your templates:</strong> Track changes and allow rollbacks</li>
+                </ul>
+            </section>
+
+            <!-- Page Navigation -->
+            <div class="doc-section" style="display: flex; justify-content: space-between; padding-top: var(--spacing-lg); border-top: 1px solid var(--glass-border);">
+                <a href="theme-lab.html" class="btn" style="text-decoration: none; background: var(--glass); border: 1px solid var(--glass-border);">
+                    &larr; Theme Lab Tutorial
+                </a>
+                <a href="getting-started.html" class="btn" style="text-decoration: none;">
+                    Back to Getting Started &rarr;
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // FAQ accordion functionality (for future use)
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('open');
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Highlight current section in sidebar based on scroll
+        const sections = document.querySelectorAll('.doc-section[id]');
+        const sidebarLinks = document.querySelectorAll('.sidebar-link[href^="#"]');
+
+        function updateActiveSection() {
+            let currentSection = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 120;
+                if (window.scrollY >= sectionTop) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+
+            sidebarLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveSection);
+        updateActiveSection();
+    </script>
+</body>
+</html>

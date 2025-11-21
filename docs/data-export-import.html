@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Export/Import - HyperPlanner Documentation</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9670;</text></svg>">
+    <link rel="stylesheet" href="docs.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-gradient"></div>
+    <div class="bg-mesh"></div>
+
+    <!-- Navigation -->
+    <nav class="doc-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-icon">&#9670;</span>
+                <span>HyperPlanner</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="getting-started.html" class="nav-link">Docs</a>
+                <a href="../index.html#features" class="nav-link">Features</a>
+                <a href="../index.html#demo" class="nav-link">Try Demo</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Layout -->
+    <div class="doc-layout">
+        <!-- Sidebar -->
+        <aside class="doc-sidebar">
+            <div class="sidebar-section">
+                <h3>Quick Start</h3>
+                <div class="sidebar-links">
+                    <a href="getting-started.html" class="sidebar-link">Getting Started</a>
+                    <a href="video-tutorial.html" class="sidebar-link">Video Tutorial</a>
+                    <a href="keyboard-shortcuts.html" class="sidebar-link">Keyboard Shortcuts</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Features</h3>
+                <div class="sidebar-links">
+                    <a href="smart-capture.html" class="sidebar-link">Smart Capture Guide</a>
+                    <a href="layout-customization.html" class="sidebar-link">Layout Customization</a>
+                    <a href="theme-lab.html" class="sidebar-link">Theme Lab Tutorial</a>
+                    <a href="#" class="sidebar-link">Automations 101</a>
+                    <a href="#" class="sidebar-link">Templates & Workflows</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Advanced</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link">API Documentation</a>
+                    <a href="#" class="sidebar-link">Custom Integrations</a>
+                    <a href="data-export-import.html" class="sidebar-link active">Data Export/Import</a>
+                    <a href="#" class="sidebar-link">Privacy & Security</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Resources</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link">Community Forum</a>
+                    <a href="#" class="sidebar-link">FAQ</a>
+                    <a href="#" class="sidebar-link">Contact Support</a>
+                    <a href="#" class="sidebar-link">Changelog</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="doc-content">
+            <!-- Header -->
+            <header class="doc-header">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a> / <a href="getting-started.html">Docs</a> / Data Export/Import
+                </div>
+                <h1>Data Export/Import</h1>
+                <p class="subtitle">Take control of your data. Export in multiple formats, import from popular calendar apps, automate backups, and migrate seamlessly from other tools.</p>
+            </header>
+
+            <!-- Overview Section -->
+            <section class="doc-section" id="overview">
+                <h2>Overview</h2>
+                <p>
+                    HyperPlanner believes your data belongs to you. Whether you need to back up your tasks, sync with external calendars,
+                    or migrate from another productivity tool, we provide comprehensive import and export options to keep you in control.
+                </p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">&#128230;</div>
+                        <h4>Full Data Export</h4>
+                        <p>Export everything in JSON, ICS, or CSV formats anytime.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128229;</div>
+                        <h4>Flexible Import</h4>
+                        <p>Import from Google Calendar, Outlook, and other apps.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128260;</div>
+                        <h4>Two-Way Sync</h4>
+                        <p>CalDAV integration for real-time calendar synchronization.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#9202;</div>
+                        <h4>Scheduled Backups</h4>
+                        <p>Automate exports to cloud storage or local drives.</p>
+                    </div>
+                </div>
+
+                <div class="info-card note">
+                    <h4>Data Privacy</h4>
+                    <p>
+                        All export and import operations happen locally on your device. When syncing with external services,
+                        data is encrypted in transit. HyperPlanner never stores your credentials - we use OAuth tokens that you can revoke anytime.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Export Formats Section -->
+            <section class="doc-section" id="export-formats">
+                <h2>1. Export Formats</h2>
+                <p>
+                    HyperPlanner supports multiple export formats to suit different needs. Access exports from
+                    <strong>Settings &gt; Data &gt; Export</strong> or use the keyboard shortcut <span class="kbd">Cmd/Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">E</span>.
+                </p>
+
+                <h3>JSON (Full Data Export)</h3>
+                <p>
+                    The JSON format includes your complete HyperPlanner data: tasks, events, projects, tags, settings,
+                    automations, and theme configurations. This is the recommended format for full backups and restoration.
+                </p>
+
+                <div class="code-block">
+{
+  "version": "2.0",
+  "exportDate": "2024-01-15T10:30:00Z",
+  "user": {
+    "id": "usr_abc123",
+    "email": "user@example.com",
+    "preferences": {
+      "defaultView": "split",
+      "startOfWeek": "monday",
+      "timeFormat": "12h"
+    }
+  },
+  "tasks": [
+    {
+      "id": "task_001",
+      "title": "Review quarterly report",
+      "description": "Final review before board meeting",
+      "status": "in_progress",
+      "priority": "high",
+      "context": "work",
+      "tags": ["reports", "q4"],
+      "dueDate": "2024-01-20T17:00:00Z",
+      "createdAt": "2024-01-10T09:00:00Z",
+      "updatedAt": "2024-01-15T08:30:00Z",
+      "subtasks": [
+        {
+          "id": "sub_001a",
+          "title": "Check financial figures",
+          "completed": true
+        },
+        {
+          "id": "sub_001b",
+          "title": "Review projections",
+          "completed": false
+        }
+      ],
+      "recurrence": null,
+      "reminder": "2024-01-20T09:00:00Z"
+    }
+  ],
+  "events": [
+    {
+      "id": "evt_001",
+      "title": "Team Standup",
+      "startTime": "2024-01-16T10:00:00Z",
+      "endTime": "2024-01-16T10:30:00Z",
+      "location": "Zoom",
+      "recurrence": {
+        "frequency": "weekly",
+        "days": ["monday", "wednesday", "friday"],
+        "until": null
+      }
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj_001",
+      "name": "Product Launch",
+      "color": "#6366f1",
+      "taskIds": ["task_001", "task_002", "task_003"]
+    }
+  ],
+  "tags": [
+    { "name": "reports", "color": "#10b981" },
+    { "name": "q4", "color": "#f59e0b" }
+  ],
+  "automations": [
+    {
+      "id": "auto_001",
+      "name": "Move completed to archive",
+      "trigger": "task_completed",
+      "delay": "24h",
+      "action": "move_to_lane",
+      "params": { "lane": "archive" }
+    }
+  ],
+  "theme": {
+    "base": "glassy",
+    "customTokens": {
+      "--primary": "#6366f1",
+      "--secondary": "#ec4899"
+    }
+  }
+}
+                </div>
+
+                <h3>ICS/iCal (Calendar Events)</h3>
+                <p>
+                    Export your tasks and events in iCalendar format (.ics) for compatibility with virtually any calendar application.
+                    This format is ideal for sharing schedules or importing into Google Calendar, Outlook, or Apple Calendar.
+                </p>
+
+                <div class="code-block">
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//HyperPlanner//Calendar Export//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:HyperPlanner Tasks
+
+BEGIN:VEVENT
+UID:task_001@hyperplanner.app
+DTSTAMP:20240115T103000Z
+DTSTART:20240120T170000Z
+DTEND:20240120T180000Z
+SUMMARY:Review quarterly report
+DESCRIPTION:Final review before board meeting
+CATEGORIES:work,reports,q4
+PRIORITY:1
+STATUS:IN-PROCESS
+BEGIN:VALARM
+TRIGGER:-PT8H
+ACTION:DISPLAY
+DESCRIPTION:Task reminder
+END:VALARM
+END:VEVENT
+
+BEGIN:VEVENT
+UID:evt_001@hyperplanner.app
+DTSTAMP:20240115T103000Z
+DTSTART:20240116T100000Z
+DTEND:20240116T103000Z
+SUMMARY:Team Standup
+LOCATION:Zoom
+RRULE:FREQ=WEEKLY;BYDAY=MO,WE,FR
+END:VEVENT
+
+END:VCALENDAR
+                </div>
+
+                <div class="info-card tip">
+                    <h4>Export Options for ICS</h4>
+                    <p>
+                        When exporting to ICS, you can choose to include: only events, only tasks with due dates,
+                        or both. You can also filter by date range, project, or tag.
+                    </p>
+                </div>
+
+                <h3>CSV (Spreadsheet Format)</h3>
+                <p>
+                    Export to CSV for analysis in spreadsheet applications like Excel or Google Sheets.
+                    Perfect for reporting, data analysis, or creating custom visualizations.
+                </p>
+
+                <div class="code-block">
+id,title,description,status,priority,context,tags,due_date,created_at,project
+task_001,"Review quarterly report","Final review before board meeting",in_progress,high,work,"reports;q4",2024-01-20T17:00:00Z,2024-01-10T09:00:00Z,Product Launch
+task_002,"Update documentation","Add new API endpoints",pending,medium,work,"docs;api",2024-01-22T12:00:00Z,2024-01-11T14:30:00Z,Product Launch
+task_003,"Design landing page","Create mockups for launch",completed,high,work,"design;marketing",2024-01-15T18:00:00Z,2024-01-05T10:00:00Z,Product Launch
+                </div>
+
+                <h3>Export Options Summary</h3>
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Format</th>
+                            <th>Best For</th>
+                            <th>Includes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="code-inline">JSON</span></td>
+                            <td>Full backup, migration, restoration</td>
+                            <td>Everything (tasks, events, settings, theme, automations)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">ICS</span></td>
+                            <td>Calendar sharing, external sync</td>
+                            <td>Events and tasks with due dates</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">CSV</span></td>
+                            <td>Reporting, analysis, spreadsheets</td>
+                            <td>Task/event data in tabular format</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Import Support Section -->
+            <section class="doc-section" id="import-support">
+                <h2>2. Import Support</h2>
+                <p>
+                    Bring your data into HyperPlanner from popular calendar applications and productivity tools.
+                    Access imports from <strong>Settings &gt; Data &gt; Import</strong>.
+                </p>
+
+                <h3>ICS/iCal Import (Google Calendar, Outlook)</h3>
+                <p>
+                    Import .ics files exported from Google Calendar, Microsoft Outlook, Apple Calendar, or any
+                    other application that supports the iCalendar standard.
+                </p>
+
+                <ul class="steps-list">
+                    <li>
+                        <strong>Export from your calendar app</strong><br>
+                        In Google Calendar: Settings &gt; Import/Export &gt; Export. In Outlook: File &gt; Save Calendar.
+                    </li>
+                    <li>
+                        <strong>Open HyperPlanner import dialog</strong><br>
+                        Go to Settings &gt; Data &gt; Import, or press <span class="kbd">Cmd/Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">I</span>
+                    </li>
+                    <li>
+                        <strong>Select your .ics file</strong><br>
+                        Drag and drop or click to browse. HyperPlanner will show a preview of detected events.
+                    </li>
+                    <li>
+                        <strong>Configure import options</strong><br>
+                        Choose whether to import as events, tasks, or auto-detect. Set default project and tags.
+                    </li>
+                    <li>
+                        <strong>Review and confirm</strong><br>
+                        Check the preview, resolve any conflicts with existing items, and click Import.
+                    </li>
+                </ul>
+
+                <div class="code-block">
+# Import configuration options
+{
+  "source": "google_calendar_export.ics",
+  "options": {
+    "importAs": "auto",           // "events", "tasks", or "auto"
+    "defaultProject": "Imported",
+    "defaultContext": null,
+    "handleRecurring": "expand",  // "expand", "single", or "skip"
+    "conflictResolution": "skip", // "skip", "replace", or "duplicate"
+    "dateRange": {
+      "start": "2024-01-01",
+      "end": "2024-12-31"
+    }
+  }
+}
+                </div>
+
+                <div class="info-card tip">
+                    <h4>Google Calendar Direct Connect</h4>
+                    <p>
+                        Instead of manual export/import, you can connect your Google Calendar directly via OAuth.
+                        Go to Settings &gt; Integrations &gt; Google Calendar to set up automatic two-way sync.
+                    </p>
+                </div>
+
+                <h3>CalDAV Two-Way Sync</h3>
+                <p>
+                    For real-time synchronization with external calendar servers, HyperPlanner supports the CalDAV protocol.
+                    This enables bi-directional sync with services like:
+                </p>
+
+                <ul>
+                    <li><strong>Fastmail</strong> - Full CalDAV support</li>
+                    <li><strong>NextCloud</strong> - Self-hosted calendar sync</li>
+                    <li><strong>iCloud</strong> - Apple's calendar service</li>
+                    <li><strong>Zimbra</strong> - Enterprise calendar systems</li>
+                    <li><strong>Radicale</strong> - Lightweight self-hosted server</li>
+                </ul>
+
+                <h4>Setting Up CalDAV Sync</h4>
+                <ul class="steps-list">
+                    <li>
+                        <strong>Navigate to integrations</strong><br>
+                        Open Settings &gt; Integrations &gt; CalDAV
+                    </li>
+                    <li>
+                        <strong>Enter server details</strong><br>
+                        Provide your CalDAV server URL, username, and password (or app-specific password)
+                    </li>
+                    <li>
+                        <strong>Select calendars to sync</strong><br>
+                        Choose which remote calendars to import and which HyperPlanner projects to export
+                    </li>
+                    <li>
+                        <strong>Configure sync settings</strong><br>
+                        Set sync frequency (real-time, every 5 min, hourly) and conflict resolution preferences
+                    </li>
+                </ul>
+
+                <div class="code-block">
+# CalDAV Configuration Example
+{
+  "caldav": {
+    "serverUrl": "https://caldav.example.com/dav/",
+    "username": "your_username",
+    "authType": "oauth2",  // or "basic"
+    "syncInterval": 300,   // seconds (5 minutes)
+    "calendars": [
+      {
+        "remoteId": "personal",
+        "localProject": "Personal",
+        "syncDirection": "bidirectional"
+      },
+      {
+        "remoteId": "work",
+        "localProject": "Work",
+        "syncDirection": "import_only"
+      }
+    ],
+    "conflictResolution": "remote_wins",  // or "local_wins", "newest_wins"
+    "syncTasks": true,
+    "syncEvents": true
+  }
+}
+                </div>
+
+                <h3>JSON Backup Restoration</h3>
+                <p>
+                    Restore from a previous HyperPlanner JSON export to recover your complete workspace, including
+                    all tasks, events, settings, automations, and themes.
+                </p>
+
+                <ul class="steps-list">
+                    <li>
+                        <strong>Open restore dialog</strong><br>
+                        Settings &gt; Data &gt; Restore from Backup
+                    </li>
+                    <li>
+                        <strong>Select your backup file</strong><br>
+                        Choose a .json file from a previous HyperPlanner export
+                    </li>
+                    <li>
+                        <strong>Choose restore mode</strong><br>
+                        <em>Full Replace:</em> Wipe current data and restore backup completely<br>
+                        <em>Merge:</em> Combine backup data with existing data, keeping both
+                    </li>
+                    <li>
+                        <strong>Select components to restore</strong><br>
+                        Choose which parts to restore: tasks, events, projects, settings, automations, theme
+                    </li>
+                    <li>
+                        <strong>Confirm restoration</strong><br>
+                        Review the summary and confirm. HyperPlanner will create an automatic backup of current data first.
+                    </li>
+                </ul>
+
+                <div class="info-card warning">
+                    <h4>Version Compatibility</h4>
+                    <p>
+                        HyperPlanner automatically migrates data from older export versions. However, if restoring from a
+                        much newer version, some features may not be available. Always keep your app updated.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Backup & Restore Section -->
+            <section class="doc-section" id="backup-restore">
+                <h2>3. Backup & Restore</h2>
+                <p>
+                    Protect your data with manual or automatic backups. HyperPlanner makes it easy to create
+                    restore points and recover from any issues.
+                </p>
+
+                <h3>Creating Manual Backups</h3>
+                <p>Create an instant backup of your current workspace:</p>
+
+                <div class="code-block">
+# Quick backup via Command Bar
+Press Cmd/Ctrl + K, then type:
+> backup now
+> export full backup
+
+# Keyboard shortcut
+Cmd/Ctrl + Shift + B  ->  Create instant backup
+                </div>
+
+                <ul class="steps-list">
+                    <li>
+                        <strong>Open backup dialog</strong><br>
+                        Settings &gt; Data &gt; Backup, or use <span class="kbd">Cmd/Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">B</span>
+                    </li>
+                    <li>
+                        <strong>Choose backup location</strong><br>
+                        Local download, connected cloud storage, or both
+                    </li>
+                    <li>
+                        <strong>Add backup note (optional)</strong><br>
+                        Describe what this backup contains for easy identification later
+                    </li>
+                    <li>
+                        <strong>Create backup</strong><br>
+                        Click "Create Backup" - the file will include a timestamp in the filename
+                    </li>
+                </ul>
+
+                <h3>Backup File Naming</h3>
+                <div class="code-block">
+# Backup file naming convention
+hyperplanner_backup_2024-01-15_103045.json
+
+# Format breakdown:
+hyperplanner_backup_    # Prefix
+2024-01-15              # Date (YYYY-MM-DD)
+_103045                 # Time (HHMMSS)
+.json                   # Extension
+                </div>
+
+                <h3>Restore Options</h3>
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Restore Mode</th>
+                            <th>Description</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Full Replace</strong></td>
+                            <td>Completely replaces all current data</td>
+                            <td>Starting fresh, recovering from corruption</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Merge</strong></td>
+                            <td>Combines backup with existing data</td>
+                            <td>Recovering deleted items without losing new work</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Selective</strong></td>
+                            <td>Choose specific items to restore</td>
+                            <td>Restoring individual projects or settings</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Automatic Backup Points</h3>
+                <p>
+                    HyperPlanner automatically creates local backup points that you can restore from:
+                </p>
+
+                <ul>
+                    <li><strong>Before major changes:</strong> Bulk edits, imports, or setting changes trigger auto-backup</li>
+                    <li><strong>Daily snapshots:</strong> Last 7 days of daily backups are retained locally</li>
+                    <li><strong>Weekly archives:</strong> Last 4 weekly backups are kept for longer-term recovery</li>
+                </ul>
+
+                <div class="info-card tip">
+                    <h4>Accessing Auto-Backups</h4>
+                    <p>
+                        View and restore from automatic backups at Settings &gt; Data &gt; Backup History.
+                        You can also promote any auto-backup to a permanent saved backup.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Data Migration Section -->
+            <section class="doc-section" id="data-migration">
+                <h2>4. Data Migration from Other Apps</h2>
+                <p>
+                    Moving to HyperPlanner from another productivity tool? We provide migration guides and
+                    import tools for popular applications.
+                </p>
+
+                <h3>Supported Migration Sources</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">&#9989;</div>
+                        <h4>Todoist</h4>
+                        <p>Import projects, tasks, labels, and filters via JSON export.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#9989;</div>
+                        <h4>Notion</h4>
+                        <p>Import databases exported as CSV or Markdown files.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#9989;</div>
+                        <h4>Trello</h4>
+                        <p>Import boards, lists, and cards from JSON export.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#9989;</div>
+                        <h4>Asana</h4>
+                        <p>Import projects and tasks via CSV export.</p>
+                    </div>
+                </div>
+
+                <h3>Migration from Todoist</h3>
+                <ul class="steps-list">
+                    <li>
+                        <strong>Export from Todoist</strong><br>
+                        In Todoist: Settings &gt; Integrations &gt; Export as template (or use API backup)
+                    </li>
+                    <li>
+                        <strong>Open HyperPlanner migration tool</strong><br>
+                        Settings &gt; Data &gt; Migrate &gt; From Todoist
+                    </li>
+                    <li>
+                        <strong>Upload export file or connect API</strong><br>
+                        Either upload your export file or authenticate with Todoist for direct import
+                    </li>
+                    <li>
+                        <strong>Map projects and labels</strong><br>
+                        Match Todoist projects to HyperPlanner projects and labels to tags
+                    </li>
+                    <li>
+                        <strong>Run migration</strong><br>
+                        Review the preview and start the import process
+                    </li>
+                </ul>
+
+                <div class="code-block">
+# Todoist to HyperPlanner field mapping
+{
+  "mapping": {
+    "content"       -> "title",
+    "description"   -> "description",
+    "priority"      -> "priority",      // p1->high, p2->medium, p3/p4->low
+    "due.date"      -> "dueDate",
+    "labels"        -> "tags",
+    "project_id"    -> "project",
+    "parent_id"     -> "parentTask",    // For subtasks
+    "is_completed"  -> "status"         // true->completed, false->pending
+  }
+}
+                </div>
+
+                <h3>Migration from Trello</h3>
+                <ul class="steps-list">
+                    <li>
+                        <strong>Export from Trello</strong><br>
+                        Open board menu &gt; More &gt; Print and Export &gt; Export as JSON
+                    </li>
+                    <li>
+                        <strong>Open HyperPlanner migration tool</strong><br>
+                        Settings &gt; Data &gt; Migrate &gt; From Trello
+                    </li>
+                    <li>
+                        <strong>Upload the JSON file</strong><br>
+                        Select your exported Trello board file
+                    </li>
+                    <li>
+                        <strong>Configure import settings</strong><br>
+                        Map Trello lists to HyperPlanner lanes/statuses, labels to tags
+                    </li>
+                    <li>
+                        <strong>Import attachments (optional)</strong><br>
+                        Choose whether to download and import card attachments
+                    </li>
+                </ul>
+
+                <div class="code-block">
+# Trello to HyperPlanner mapping
+{
+  "mapping": {
+    "boards": [
+      {
+        "trelloBoard": "Product Development",
+        "hyperplannerProject": "Product Dev"
+      }
+    ],
+    "lists": {
+      "To Do"       -> "inbox",
+      "In Progress" -> "in_progress",
+      "Review"      -> "in_progress",
+      "Done"        -> "completed"
+    },
+    "labels": {
+      "Bug"         -> { "tag": "bug", "priority": "high" },
+      "Feature"     -> { "tag": "feature" },
+      "Urgent"      -> { "priority": "high" }
+    }
+  }
+}
+                </div>
+
+                <h3>Generic CSV Import</h3>
+                <p>
+                    For applications not specifically supported, use the generic CSV import to bring in task data.
+                    HyperPlanner will attempt to auto-detect columns or let you map them manually.
+                </p>
+
+                <div class="code-block">
+# Required CSV columns (minimum)
+title
+
+# Recommended columns for full import
+title,description,status,priority,due_date,tags,project
+
+# Example CSV format
+title,description,status,priority,due_date,tags,project
+"Complete report","Q4 financial summary",pending,high,2024-01-20,"finance;quarterly",Work
+"Buy groceries","Milk, eggs, bread",pending,low,2024-01-16,"shopping",Personal
+                </div>
+
+                <div class="info-card note">
+                    <h4>Migration Assistance</h4>
+                    <p>
+                        Need help migrating from an app not listed here? Contact our support team at
+                        <a href="#">support@hyperplanner.app</a> - we can often create custom import scripts for your data.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Scheduled Exports Section -->
+            <section class="doc-section" id="scheduled-exports">
+                <h2>5. Scheduling Automatic Exports</h2>
+                <p>
+                    Set up automated exports to ensure your data is always backed up without manual intervention.
+                    Configure schedules for local storage, cloud services, or external servers.
+                </p>
+
+                <h3>Setting Up Scheduled Exports</h3>
+                <ul class="steps-list">
+                    <li>
+                        <strong>Open automation settings</strong><br>
+                        Settings &gt; Data &gt; Scheduled Exports
+                    </li>
+                    <li>
+                        <strong>Create new schedule</strong><br>
+                        Click "Add Schedule" and choose export type (JSON, ICS, or CSV)
+                    </li>
+                    <li>
+                        <strong>Configure frequency</strong><br>
+                        Set when exports run: daily, weekly, monthly, or custom cron schedule
+                    </li>
+                    <li>
+                        <strong>Choose destination</strong><br>
+                        Select where backups are saved: local folder, cloud storage, or webhook
+                    </li>
+                    <li>
+                        <strong>Set retention policy</strong><br>
+                        Define how many backups to keep and when old ones are automatically deleted
+                    </li>
+                </ul>
+
+                <h3>Schedule Configuration</h3>
+                <div class="code-block">
+# Scheduled export configuration
+{
+  "schedules": [
+    {
+      "id": "daily_backup",
+      "name": "Daily Full Backup",
+      "enabled": true,
+      "format": "json",
+      "frequency": {
+        "type": "daily",
+        "time": "02:00",           // 2 AM local time
+        "timezone": "America/New_York"
+      },
+      "destination": {
+        "type": "cloud",
+        "provider": "google_drive",
+        "folder": "/HyperPlanner Backups/Daily"
+      },
+      "retention": {
+        "count": 7,               // Keep last 7 daily backups
+        "deleteOlder": true
+      },
+      "notification": {
+        "onSuccess": false,
+        "onFailure": true,
+        "email": "user@example.com"
+      }
+    },
+    {
+      "id": "weekly_archive",
+      "name": "Weekly Archive",
+      "enabled": true,
+      "format": "json",
+      "frequency": {
+        "type": "weekly",
+        "dayOfWeek": "sunday",
+        "time": "03:00"
+      },
+      "destination": {
+        "type": "local",
+        "path": "~/Documents/HyperPlanner/Weekly"
+      },
+      "retention": {
+        "count": 12,              // Keep 3 months of weekly backups
+        "deleteOlder": true
+      }
+    }
+  ]
+}
+                </div>
+
+                <h3>Cloud Storage Destinations</h3>
+                <p>Connect your preferred cloud storage for automatic backup uploads:</p>
+
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Provider</th>
+                            <th>Setup</th>
+                            <th>Features</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Google Drive</strong></td>
+                            <td>OAuth connection</td>
+                            <td>Folder selection, version history</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dropbox</strong></td>
+                            <td>OAuth connection</td>
+                            <td>Automatic sync, file recovery</td>
+                        </tr>
+                        <tr>
+                            <td><strong>OneDrive</strong></td>
+                            <td>OAuth connection</td>
+                            <td>Microsoft 365 integration</td>
+                        </tr>
+                        <tr>
+                            <td><strong>iCloud</strong></td>
+                            <td>Native (macOS/iOS)</td>
+                            <td>Seamless Apple ecosystem sync</td>
+                        </tr>
+                        <tr>
+                            <td><strong>S3/R2</strong></td>
+                            <td>API credentials</td>
+                            <td>Custom buckets, enterprise storage</td>
+                        </tr>
+                        <tr>
+                            <td><strong>WebDAV</strong></td>
+                            <td>Server URL + auth</td>
+                            <td>Self-hosted options (NextCloud, etc.)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Webhook Exports</h3>
+                <p>
+                    For advanced automation, send exports to a webhook URL. This enables integration with
+                    custom backup systems, CI/CD pipelines, or data processing workflows.
+                </p>
+
+                <div class="code-block">
+# Webhook export configuration
+{
+  "destination": {
+    "type": "webhook",
+    "url": "https://api.example.com/backups/hyperplanner",
+    "method": "POST",
+    "headers": {
+      "Authorization": "Bearer your_api_token",
+      "Content-Type": "application/json"
+    },
+    "payload": {
+      "timestamp": "{{exportDate}}",
+      "format": "{{format}}",
+      "data": "{{base64EncodedData}}"
+    },
+    "retryOnFailure": true,
+    "maxRetries": 3
+  }
+}
+                </div>
+
+                <h3>Export Notifications</h3>
+                <p>Stay informed about your automated backups:</p>
+
+                <ul>
+                    <li><strong>Email notifications:</strong> Receive alerts on success, failure, or both</li>
+                    <li><strong>In-app notifications:</strong> See backup status in your notification center</li>
+                    <li><strong>Slack/Discord:</strong> Send backup reports to team channels via webhooks</li>
+                    <li><strong>Export log:</strong> View complete history at Settings &gt; Data &gt; Export History</li>
+                </ul>
+
+                <div class="info-card warning">
+                    <h4>Storage Limits</h4>
+                    <p>
+                        Be mindful of storage quotas on cloud services. Configure retention policies to automatically
+                        delete old backups and prevent hitting storage limits. HyperPlanner will warn you when
+                        approaching 80% of connected storage capacity.
+                    </p>
+                </div>
+            </section>
+
+            <!-- API Access Section -->
+            <section class="doc-section" id="api-access">
+                <h2>Programmatic Access</h2>
+                <p>
+                    For developers and power users, HyperPlanner provides API endpoints for export and import operations.
+                </p>
+
+                <div class="code-block">
+# Export via API
+curl -X GET "https://api.hyperplanner.app/v1/export" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "format": "json",
+    "includeCompleted": true,
+    "dateRange": {
+      "start": "2024-01-01",
+      "end": "2024-12-31"
+    }
+  }'
+
+# Import via API
+curl -X POST "https://api.hyperplanner.app/v1/import" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d @backup_file.json
+                </div>
+
+                <p>
+                    For complete API documentation, including rate limits and authentication details,
+                    visit our <a href="#">API Documentation</a>.
+                </p>
+            </section>
+
+            <!-- Quick Reference Section -->
+            <section class="doc-section" id="quick-reference">
+                <h2>Quick Reference</h2>
+
+                <h3>Keyboard Shortcuts</h3>
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Shortcut</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="kbd">Cmd/Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">E</span></td>
+                            <td>Open Export Dialog</td>
+                        </tr>
+                        <tr>
+                            <td><span class="kbd">Cmd/Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">I</span></td>
+                            <td>Open Import Dialog</td>
+                        </tr>
+                        <tr>
+                            <td><span class="kbd">Cmd/Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">B</span></td>
+                            <td>Create Instant Backup</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Command Bar Quick Actions</h3>
+                <div class="code-block">
+> export json          # Export full data as JSON
+> export ics           # Export calendar as ICS
+> export csv           # Export tasks as CSV
+> import               # Open import dialog
+> backup now           # Create instant backup
+> restore              # Open restore dialog
+> sync caldav          # Trigger CalDAV sync
+                </div>
+            </section>
+
+            <!-- Page Navigation -->
+            <div class="doc-section" style="display: flex; justify-content: space-between; padding-top: var(--spacing-lg); border-top: 1px solid var(--glass-border);">
+                <a href="#" class="btn" style="text-decoration: none; background: var(--glass); border: 1px solid var(--glass-border);">
+                    &larr; Custom Integrations
+                </a>
+                <a href="#" class="btn" style="text-decoration: none;">
+                    Privacy & Security &rarr;
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // FAQ accordion functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('open');
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Highlight current section in sidebar based on scroll
+        const sections = document.querySelectorAll('.doc-section[id]');
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+
+        function updateActiveSection() {
+            let currentSection = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveSection);
+
+        // Add copy functionality to code blocks
+        document.querySelectorAll('.code-block').forEach(block => {
+            block.addEventListener('click', function() {
+                const text = this.textContent;
+                navigator.clipboard.writeText(text).then(() => {
+                    const originalBg = this.style.borderColor;
+                    this.style.borderColor = 'var(--success)';
+                    setTimeout(() => {
+                        this.style.borderColor = originalBg;
+                    }, 1000);
+                });
+            });
+            block.style.cursor = 'pointer';
+            block.title = 'Click to copy';
+        });
+    </script>
+</body>
+</html>

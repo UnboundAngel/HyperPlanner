@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Tutorials - HyperPlanner Documentation</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+    <link rel="stylesheet" href="docs.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Video Tutorial Specific Styles */
+        .video-section {
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .video-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all var(--transition-base);
+        }
+
+        .video-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.15);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            overflow: hidden;
+        }
+
+        .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+        }
+
+        .play-button {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.4);
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.5);
+        }
+
+        .play-button svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+            margin-left: 4px;
+        }
+
+        .video-duration {
+            position: absolute;
+            bottom: var(--spacing-sm);
+            right: var(--spacing-sm);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .video-label {
+            position: absolute;
+            top: var(--spacing-sm);
+            left: var(--spacing-sm);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .video-info {
+            padding: var(--spacing-lg);
+        }
+
+        .video-info h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-primary);
+        }
+
+        .video-info p {
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.7;
+        }
+
+        .video-meta {
+            display: flex;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            font-size: 0.875rem;
+            color: var(--text-tertiary);
+        }
+
+        .meta-item svg {
+            width: 16px;
+            height: 16px;
+            opacity: 0.7;
+        }
+
+        .topics-list {
+            margin-top: var(--spacing-md);
+            padding-top: var(--spacing-md);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .topics-list h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .topic-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+        }
+
+        .topic-tag {
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--primary-light);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .page-intro {
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .page-intro p {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            line-height: 1.8;
+        }
+
+        .video-grid {
+            display: grid;
+            gap: var(--spacing-xl);
+        }
+
+        .coming-soon-badge {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--accent);
+        }
+
+        .tutorial-nav {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .tutorial-nav h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            margin-bottom: var(--spacing-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tutorial-nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+        }
+
+        .tutorial-nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            font-size: 0.875rem;
+            transition: all var(--transition-fast);
+            background: var(--glass);
+            border: 1px solid transparent;
+        }
+
+        .tutorial-nav-link:hover {
+            background: var(--glass-hover);
+            color: var(--primary-light);
+            border-color: var(--glass-border);
+        }
+
+        @media (max-width: 768px) {
+            .play-button {
+                width: 60px;
+                height: 60px;
+            }
+
+            .play-button svg {
+                width: 24px;
+                height: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-gradient"></div>
+    <div class="bg-mesh"></div>
+
+    <!-- Navigation -->
+    <nav class="doc-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-icon">◆</span>
+                <span>HyperPlanner</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#features" class="nav-link">Features</a>
+                <a href="../index.html#demo" class="nav-link">Demo</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Layout -->
+    <div class="doc-layout">
+        <!-- Sidebar -->
+        <aside class="doc-sidebar">
+            <div class="sidebar-section">
+                <h3>Quick Start</h3>
+                <div class="sidebar-links">
+                    <a href="getting-started.html" class="sidebar-link">Getting Started Guide</a>
+                    <a href="video-tutorial.html" class="sidebar-link active">Video Tutorials</a>
+                    <a href="keyboard-shortcuts.html" class="sidebar-link">Keyboard Shortcuts</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Features</h3>
+                <div class="sidebar-links">
+                    <a href="smart-capture.html" class="sidebar-link">Smart Capture</a>
+                    <a href="layout-customization.html" class="sidebar-link">Layout Customization</a>
+                    <a href="theme-lab.html" class="sidebar-link">Theme Lab</a>
+                    <a href="automations.html" class="sidebar-link">Automations</a>
+                    <a href="templates.html" class="sidebar-link">Templates & Workflows</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Advanced</h3>
+                <div class="sidebar-links">
+                    <a href="api.html" class="sidebar-link">API Documentation</a>
+                    <a href="integrations.html" class="sidebar-link">Custom Integrations</a>
+                    <a href="data-export.html" class="sidebar-link">Data Export/Import</a>
+                    <a href="privacy.html" class="sidebar-link">Privacy & Security</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Resources</h3>
+                <div class="sidebar-links">
+                    <a href="community.html" class="sidebar-link">Community Forum</a>
+                    <a href="faq.html" class="sidebar-link">FAQ</a>
+                    <a href="support.html" class="sidebar-link">Contact Support</a>
+                    <a href="changelog.html" class="sidebar-link">Changelog</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="doc-content">
+            <!-- Header -->
+            <div class="doc-header">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a> / <a href="getting-started.html">Quick Start</a> / Video Tutorials
+                </div>
+                <h1>Video Tutorials</h1>
+                <p class="subtitle">Learn HyperPlanner through step-by-step video guides</p>
+            </div>
+
+            <!-- Introduction -->
+            <div class="page-intro">
+                <p>
+                    These video tutorials walk you through every aspect of HyperPlanner, from initial setup
+                    to advanced customizations. Each video is designed to be concise and actionable, helping
+                    you master the features that matter most to your workflow.
+                </p>
+            </div>
+
+            <!-- Quick Navigation -->
+            <div class="tutorial-nav">
+                <h4>Jump to Tutorial</h4>
+                <div class="tutorial-nav-links">
+                    <a href="#getting-started" class="tutorial-nav-link">Getting Started</a>
+                    <a href="#smart-capture" class="tutorial-nav-link">Smart Capture</a>
+                    <a href="#layout" class="tutorial-nav-link">Layout Customization</a>
+                    <a href="#theme-lab" class="tutorial-nav-link">Theme Lab</a>
+                    <a href="#automations" class="tutorial-nav-link">Automations</a>
+                    <a href="#tips" class="tutorial-nav-link">Tips & Tricks</a>
+                </div>
+            </div>
+
+            <!-- Video Tutorials Grid -->
+            <div class="video-grid">
+
+                <!-- 1. Getting Started Video -->
+                <section id="getting-started" class="video-section">
+                    <div class="video-card">
+                        <div class="video-container">
+                            <div class="video-placeholder">
+                                <div class="play-button">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <span class="video-label">Essential</span>
+                            <span class="video-duration">8:24</span>
+                        </div>
+                        <div class="video-info">
+                            <h3>Getting Started with HyperPlanner</h3>
+                            <p>
+                                Your complete introduction to HyperPlanner. This video covers the initial setup
+                                process, understanding the interface, creating your first tasks, and navigating
+                                between different views. Perfect for new users who want to hit the ground running.
+                            </p>
+                            <div class="video-meta">
+                                <div class="meta-item">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                    <span>Beginner</span>
+                                </div>
+                                <div class="meta-item">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                                    </svg>
+                                    <span>8 minutes</span>
+                                </div>
+                            </div>
+                            <div class="topics-list">
+                                <h4>Topics Covered</h4>
+                                <div class="topic-tags">
+                                    <span class="topic-tag">Initial Setup</span>
+                                    <span class="topic-tag">Interface Overview</span>
+                                    <span class="topic-tag">Creating Tasks</span>
+                                    <span class="topic-tag">View Navigation</span>
+                                    <span class="topic-tag">Basic Settings</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. Smart Capture Deep Dive -->
+                <section id="smart-capture" class="video-section">
+                    <div class="video-card">
+                        <div class="video-container">
+                            <div class="video-placeholder">
+                                <div class="play-button">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <span class="video-label">Feature Deep Dive</span>
+                            <span class="video-duration">12:35</span>
+                        </div>
+                        <div class="video-info">
+                            <h3>Smart Capture Deep Dive</h3>
+                            <p>
+                                Master the art of natural language task entry. Learn how HyperPlanner parses
+                                your input to extract dates, priorities, contexts, and tags automatically.
+                                Discover custom phrase mapping and inline subtask creation to supercharge
+                                your capture workflow.
+                            </p>
+                            <div class="video-meta">
+                                <div class="meta-item">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                    <span>Intermediate</span>
+                                </div>
+                                <div class="meta-item">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                                    </svg>
+                                    <span>12 minutes</span>
+                                </div>
+                            </div>
+                            <div class="topics-list">
+                                <h4>Topics Covered</h4>
+                                <div class="topic-tags">
+                                    <span class="topic-tag">Natural Language Parsing</span>
+                                    <span class="topic-tag">Date & Time Recognition</span>
+                                    <span class="topic-tag">Priority Syntax</span>
+                                    <span class="topic-tag">Context Tags</span>
+                                    <span class="topic-tag">Custom Phrases</span>
+                                    <span class="topic-tag">Inline Subtasks</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. Layout Customization Walkthrough -->
+                <section id="layout" class="video-section">
+                    <div class="video-card">
+                        <div class="video-container">
+                            <div class="video-placeholder">
+                                <div class="play-button">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <span class="video-label">Feature Deep Dive</span>
+                            <span class="video-duration">15:18</span>
+                        </div>
+                        <div class="video-info">
+                            <h3>Layout Customization Walkthrough</h3>
+                            <p>
+                                Create your perfect workspace by arranging panels, choosing views, and saving
+                                layout presets. This comprehensive walkthrough covers the flexible panel system,
+                                density controls, component variants, and how to set up different layouts for
+                                different devices.
+                            </p>
+                            <div class="video-meta">
+                                <div class="meta-item">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                    <span>Intermediate</span>
+                                </div>
+                                <div class="meta-item">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                                    </svg>
+                                    <span>15 minutes</span>
+                                </div>
+                            </div>
+                            <div class="topics-list">
+                                <h4>Topics Covered</h4>
+                                <div class="topic-tags">
+                                    <span class="topic-tag">Panel System</span>
+                                    <span class="topic-tag">Drag & Resize</span>
+                                    <span class="topic-tag">View Types</span>
+                                    <span class="topic-tag">Density Controls</span>
+                                    <span class="topic-tag">Card Variants</span>
+                                    <span class="topic-tag">Device Presets</span>
+                                    <span class="topic-tag">Layout Saving</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. Theme Lab Tutorial -->
+                <section id="theme-lab" class="video-section">
+                    <div class="video-card">
+                        <div class="video-container">
+                            <div class="video-placeholder">
+                                <div class="play-button">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <span class="video-label">Customization</span>
+                            <span class="video-duration">18:42</span>
+                        </div>
+                        <div class="video-info">
+                            <h3>Theme Lab Tutorial</h3>
+                            <p>
+                                Unleash your creativity in the Theme Lab. Learn how to customize every visual
+                                aspect of HyperPlanner, from accent colors and glass effects to typography and
+                                animations. Discover how to create, save, export, and share your custom themes
+                                with the community.
+                            </p>
+                            <div class="video-meta">
+                                <div class="meta-item">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                    <span>All Levels</span>
+                                </div>
+                                <div class="meta-item">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                                    </svg>
+                                    <span>18 minutes</span>
+                                </div>
+                            </div>
+                            <div class="topics-list">
+                                <h4>Topics Covered</h4>
+                                <div class="topic-tags">
+                                    <span class="topic-tag">Color Palettes</span>
+                                    <span class="topic-tag">Glass Effects</span>
+                                    <span class="topic-tag">Design Tokens</span>
+                                    <span class="topic-tag">Light/Dark Modes</span>
+                                    <span class="topic-tag">Custom Icons</span>
+                                    <span class="topic-tag">Animation Speed</span>
+                                    <span class="topic-tag">Theme Export</span>
+                                    <span class="topic-tag">Community Themes</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5. Automations Guide -->
+                <section id="automations" class="video-section">
+                    <div class="video-card">
+                        <div class="video-container">
+                            <div class="video-placeholder">
+                                <div class="play-button">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <span class="video-label">Advanced</span>
+                            <span class="video-duration">14:56</span>
+                        </div>
+                        <div class="video-info">
+                            <h3>Automations Guide</h3>
+                            <p>
+                                Let HyperPlanner work for you with visual automations. This guide walks you
+                                through building "When X, Do Y" rules without writing code. Learn about trigger
+                                types, action chains, and how to create custom capture language that speaks
+                                your dialect.
+                            </p>
+                            <div class="video-meta">
+                                <div class="meta-item">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                    <span>Advanced</span>
+                                </div>
+                                <div class="meta-item">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                                    </svg>
+                                    <span>14 minutes</span>
+                                </div>
+                            </div>
+                            <div class="topics-list">
+                                <h4>Topics Covered</h4>
+                                <div class="topic-tags">
+                                    <span class="topic-tag">Visual Rule Builder</span>
+                                    <span class="topic-tag">Trigger Types</span>
+                                    <span class="topic-tag">Action Chains</span>
+                                    <span class="topic-tag">Context Rules</span>
+                                    <span class="topic-tag">Priority Automation</span>
+                                    <span class="topic-tag">Custom NLP Phrases</span>
+                                    <span class="topic-tag">Condition Groups</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 6. Tips & Tricks -->
+                <section id="tips" class="video-section">
+                    <div class="video-card">
+                        <div class="video-container">
+                            <div class="video-placeholder">
+                                <div class="play-button">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <span class="video-label">Pro Tips</span>
+                            <span class="video-duration">10:12</span>
+                        </div>
+                        <div class="video-info">
+                            <h3>Tips & Tricks for Power Users</h3>
+                            <p>
+                                Elevate your productivity with insider tips and hidden features. Learn keyboard
+                                shortcuts that save minutes every day, discover workflow patterns from power
+                                users, and pick up techniques for managing complex projects with ease.
+                            </p>
+                            <div class="video-meta">
+                                <div class="meta-item">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                    <span>All Levels</span>
+                                </div>
+                                <div class="meta-item">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                                    </svg>
+                                    <span>10 minutes</span>
+                                </div>
+                            </div>
+                            <div class="topics-list">
+                                <h4>Topics Covered</h4>
+                                <div class="topic-tags">
+                                    <span class="topic-tag">Keyboard Shortcuts</span>
+                                    <span class="topic-tag">Batch Operations</span>
+                                    <span class="topic-tag">Quick Actions</span>
+                                    <span class="topic-tag">Search Tricks</span>
+                                    <span class="topic-tag">Time-Blocking</span>
+                                    <span class="topic-tag">Focus Mode</span>
+                                    <span class="topic-tag">Weekly Review Setup</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Additional Resources -->
+            <div class="doc-section">
+                <h2>Continue Learning</h2>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">📖</div>
+                        <h4>Written Guides</h4>
+                        <p>Prefer reading? Check out our detailed documentation for each feature.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">💬</div>
+                        <h4>Community Forum</h4>
+                        <p>Join discussions, ask questions, and share your workflows with other users.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">🎓</div>
+                        <h4>Weekly Workshops</h4>
+                        <p>Live sessions covering specific topics with Q&A. Check our events calendar.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Card -->
+            <div class="info-card note">
+                <h4>Request a Tutorial</h4>
+                <p>
+                    Have a specific topic you'd like covered? We're always creating new content based on
+                    user feedback. Visit our <a href="community.html">Community Forum</a> to suggest
+                    tutorial topics or vote on existing requests.
+                </p>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // FAQ Accordion functionality (if needed in future)
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                item.classList.toggle('open');
+            });
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Play button interaction (placeholder functionality)
+        document.querySelectorAll('.play-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // In a real implementation, this would open a video player
+                const card = button.closest('.video-card');
+                const title = card.querySelector('h3').textContent;
+                alert(`Video player would open for: "${title}"\n\nNote: This is a placeholder. In production, videos would be embedded or linked here.`);
+            });
+        });
+    </script>
+</body>
+</html>

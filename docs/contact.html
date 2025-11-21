@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Support - HyperPlanner Docs</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+    <link rel="stylesheet" href="docs.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="bg-mesh"></div>
+
+    <nav class="doc-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-icon">◆</span>
+                <span>HyperPlanner</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../index.html#features" class="nav-link">Features</a>
+                <a href="../index.html#demo" class="nav-link">Try Demo</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="doc-layout">
+        <aside class="doc-sidebar">
+            <div class="sidebar-section">
+                <h3>Quick Start</h3>
+                <div class="sidebar-links">
+                    <a href="getting-started.html" class="sidebar-link">Getting Started Guide</a>
+                    <a href="video-tutorial.html" class="sidebar-link">Video Tutorials</a>
+                    <a href="keyboard-shortcuts.html" class="sidebar-link">Keyboard Shortcuts</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Features</h3>
+                <div class="sidebar-links">
+                    <a href="smart-capture.html" class="sidebar-link">Smart Capture Guide</a>
+                    <a href="layout-customization.html" class="sidebar-link">Layout Customization</a>
+                    <a href="theme-lab.html" class="sidebar-link">Theme Lab Tutorial</a>
+                    <a href="automations.html" class="sidebar-link">Automations 101</a>
+                    <a href="templates.html" class="sidebar-link">Templates & Workflows</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Advanced</h3>
+                <div class="sidebar-links">
+                    <a href="api-docs.html" class="sidebar-link">API Documentation</a>
+                    <a href="custom-integrations.html" class="sidebar-link">Custom Integrations</a>
+                    <a href="data-export-import.html" class="sidebar-link">Data Export/Import</a>
+                    <a href="privacy-security.html" class="sidebar-link">Privacy & Security</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Resources</h3>
+                <div class="sidebar-links">
+                    <a href="community.html" class="sidebar-link">Community Forum</a>
+                    <a href="faq.html" class="sidebar-link">FAQ</a>
+                    <a href="contact.html" class="sidebar-link active">Contact Support</a>
+                    <a href="changelog.html" class="sidebar-link">Changelog</a>
+                </div>
+            </div>
+        </aside>
+
+        <main class="doc-content">
+            <header class="doc-header">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a> / <a href="getting-started.html">Docs</a> / Contact Support
+                </div>
+                <h1>Contact Support</h1>
+                <p class="subtitle">We're here to help. Reach out through any of the channels below.</p>
+            </header>
+
+            <section class="doc-section">
+                <h2>Before You Contact Us</h2>
+                <p>Many questions can be answered quickly by checking these resources:</p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">📖</div>
+                        <h4>Documentation</h4>
+                        <p>Comprehensive guides for all HyperPlanner features</p>
+                        <a href="getting-started.html" style="color: var(--primary-light);">Browse Docs</a>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">❓</div>
+                        <h4>FAQ</h4>
+                        <p>Answers to the most common questions</p>
+                        <a href="faq.html" style="color: var(--primary-light);">View FAQ</a>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">💬</div>
+                        <h4>Community Forum</h4>
+                        <p>Ask other users and search existing discussions</p>
+                        <a href="community.html" style="color: var(--primary-light);">Visit Forum</a>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">📺</div>
+                        <h4>Video Tutorials</h4>
+                        <p>Visual walkthroughs of key features</p>
+                        <a href="video-tutorial.html" style="color: var(--primary-light);">Watch Videos</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2>Contact Form</h2>
+                <p>Send us a message and we'll get back to you within 24-48 hours (business days).</p>
+
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Your name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" name="category" required>
+                            <option value="">Select a category...</option>
+                            <option value="general">General Question</option>
+                            <option value="technical">Technical Support</option>
+                            <option value="billing">Billing & Account</option>
+                            <option value="feature">Feature Request</option>
+                            <option value="bug">Bug Report</option>
+                            <option value="feedback">Feedback</option>
+                            <option value="partnership">Partnership Inquiry</option>
+                            <option value="press">Press & Media</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" placeholder="Brief description of your inquiry" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="Please provide as much detail as possible..." required></textarea>
+                    </div>
+
+                    <div class="info-card tip" style="margin-bottom: var(--spacing-md);">
+                        <h4>For Bug Reports</h4>
+                        <p>Please include: your browser and version, operating system, steps to reproduce the issue, and any error messages you see.</p>
+                    </div>
+
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </section>
+
+            <section class="doc-section">
+                <h2>Other Ways to Reach Us</h2>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">📧</div>
+                        <h4>Email</h4>
+                        <p>support@hyperplanner.today</p>
+                        <p style="font-size: 0.8rem; color: var(--text-tertiary);">Response time: 24-48 hours</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">🐦</div>
+                        <h4>Twitter/X</h4>
+                        <p>@HyperPlanner</p>
+                        <p style="font-size: 0.8rem; color: var(--text-tertiary);">DMs open for quick questions</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">💼</div>
+                        <h4>Discord</h4>
+                        <p>discord.gg/hyperplanner</p>
+                        <p style="font-size: 0.8rem; color: var(--text-tertiary);">Real-time community support</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">🐙</div>
+                        <h4>GitHub</h4>
+                        <p>github.com/hyperplanner</p>
+                        <p style="font-size: 0.8rem; color: var(--text-tertiary);">Bug reports & feature requests</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2>Support Hours</h2>
+                <p>Our support team is available during the following hours:</p>
+
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Region</th>
+                            <th>Hours (Local Time)</th>
+                            <th>Days</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Americas (EST/PST)</td>
+                            <td>9:00 AM - 6:00 PM</td>
+                            <td>Monday - Friday</td>
+                        </tr>
+                        <tr>
+                            <td>Europe (CET)</td>
+                            <td>9:00 AM - 6:00 PM</td>
+                            <td>Monday - Friday</td>
+                        </tr>
+                        <tr>
+                            <td>Asia-Pacific (SGT)</td>
+                            <td>9:00 AM - 6:00 PM</td>
+                            <td>Monday - Friday</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-card note">
+                    <h4>Weekend & Holidays</h4>
+                    <p>We monitor urgent issues during weekends and holidays with limited staff. Critical bug reports and security issues are prioritized.</p>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2>Response Times</h2>
+                <p>We strive to respond as quickly as possible based on the type of inquiry:</p>
+
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Initial Response</th>
+                            <th>Resolution Target</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Security Issues</td>
+                            <td>< 4 hours</td>
+                            <td>ASAP</td>
+                        </tr>
+                        <tr>
+                            <td>Critical Bugs (data loss, can't access)</td>
+                            <td>< 4 hours</td>
+                            <td>24 hours</td>
+                        </tr>
+                        <tr>
+                            <td>Billing & Account</td>
+                            <td>< 24 hours</td>
+                            <td>48 hours</td>
+                        </tr>
+                        <tr>
+                            <td>Technical Support</td>
+                            <td>< 24 hours</td>
+                            <td>Varies</td>
+                        </tr>
+                        <tr>
+                            <td>General Questions</td>
+                            <td>< 48 hours</td>
+                            <td>Varies</td>
+                        </tr>
+                        <tr>
+                            <td>Feature Requests</td>
+                            <td>< 1 week</td>
+                            <td>N/A (logged for review)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="doc-section">
+                <h2>Report a Security Issue</h2>
+                <p>Found a security vulnerability? Please report it responsibly:</p>
+
+                <div class="info-card warning">
+                    <h4>Security Reports</h4>
+                    <p>Email security issues directly to <strong>security@hyperplanner.today</strong>. Please do not disclose security vulnerabilities publicly before we've had a chance to address them. We take all security reports seriously and will respond within 4 hours.</p>
+                </div>
+
+                <p>We appreciate responsible disclosure and may offer recognition or bounties for significant findings.</p>
+            </section>
+
+            <section class="doc-section">
+                <h2>Business Inquiries</h2>
+                <p>For partnerships, press, enterprise sales, or other business inquiries:</p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">🤝</div>
+                        <h4>Partnerships</h4>
+                        <p>partnerships@hyperplanner.today</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">📰</div>
+                        <h4>Press & Media</h4>
+                        <p>press@hyperplanner.today</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">🏢</div>
+                        <h4>Enterprise Sales</h4>
+                        <p>enterprise@hyperplanner.today</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">💼</div>
+                        <h4>Careers</h4>
+                        <p>careers@hyperplanner.today</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Form submission handler
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            // In production, this would send to your backend
+            console.log('Form submitted:', data);
+
+            // Show success message
+            alert('Thank you for your message! We\'ll get back to you within 24-48 hours.');
+
+            // Reset form
+            this.reset();
+        });
+    </script>
+</body>
+</html>

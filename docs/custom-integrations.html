@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Integrations - HyperPlanner Documentation</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9670;</text></svg>">
+    <link rel="stylesheet" href="docs.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-gradient"></div>
+    <div class="bg-mesh"></div>
+
+    <!-- Navigation -->
+    <nav class="doc-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-icon">&#9670;</span>
+                <span>HyperPlanner</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="getting-started.html" class="nav-link">Docs</a>
+                <a href="../index.html#features" class="nav-link">Features</a>
+                <a href="../index.html#demo" class="nav-link">Try Demo</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Layout -->
+    <div class="doc-layout">
+        <!-- Sidebar -->
+        <aside class="doc-sidebar">
+            <div class="sidebar-section">
+                <h3>Quick Start</h3>
+                <div class="sidebar-links">
+                    <a href="getting-started.html" class="sidebar-link">Getting Started</a>
+                    <a href="video-tutorial.html" class="sidebar-link">Video Tutorial</a>
+                    <a href="keyboard-shortcuts.html" class="sidebar-link">Keyboard Shortcuts</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Features</h3>
+                <div class="sidebar-links">
+                    <a href="smart-capture.html" class="sidebar-link">Smart Capture Guide</a>
+                    <a href="layout-customization.html" class="sidebar-link">Layout Customization</a>
+                    <a href="theme-lab.html" class="sidebar-link">Theme Lab Tutorial</a>
+                    <a href="#" class="sidebar-link">Automations 101</a>
+                    <a href="#" class="sidebar-link">Templates & Workflows</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Advanced</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link">API Documentation</a>
+                    <a href="custom-integrations.html" class="sidebar-link active">Custom Integrations</a>
+                    <a href="#" class="sidebar-link">Data Export/Import</a>
+                    <a href="#" class="sidebar-link">Privacy & Security</a>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Resources</h3>
+                <div class="sidebar-links">
+                    <a href="#" class="sidebar-link">Community Forum</a>
+                    <a href="#" class="sidebar-link">FAQ</a>
+                    <a href="#" class="sidebar-link">Contact Support</a>
+                    <a href="#" class="sidebar-link">Changelog</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="doc-content">
+            <!-- Header -->
+            <header class="doc-header">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a> / <a href="getting-started.html">Docs</a> / Custom Integrations
+                </div>
+                <h1>Custom Integrations</h1>
+                <p class="subtitle">Connect HyperPlanner to your favorite tools. Sync calendars, receive notifications, and build custom workflows with our powerful API.</p>
+            </header>
+
+            <!-- Available Integrations Section -->
+            <section class="doc-section" id="available-integrations">
+                <h2>Available Integrations</h2>
+                <p>
+                    HyperPlanner connects seamlessly with the tools you already use. From calendar synchronization to
+                    task notifications, extend your productivity workflow across platforms.
+                </p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">&#128197;</div>
+                        <h4>Google Calendar</h4>
+                        <p>Two-way sync keeps your events and tasks perfectly aligned across both platforms.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128198;</div>
+                        <h4>Outlook Calendar</h4>
+                        <p>Sync with Microsoft 365 and Outlook.com calendars for enterprise-ready planning.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128172;</div>
+                        <h4>Slack</h4>
+                        <p>Receive task notifications, due date reminders, and daily summaries in your channels.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#9889;</div>
+                        <h4>Zapier</h4>
+                        <p>Connect to 5,000+ apps with automated workflows. <span class="code-inline">Coming Soon</span></p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128279;</div>
+                        <h4>IFTTT</h4>
+                        <p>Create simple automation recipes for your tasks and events. <span class="code-inline">Coming Soon</span></p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128187;</div>
+                        <h4>REST API</h4>
+                        <p>Build your own integrations with our comprehensive developer API.</p>
+                    </div>
+                </div>
+
+                <div class="info-card note">
+                    <h4>Account Required</h4>
+                    <p>
+                        Integrations require a HyperPlanner account to securely store OAuth tokens and sync preferences.
+                        Demo mode users can preview integration settings but cannot activate connections.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Setting Up Integrations Section -->
+            <section class="doc-section" id="setup">
+                <h2>Setting Up Integrations</h2>
+                <p>
+                    Follow these steps to connect your first integration. The process is similar for all supported services.
+                </p>
+
+                <h3>General Setup Process</h3>
+                <ul class="steps-list">
+                    <li>
+                        <strong>Open Integration Settings</strong><br>
+                        Navigate to Settings &gt; Integrations or press <span class="kbd">Cmd/Ctrl</span> + <span class="kbd">,</span> and select the Integrations tab
+                    </li>
+                    <li>
+                        <strong>Select Your Service</strong><br>
+                        Click on the integration you want to connect (e.g., Google Calendar, Slack)
+                    </li>
+                    <li>
+                        <strong>Authorize the Connection</strong><br>
+                        Click "Connect" and sign in to the external service. Grant HyperPlanner the requested permissions
+                    </li>
+                    <li>
+                        <strong>Configure Sync Options</strong><br>
+                        Choose what to sync, set sync frequency, and configure notification preferences
+                    </li>
+                    <li>
+                        <strong>Test the Connection</strong><br>
+                        Click "Test Connection" to verify everything is working. Create a test task to confirm sync
+                    </li>
+                </ul>
+
+                <h3>Connecting Google Calendar</h3>
+                <ul class="steps-list">
+                    <li>
+                        <strong>Click "Connect Google Calendar"</strong><br>
+                        You'll be redirected to Google's authorization page
+                    </li>
+                    <li>
+                        <strong>Select Your Google Account</strong><br>
+                        Choose the account containing the calendars you want to sync
+                    </li>
+                    <li>
+                        <strong>Grant Calendar Permissions</strong><br>
+                        Allow HyperPlanner to view and edit your calendar events
+                    </li>
+                    <li>
+                        <strong>Choose Calendars to Sync</strong><br>
+                        Select specific calendars or sync all. You can change this later
+                    </li>
+                    <li>
+                        <strong>Set Sync Direction</strong><br>
+                        Choose two-way sync (recommended), HyperPlanner to Google only, or Google to HyperPlanner only
+                    </li>
+                </ul>
+
+                <div class="info-card tip">
+                    <h4>Multiple Calendars</h4>
+                    <p>
+                        You can connect multiple Google accounts and select which calendars from each account to sync.
+                        Color-code them in HyperPlanner to keep work and personal events visually distinct.
+                    </p>
+                </div>
+
+                <h3>Connecting Outlook Calendar</h3>
+                <ul class="steps-list">
+                    <li>
+                        <strong>Click "Connect Outlook Calendar"</strong><br>
+                        You'll be redirected to Microsoft's authorization page
+                    </li>
+                    <li>
+                        <strong>Sign in with Microsoft</strong><br>
+                        Use your Microsoft 365, Outlook.com, or work/school account
+                    </li>
+                    <li>
+                        <strong>Accept Permissions</strong><br>
+                        Approve calendar read/write access for HyperPlanner
+                    </li>
+                    <li>
+                        <strong>Select Calendars</strong><br>
+                        Choose which Outlook calendars to sync with HyperPlanner
+                    </li>
+                </ul>
+
+                <h3>Connecting Slack</h3>
+                <ul class="steps-list">
+                    <li>
+                        <strong>Click "Connect Slack"</strong><br>
+                        You'll be redirected to Slack's authorization page
+                    </li>
+                    <li>
+                        <strong>Select Your Workspace</strong><br>
+                        Choose the Slack workspace where you want to receive notifications
+                    </li>
+                    <li>
+                        <strong>Choose Notification Channel</strong><br>
+                        Select a channel for notifications or enable DMs to the HyperPlanner bot
+                    </li>
+                    <li>
+                        <strong>Configure Notification Types</strong><br>
+                        Choose which events trigger Slack messages (due dates, completions, daily summaries)
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Calendar Sync Configuration Section -->
+            <section class="doc-section" id="calendar-sync">
+                <h2>Calendar Sync Configuration</h2>
+                <p>
+                    Fine-tune how your calendars sync with HyperPlanner for seamless planning across platforms.
+                </p>
+
+                <h3>Sync Options</h3>
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Option</th>
+                            <th>Description</th>
+                            <th>Default</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Sync Direction</strong></td>
+                            <td>Two-way, HyperPlanner-to-Calendar, or Calendar-to-HyperPlanner</td>
+                            <td>Two-way</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sync Frequency</strong></td>
+                            <td>Real-time, every 5 minutes, every 15 minutes, or manual</td>
+                            <td>Every 5 min</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sync Range</strong></td>
+                            <td>Past and future date range for syncing events</td>
+                            <td>30 days past, 90 days future</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Include All-Day Events</strong></td>
+                            <td>Sync all-day calendar events as HyperPlanner tasks</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sync Task Status</strong></td>
+                            <td>Mark calendar events complete when tasks are done</td>
+                            <td>Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Event Mapping</h3>
+                <p>Control how calendar events appear in HyperPlanner:</p>
+
+                <div class="code-block">
+# Default mapping rules
+Calendar Event       ->  HyperPlanner Task
+---------------------------------------------
+Event Title          ->  Task Title
+Event Description    ->  Task Notes
+Start Time           ->  Scheduled Time
+Duration             ->  Time Block Duration
+Event Color          ->  Task Context (configurable)
+Recurring Event      ->  Recurring Task
+</div>
+
+                <h3>Conflict Resolution</h3>
+                <p>When the same event is modified in both places, HyperPlanner uses these rules:</p>
+                <ul>
+                    <li><strong>Last Write Wins:</strong> The most recent change takes precedence</li>
+                    <li><strong>HyperPlanner Priority:</strong> Always prefer HyperPlanner changes</li>
+                    <li><strong>Calendar Priority:</strong> Always prefer calendar changes</li>
+                    <li><strong>Ask Me:</strong> Prompt for each conflict (not recommended for real-time sync)</li>
+                </ul>
+
+                <div class="info-card warning">
+                    <h4>Initial Sync Notice</h4>
+                    <p>
+                        The first sync may take several minutes depending on your calendar history.
+                        Avoid making changes in either platform until the initial sync completes to prevent duplicates.
+                    </p>
+                </div>
+
+                <h3>Selective Sync Filters</h3>
+                <p>Only sync events matching specific criteria:</p>
+
+                <div class="code-block">
+# Filter examples
+Include events containing:     "work", "meeting"
+Exclude events containing:     "personal", "private"
+Only sync events with color:   Blue, Green
+Skip declined invitations:     Yes
+Skip tentative events:         No
+</div>
+            </section>
+
+            <!-- Notification Settings Section -->
+            <section class="doc-section" id="notifications">
+                <h2>Notification Settings</h2>
+                <p>
+                    Configure when and how you receive notifications through connected services like Slack.
+                </p>
+
+                <h3>Slack Notification Types</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon">&#128276;</div>
+                        <h4>Due Date Reminders</h4>
+                        <p>Get notified when tasks are due soon or overdue.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#9989;</div>
+                        <h4>Task Completions</h4>
+                        <p>Celebrate wins with completion notifications.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128197;</div>
+                        <h4>Daily Summary</h4>
+                        <p>Morning digest of today's tasks and events.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">&#128200;</div>
+                        <h4>Weekly Review</h4>
+                        <p>End-of-week summary with productivity stats.</p>
+                    </div>
+                </div>
+
+                <h3>Notification Timing</h3>
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Notification Type</th>
+                            <th>Timing Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Due Date Reminder</td>
+                            <td>1 hour, 1 day, 3 days, or 1 week before</td>
+                        </tr>
+                        <tr>
+                            <td>Overdue Alert</td>
+                            <td>Immediately, or daily digest</td>
+                        </tr>
+                        <tr>
+                            <td>Daily Summary</td>
+                            <td>Custom time (e.g., 8:00 AM)</td>
+                        </tr>
+                        <tr>
+                            <td>Weekly Review</td>
+                            <td>Day and time (e.g., Friday 5:00 PM)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Quiet Hours</h3>
+                <p>Prevent notifications during specific times:</p>
+
+                <div class="code-block">
+# Quiet hours configuration
+Enabled:        Yes
+Start Time:     10:00 PM
+End Time:       8:00 AM
+Days:           All days / Weekdays only / Custom
+Exceptions:     Allow urgent/high-priority task reminders
+</div>
+
+                <div class="info-card tip">
+                    <h4>Channel vs DM</h4>
+                    <p>
+                        Use a dedicated Slack channel for team visibility on shared projects, or choose DM for personal task reminders.
+                        You can configure different destinations for different notification types.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Building Custom Integrations Section -->
+            <section class="doc-section" id="api">
+                <h2>Building Custom Integrations via API</h2>
+                <p>
+                    Our REST API allows developers to build custom integrations, sync with proprietary systems,
+                    and create automated workflows tailored to specific needs.
+                </p>
+
+                <h3>Getting Started with the API</h3>
+                <ul class="steps-list">
+                    <li>
+                        <strong>Generate an API Key</strong><br>
+                        Go to Settings &gt; Integrations &gt; API Keys and click "Generate New Key"
+                    </li>
+                    <li>
+                        <strong>Review API Documentation</strong><br>
+                        Access the full API reference at <span class="code-inline">api.hyperplanner.app/docs</span>
+                    </li>
+                    <li>
+                        <strong>Test with the Sandbox</strong><br>
+                        Use our interactive API sandbox to test endpoints before implementing
+                    </li>
+                    <li>
+                        <strong>Build Your Integration</strong><br>
+                        Use any HTTP client or our official SDKs (JavaScript, Python, Ruby)
+                    </li>
+                </ul>
+
+                <h3>API Authentication</h3>
+                <p>All API requests require authentication via Bearer token:</p>
+
+                <div class="code-block">
+# Example API request
+curl -X GET "https://api.hyperplanner.app/v1/tasks" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json"
+</div>
+
+                <h3>Core API Endpoints</h3>
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Endpoint</th>
+                            <th>Method</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="code-inline">/v1/tasks</span></td>
+                            <td>GET, POST</td>
+                            <td>List all tasks or create a new task</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">/v1/tasks/:id</span></td>
+                            <td>GET, PUT, DELETE</td>
+                            <td>Get, update, or delete a specific task</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">/v1/events</span></td>
+                            <td>GET, POST</td>
+                            <td>List all events or create a new event</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">/v1/events/:id</span></td>
+                            <td>GET, PUT, DELETE</td>
+                            <td>Get, update, or delete a specific event</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">/v1/projects</span></td>
+                            <td>GET, POST</td>
+                            <td>List all projects or create a new project</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">/v1/webhooks</span></td>
+                            <td>GET, POST, DELETE</td>
+                            <td>Manage webhook subscriptions</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Example: Creating a Task</h3>
+                <div class="code-block">
+# Create a new task via API
+curl -X POST "https://api.hyperplanner.app/v1/tasks" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Review quarterly report",
+    "due_date": "2024-01-15T17:00:00Z",
+    "priority": "high",
+    "context": "work",
+    "tags": ["reports", "quarterly"],
+    "notes": "Include revenue projections"
+  }'
+
+# Response
+{
+  "id": "task_abc123",
+  "title": "Review quarterly report",
+  "status": "pending",
+  "due_date": "2024-01-15T17:00:00Z",
+  "priority": "high",
+  "context": "work",
+  "tags": ["reports", "quarterly"],
+  "created_at": "2024-01-10T09:30:00Z"
+}
+</div>
+
+                <h3>Webhooks</h3>
+                <p>Subscribe to events and receive real-time notifications when changes occur:</p>
+
+                <div class="code-block">
+# Register a webhook
+POST /v1/webhooks
+{
+  "url": "https://your-server.com/hyperplanner-webhook",
+  "events": ["task.created", "task.completed", "task.updated"],
+  "secret": "your_webhook_secret"
+}
+
+# Available webhook events
+task.created       - New task created
+task.updated       - Task modified
+task.completed     - Task marked complete
+task.deleted       - Task removed
+event.created      - New calendar event
+event.updated      - Event modified
+event.deleted      - Event removed
+</div>
+
+                <div class="info-card note">
+                    <h4>Rate Limits</h4>
+                    <p>
+                        API requests are limited to 100 requests per minute for free accounts and 1,000 requests per minute
+                        for Pro accounts. Webhook deliveries do not count against your rate limit.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Troubleshooting Section -->
+            <section class="doc-section" id="troubleshooting">
+                <h2>Troubleshooting Common Issues</h2>
+                <p>
+                    Encountering problems with integrations? Here are solutions to the most common issues.
+                </p>
+
+                <h3>Connection Issues</h3>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>"Authorization Failed" when connecting Google Calendar</span>
+                        <span class="arrow">&#9660;</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>This usually happens when third-party cookies are blocked. Try:</p>
+                        <ul>
+                            <li>Enable third-party cookies temporarily during authorization</li>
+                            <li>Disable browser extensions that might block OAuth flows</li>
+                            <li>Try using an incognito/private window</li>
+                            <li>Clear your browser cache and try again</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Outlook sync stuck on "Connecting..."</span>
+                        <span class="arrow">&#9660;</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Microsoft 365 admin policies may be blocking the connection:</p>
+                        <ul>
+                            <li>Contact your IT admin to whitelist HyperPlanner</li>
+                            <li>Try connecting with a personal Outlook.com account first</li>
+                            <li>Check if your organization requires admin consent for third-party apps</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Slack notifications not arriving</span>
+                        <span class="arrow">&#9660;</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Verify your Slack integration settings:</p>
+                        <ul>
+                            <li>Check that the correct channel is selected</li>
+                            <li>Ensure the HyperPlanner bot is added to the channel</li>
+                            <li>Verify notification types are enabled in settings</li>
+                            <li>Check if Quiet Hours are currently active</li>
+                            <li>Try disconnecting and reconnecting the Slack integration</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Sync Issues</h3>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Events appearing twice (duplicates)</span>
+                        <span class="arrow">&#9660;</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Duplicates can occur during initial sync or when sync direction is misconfigured:</p>
+                        <ul>
+                            <li>Wait for the initial sync to complete before making changes</li>
+                            <li>Check if you have multiple calendars syncing the same events</li>
+                            <li>Go to Settings &gt; Integrations &gt; Advanced and run "Deduplicate Events"</li>
+                            <li>Ensure sync direction is set correctly (avoid syncing back and forth accidentally)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Changes not syncing in real-time</span>
+                        <span class="arrow">&#9660;</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Real-time sync requires specific conditions:</p>
+                        <ul>
+                            <li>Verify sync frequency is set to "Real-time" in integration settings</li>
+                            <li>Check your internet connection stability</li>
+                            <li>Real-time sync uses WebSockets; some corporate firewalls may block these</li>
+                            <li>Try manually triggering a sync from the integration panel</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Recurring events not syncing correctly</span>
+                        <span class="arrow">&#9660;</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Recurring event sync has known limitations:</p>
+                        <ul>
+                            <li>Complex recurrence patterns (e.g., "third Thursday of each month") may not sync perfectly</li>
+                            <li>Editing a single instance of a recurring event can cause sync issues</li>
+                            <li>Try deleting the recurring event and recreating it in HyperPlanner</li>
+                            <li>Check if the recurrence end date is within your sync range</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>API Issues</h3>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>"401 Unauthorized" API errors</span>
+                        <span class="arrow">&#9660;</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Your API key may be invalid or expired:</p>
+                        <ul>
+                            <li>Verify the API key is correct and includes the full token</li>
+                            <li>Check if the key was revoked in Settings &gt; API Keys</li>
+                            <li>Ensure you're using "Bearer" prefix: <span class="code-inline">Authorization: Bearer YOUR_KEY</span></li>
+                            <li>Generate a new API key if the current one is compromised</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>"429 Too Many Requests" rate limit errors</span>
+                        <span class="arrow">&#9660;</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>You've exceeded the API rate limit:</p>
+                        <ul>
+                            <li>Implement exponential backoff in your API client</li>
+                            <li>Cache responses where possible to reduce API calls</li>
+                            <li>Use webhooks for real-time updates instead of polling</li>
+                            <li>Upgrade to Pro for higher rate limits (1,000 requests/minute)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-card tip">
+                    <h4>Still Having Issues?</h4>
+                    <p>
+                        If these solutions don't resolve your problem, visit our <a href="#">Community Forum</a> or
+                        <a href="#">Contact Support</a>. Include your integration type, browser/client info, and any error messages.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Page Navigation -->
+            <div class="doc-section" style="display: flex; justify-content: space-between; padding-top: var(--spacing-lg); border-top: 1px solid var(--glass-border);">
+                <a href="theme-lab.html" class="btn" style="text-decoration: none; background: var(--glass); border: 1px solid var(--glass-border);">
+                    &larr; Theme Lab Tutorial
+                </a>
+                <a href="#" class="btn" style="text-decoration: none;">
+                    Data Export/Import &rarr;
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // FAQ accordion functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('open');
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Highlight current section in sidebar based on scroll
+        const sections = document.querySelectorAll('.doc-section[id]');
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+
+        function updateActiveSection() {
+            let currentSection = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveSection);
+    </script>
+</body>
+</html>
