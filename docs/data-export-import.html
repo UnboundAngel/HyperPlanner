@@ -995,64 +995,6 @@ curl -X POST "https://api.hyperplanner.app/v1/import" \
         </main>
     </div>
 
-    <script>
-        // FAQ accordion functionality
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const item = question.parentElement;
-                item.classList.toggle('open');
-            });
-        });
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                if (href !== '#') {
-                    e.preventDefault();
-                    const target = document.querySelector(href);
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                }
-            });
-        });
-
-        // Highlight current section in sidebar based on scroll
-        const sections = document.querySelectorAll('.doc-section[id]');
-        const sidebarLinks = document.querySelectorAll('.sidebar-link');
-
-        function updateActiveSection() {
-            let currentSection = '';
-
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 100;
-                if (window.scrollY >= sectionTop) {
-                    currentSection = section.getAttribute('id');
-                }
-            });
-        }
-
-        window.addEventListener('scroll', updateActiveSection);
-
-        // Add copy functionality to code blocks
-        document.querySelectorAll('.code-block').forEach(block => {
-            block.addEventListener('click', function() {
-                const text = this.textContent;
-                navigator.clipboard.writeText(text).then(() => {
-                    const originalBg = this.style.borderColor;
-                    this.style.borderColor = 'var(--success)';
-                    setTimeout(() => {
-                        this.style.borderColor = originalBg;
-                    }, 1000);
-                });
-            });
-            block.style.cursor = 'pointer';
-            block.title = 'Click to copy';
-        });
-    </script>
+    <script src="docs.js"></script>
 </body>
 </html>

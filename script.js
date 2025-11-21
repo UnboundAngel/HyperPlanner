@@ -1271,6 +1271,509 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ===================================
+// Keyboard Shortcuts System
+// ===================================
+const KeyboardShortcuts = {
+    enabled: true,
+    shortcuts: new Map(),
+
+    // Initialize keyboard shortcuts
+    init() {
+        document.addEventListener('keydown', (e) => this.handleKeydown(e));
+        this.registerDefaultShortcuts();
+        console.log('Keyboard shortcuts initialized. Press ? for help.');
+    },
+
+    // Register a shortcut
+    register(keys, callback, description, category = 'General') {
+        const key = this.normalizeKeys(keys);
+        this.shortcuts.set(key, { callback, description, category, keys });
+    },
+
+    // Normalize key combination
+    normalizeKeys(keys) {
+        return keys.toLowerCase()
+            .replace('cmd', 'meta')
+            .replace('ctrl', 'control')
+            .replace('opt', 'alt')
+            .replace('option', 'alt');
+    },
+
+    // Get current key combination from event
+    getKeyCombo(e) {
+        const parts = [];
+        if (e.metaKey) parts.push('meta');
+        if (e.ctrlKey) parts.push('control');
+        if (e.altKey) parts.push('alt');
+        if (e.shiftKey) parts.push('shift');
+
+        const key = e.key.toLowerCase();
+        if (!['meta', 'control', 'alt', 'shift'].includes(key)) {
+            parts.push(key);
+        }
+
+        return parts.join('+');
+    },
+
+    // Handle keydown events
+    handleKeydown(e) {
+        if (!this.enabled) return;
+
+        // Don't trigger shortcuts when typing in inputs
+        const tagName = e.target.tagName.toLowerCase();
+        const isEditable = e.target.isContentEditable;
+        const isInput = ['input', 'textarea', 'select'].includes(tagName);
+
+        // Allow some shortcuts even in inputs
+        const allowInInput = ['escape', 'meta+k', 'control+k', 'meta+/', 'control+/'];
+        const combo = this.getKeyCombo(e);
+
+        if (isInput && !isEditable && !allowInInput.includes(combo)) {
+            return;
+        }
+
+        const shortcut = this.shortcuts.get(combo);
+        if (shortcut) {
+            e.preventDefault();
+            shortcut.callback(e);
+        }
+    },
+
+    // Show help modal with all shortcuts
+    showHelp() {
+        // Group shortcuts by category
+        const categories = {};
+        this.shortcuts.forEach((value, key) => {
+            if (!categories[value.category]) {
+                categories[value.category] = [];
+            }
+            categories[value.category].push({
+                keys: value.keys,
+                description: value.description
+            });
+        });
+
+        // Create modal content
+        let html = '<div class="shortcuts-modal">';
+        html += '<h2>Keyboard Shortcuts</h2>';
+
+        for (const [category, shortcuts] of Object.entries(categories)) {
+            html += `<div class="shortcut-category">`;
+            html += `<h3>${category}</h3>`;
+            html += '<table class="shortcut-list">';
+            shortcuts.forEach(s => {
+                const displayKeys = s.keys
+                    .replace('meta', '⌘')
+                    .replace('control', 'Ctrl')
+                    .replace('alt', 'Alt')
+                    .replace('shift', 'Shift')
+                    .replace('+', ' + ')
+                    .toUpperCase();
+                html += `<tr><td><kbd>${displayKeys}</kbd></td><td>${s.description}</td></tr>`;
+            });
+            html += '</table></div>';
+        }
+
+        html += '<p class="shortcut-tip">Press <kbd>Escape</kbd> to close</p>';
+        html += '</div>';
+
+        // Show in notification or create modal
+        this.showShortcutsModal(html);
+    },
+
+    showShortcutsModal(html) {
+        // Remove existing modal
+        const existing = document.querySelector('.keyboard-shortcuts-overlay');
+        if (existing) existing.remove();
+
+        const overlay = document.createElement('div');
+        overlay.className = 'keyboard-shortcuts-overlay';
+        overlay.innerHTML = html;
+        overlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 10001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            overflow-y: auto;
+        `;
+
+        const modal = overlay.querySelector('.shortcuts-modal');
+        modal.style.cssText = `
+            background: #1a1a2e;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 800px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            color: white;
+        `;
+
+        // Style elements
+        const style = document.createElement('style');
+        style.textContent = `
+            .shortcuts-modal h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1.5rem;
+                background: linear-gradient(135deg, #6366f1, #ec4899);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+            .shortcut-category {
+                margin-bottom: 1.5rem;
+            }
+            .shortcut-category h3 {
+                font-size: 1rem;
+                color: #6366f1;
+                margin-bottom: 0.75rem;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+            .shortcut-list {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            .shortcut-list tr {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+            .shortcut-list td {
+                padding: 0.5rem 0;
+            }
+            .shortcut-list td:first-child {
+                width: 150px;
+            }
+            .shortcut-list kbd {
+                display: inline-block;
+                padding: 4px 8px;
+                background: rgba(99, 102, 241, 0.2);
+                border: 1px solid rgba(99, 102, 241, 0.3);
+                border-radius: 4px;
+                font-family: monospace;
+                font-size: 0.85rem;
+                color: #818cf8;
+            }
+            .shortcut-tip {
+                margin-top: 1.5rem;
+                text-align: center;
+                color: rgba(255, 255, 255, 0.5);
+                font-size: 0.875rem;
+            }
+            .shortcut-tip kbd {
+                padding: 2px 6px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 4px;
+            }
+        `;
+        document.head.appendChild(style);
+
+        document.body.appendChild(overlay);
+
+        // Close on click outside or Escape
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) overlay.remove();
+        });
+
+        const closeOnEscape = (e) => {
+            if (e.key === 'Escape') {
+                overlay.remove();
+                document.removeEventListener('keydown', closeOnEscape);
+            }
+        };
+        document.addEventListener('keydown', closeOnEscape);
+    },
+
+    // Register default shortcuts
+    registerDefaultShortcuts() {
+        // Help
+        this.register('?', () => this.showHelp(), 'Show keyboard shortcuts', 'Help');
+        this.register('shift+/', () => this.showHelp(), 'Show keyboard shortcuts', 'Help');
+
+        // Navigation
+        this.register('g+h', () => scrollToElement('.hero'), 'Go to Home/Hero', 'Navigation');
+        this.register('g+f', () => scrollToElement('#features'), 'Go to Features', 'Navigation');
+        this.register('g+w', () => scrollToElement('#how-it-works'), 'Go to How It Works', 'Navigation');
+        this.register('g+c', () => scrollToElement('#customize'), 'Go to Customize', 'Navigation');
+        this.register('g+d', () => scrollToElement('#demo'), 'Go to Demo', 'Navigation');
+
+        // Actions
+        this.register('meta+k', () => showCommandPalette(), 'Open Command Palette', 'Actions');
+        this.register('control+k', () => showCommandPalette(), 'Open Command Palette', 'Actions');
+        this.register('/', () => focusSearch(), 'Focus Search', 'Actions');
+        this.register('escape', () => closeAllModals(), 'Close Modals/Escape', 'Actions');
+
+        // Modal shortcuts
+        this.register('s', () => openSignInModal(), 'Open Sign In', 'Quick Actions');
+        this.register('d', () => launchDemo(), 'Launch Demo', 'Quick Actions');
+
+        // Theme shortcuts
+        this.register('t+1', () => applyTheme('glassy'), 'Apply Glassy Theme', 'Themes');
+        this.register('t+2', () => applyTheme('midnight'), 'Apply Midnight Theme', 'Themes');
+        this.register('t+3', () => applyTheme('neon'), 'Apply Neon Theme', 'Themes');
+        this.register('t+r', () => resetCustomization(), 'Reset Theme', 'Themes');
+
+        // Sidebar
+        this.register('b', () => toggleSidebar(), 'Toggle Guides Sidebar', 'UI');
+
+        // Scroll
+        this.register('j', () => window.scrollBy(0, 100), 'Scroll Down', 'Scroll');
+        this.register('k', () => window.scrollBy(0, -100), 'Scroll Up', 'Scroll');
+        this.register('space', () => window.scrollBy(0, window.innerHeight * 0.8), 'Page Down', 'Scroll');
+        this.register('shift+space', () => window.scrollBy(0, -window.innerHeight * 0.8), 'Page Up', 'Scroll');
+        this.register('g+g', () => window.scrollTo(0, 0), 'Go to Top', 'Scroll');
+        this.register('shift+g', () => window.scrollTo(0, document.body.scrollHeight), 'Go to Bottom', 'Scroll');
+    }
+};
+
+// Helper functions for keyboard shortcuts
+function scrollToElement(selector) {
+    const element = document.querySelector(selector);
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+function showCommandPalette() {
+    // Create command palette if it doesn't exist
+    let palette = document.querySelector('.command-palette-overlay');
+    if (palette) {
+        palette.remove();
+        return;
+    }
+
+    const commands = [
+        { name: 'Go to Features', action: () => scrollToElement('#features'), icon: '🎯' },
+        { name: 'Go to How It Works', action: () => scrollToElement('#how-it-works'), icon: '📖' },
+        { name: 'Go to Customize', action: () => scrollToElement('#customize'), icon: '🎨' },
+        { name: 'Go to Demo', action: () => scrollToElement('#demo'), icon: '🚀' },
+        { name: 'Open Sign In', action: () => openSignInModal(), icon: '🔑' },
+        { name: 'Launch Demo Mode', action: () => launchDemo(), icon: '▶️' },
+        { name: 'Apply Glassy Theme', action: () => applyTheme('glassy'), icon: '✨' },
+        { name: 'Apply Midnight Theme', action: () => applyTheme('midnight'), icon: '🌙' },
+        { name: 'Apply Neon Theme', action: () => applyTheme('neon'), icon: '⚡' },
+        { name: 'Reset Theme', action: () => resetCustomization(), icon: '🔄' },
+        { name: 'Toggle Guides Sidebar', action: () => toggleSidebar(), icon: '📚' },
+        { name: 'Show Keyboard Shortcuts', action: () => KeyboardShortcuts.showHelp(), icon: '⌨️' },
+        { name: 'Go to Documentation', action: () => window.location.href = 'docs/getting-started.html', icon: '📄' },
+    ];
+
+    const overlay = document.createElement('div');
+    overlay.className = 'command-palette-overlay';
+    overlay.innerHTML = `
+        <div class="command-palette">
+            <input type="text" class="command-input" placeholder="Type a command..." autofocus>
+            <div class="command-list">
+                ${commands.map((cmd, i) => `
+                    <div class="command-item" data-index="${i}">
+                        <span class="command-icon">${cmd.icon}</span>
+                        <span class="command-name">${cmd.name}</span>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(4px);
+        z-index: 10002;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding-top: 20vh;
+    `;
+
+    const style = document.createElement('style');
+    style.textContent = `
+        .command-palette {
+            background: #1a1a2e;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        .command-input {
+            width: 100%;
+            padding: 16px 20px;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+        .command-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        .command-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .command-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+        .command-item:hover, .command-item.selected {
+            background: rgba(99, 102, 241, 0.2);
+        }
+        .command-icon {
+            font-size: 1.25rem;
+        }
+        .command-name {
+            color: white;
+        }
+        .command-item.hidden {
+            display: none;
+        }
+    `;
+    document.head.appendChild(style);
+    document.body.appendChild(overlay);
+
+    const input = overlay.querySelector('.command-input');
+    const items = overlay.querySelectorAll('.command-item');
+    let selectedIndex = 0;
+
+    // Filter commands on input
+    input.addEventListener('input', () => {
+        const query = input.value.toLowerCase();
+        items.forEach((item, i) => {
+            const name = commands[i].name.toLowerCase();
+            if (name.includes(query)) {
+                item.classList.remove('hidden');
+            } else {
+                item.classList.add('hidden');
+            }
+        });
+        // Select first visible item
+        const visibleItems = [...items].filter(i => !i.classList.contains('hidden'));
+        items.forEach(i => i.classList.remove('selected'));
+        if (visibleItems.length > 0) {
+            visibleItems[0].classList.add('selected');
+            selectedIndex = [...items].indexOf(visibleItems[0]);
+        }
+    });
+
+    // Keyboard navigation
+    input.addEventListener('keydown', (e) => {
+        const visibleItems = [...items].filter(i => !i.classList.contains('hidden'));
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            items[selectedIndex]?.classList.remove('selected');
+            const currentVisible = visibleItems.indexOf(items[selectedIndex]);
+            selectedIndex = [...items].indexOf(visibleItems[(currentVisible + 1) % visibleItems.length]);
+            items[selectedIndex]?.classList.add('selected');
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            items[selectedIndex]?.classList.remove('selected');
+            const currentVisible = visibleItems.indexOf(items[selectedIndex]);
+            selectedIndex = [...items].indexOf(visibleItems[(currentVisible - 1 + visibleItems.length) % visibleItems.length]);
+            items[selectedIndex]?.classList.add('selected');
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            const selected = items[selectedIndex];
+            if (selected && !selected.classList.contains('hidden')) {
+                commands[selectedIndex].action();
+                overlay.remove();
+            }
+        } else if (e.key === 'Escape') {
+            overlay.remove();
+        }
+    });
+
+    // Click to select
+    items.forEach((item, i) => {
+        item.addEventListener('click', () => {
+            commands[i].action();
+            overlay.remove();
+        });
+    });
+
+    // Close on click outside
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) overlay.remove();
+    });
+
+    // Focus input
+    input.focus();
+}
+
+function focusSearch() {
+    const searchInput = document.querySelector('input[type="search"], input[type="text"][placeholder*="search" i]');
+    if (searchInput) {
+        searchInput.focus();
+    } else {
+        showCommandPalette();
+    }
+}
+
+function closeAllModals() {
+    // Close sign in modal
+    const signInModal = document.getElementById('signInModal');
+    if (signInModal?.classList.contains('active')) {
+        signInModal.classList.remove('active');
+        document.body.style.overflow = '';
+        return;
+    }
+
+    // Close command palette
+    const palette = document.querySelector('.command-palette-overlay');
+    if (palette) {
+        palette.remove();
+        return;
+    }
+
+    // Close shortcuts modal
+    const shortcuts = document.querySelector('.keyboard-shortcuts-overlay');
+    if (shortcuts) {
+        shortcuts.remove();
+        return;
+    }
+
+    // Close sidebar
+    const sidebar = document.getElementById('glassSidebar');
+    if (sidebar?.classList.contains('active')) {
+        sidebar.classList.remove('active');
+        return;
+    }
+}
+
+function openSignInModal() {
+    const modal = document.getElementById('signInModal');
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function launchDemo() {
+    showNotification('Demo mode would launch here!', 'info');
+}
+
+// Initialize keyboard shortcuts when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    KeyboardShortcuts.init();
+});
+
+// ===================================
 // Analytics Placeholder
 // ===================================
 function trackEvent(category, action, label) {

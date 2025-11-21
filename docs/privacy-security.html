@@ -824,48 +824,6 @@
         </main>
     </div>
 
-    <script>
-        // FAQ accordion functionality (for future use)
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const item = question.parentElement;
-                item.classList.toggle('open');
-            });
-        });
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                if (href !== '#') {
-                    e.preventDefault();
-                    const target = document.querySelector(href);
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                }
-            });
-        });
-
-        // Highlight current section in sidebar based on scroll
-        const sections = document.querySelectorAll('.doc-section[id]');
-        const sidebarLinks = document.querySelectorAll('.sidebar-link');
-
-        function updateActiveSection() {
-            let currentSection = '';
-
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 100;
-                if (window.scrollY >= sectionTop) {
-                    currentSection = section.getAttribute('id');
-                }
-            });
-        }
-
-        window.addEventListener('scroll', updateActiveSection);
-    </script>
+    <script src="docs.js"></script>
 </body>
 </html>

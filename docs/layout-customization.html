@@ -404,44 +404,6 @@
         </main>
     </div>
 
-    <script>
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if (href !== '#') {
-                    e.preventDefault();
-                    const target = document.querySelector(href);
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                }
-            });
-        });
-
-        // Highlight active section in sidebar based on scroll position
-        const sections = document.querySelectorAll('.doc-section');
-        const sidebarLinks = document.querySelectorAll('.sidebar-link[href^="#"]');
-
-        function updateActiveSection() {
-            let currentSection = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 120;
-                if (window.scrollY >= sectionTop) {
-                    currentSection = section.getAttribute('id');
-                }
-            });
-
-            sidebarLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${currentSection}`) {
-                    link.classList.add('active');
-                }
-            });
-        }
-
-        window.addEventListener('scroll', updateActiveSection);
-        updateActiveSection();
-    </script>
+    <script src="docs.js"></script>
 </body>
 </html>
