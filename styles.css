@@ -1517,28 +1517,127 @@ body {
         display: flex;
     }
 
+    .nav-container {
+        padding: 1rem 1.5rem;
+    }
+
+    .hero {
+        padding: 2rem 1.5rem;
+        min-height: auto;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+
+    .hero-badge {
+        font-size: 0.75rem;
+        padding: 0.375rem 0.75rem;
+    }
+
     .hero-cta {
         flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .hero-features {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .hero-feature {
+        font-size: 0.8rem;
     }
 
     .btn {
         width: 100%;
+        padding: 0.875rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .section-container {
+        padding: 2rem 1.5rem;
+    }
+
+    .section-title {
+        font-size: 1.75rem;
+    }
+
+    .section-subtitle {
+        font-size: 1rem;
     }
 
     .features-grid {
         grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .feature-card {
+        padding: 1.5rem;
+    }
+
+    .feature-icon-large {
+        font-size: 2.5rem;
+    }
+
+    .how-card {
+        padding: 1.5rem;
+    }
+
+    .how-number {
+        font-size: 1.5rem;
+        width: 48px;
+        height: 48px;
+    }
+
+    .customize-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
     }
 
     .cta-buttons {
         flex-direction: column;
+        gap: 0.75rem;
     }
 
     .footer-container {
         grid-template-columns: 1fr;
+        gap: 2rem;
     }
 
     .window-content {
         grid-template-columns: 1fr;
+    }
+
+    .preview-window {
+        margin-top: 2rem;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 1.5rem;
+        max-height: 95vh;
+        overflow-y: auto;
+    }
+
+    .auth-tabs {
+        gap: 0.5rem;
+    }
+
+    .auth-tab {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        font-size: 16px; /* Prevents zoom on iOS */
     }
 }
 
@@ -1550,11 +1649,42 @@ body {
     }
 
     .section-container {
-        padding: var(--spacing-xl) var(--spacing-md);
+        padding: 1.5rem 1rem;
     }
 
     .hero {
-        padding: var(--spacing-xl) var(--spacing-md);
+        padding: 1.5rem 1rem;
+    }
+
+    .hero-title {
+        font-size: 1.75rem;
+    }
+
+    .hero-subtitle {
+        font-size: 0.95rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .section-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .feature-card h3,
+    .how-card h3 {
+        font-size: 1.125rem;
+    }
+
+    .feature-card p,
+    .how-card p {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.95rem;
     }
 
     .customize-controls {
@@ -1569,24 +1699,57 @@ body {
     }
 
     .sidebar-toggle {
-        font-size: 0.75rem;
-        padding: var(--spacing-sm) var(--spacing-xs);
+        font-size: 0.7rem;
+        padding: 0.625rem 0.5rem;
     }
 
     .glass-sidebar {
-        width: 250px;
+        width: 280px;
     }
 
     .welcome-title {
-        font-size: 2rem;
+        font-size: 1.75rem;
     }
 
     .welcome-subtitle {
-        font-size: 1rem;
+        font-size: 0.95rem;
     }
 
     .welcome-options {
         grid-template-columns: 1fr;
+    }
+
+    .demo-app-overlay {
+        padding: 0;
+    }
+
+    .demo-app {
+        border-radius: 0;
+        max-height: 100vh;
+    }
+
+    .demo-app-body {
+        padding: 0.875rem;
+    }
+
+    .quick-capture-container {
+        padding: 0.875rem;
+    }
+
+    .quick-capture-input {
+        font-size: 16px;
+        padding: 0.75rem;
+    }
+
+    .quick-capture-btn {
+        padding: 0.75rem;
+    }
+
+    .modal-content {
+        width: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+        padding: 1.25rem;
     }
 }
 
@@ -1931,6 +2094,50 @@ body {
     }
 }
 
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+    /* Touch device specific styles */
+    .btn,
+    .nav-link,
+    .sidebar-link,
+    .auth-tab,
+    .welcome-option,
+    .task-card,
+    .task-action-btn {
+        min-height: 44px; /* Apple's recommended minimum touch target */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .task-card-actions {
+        opacity: 1; /* Always visible on touch devices */
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .task-action-btn {
+        flex: 1;
+        min-width: 80px;
+    }
+
+    /* Disable hover effects on touch devices */
+    .feature-card:hover,
+    .how-card:hover,
+    .task-card:hover {
+        transform: none;
+    }
+
+    /* Better spacing for touch */
+    .quick-capture-input-wrapper {
+        gap: 0.75rem;
+    }
+
+    .demo-panel-content {
+        gap: 0.75rem;
+    }
+}
+
 /* ===================================
    Demo App Styles
    =================================== */
@@ -2182,6 +2389,84 @@ body {
 @media (max-width: 768px) {
     .demo-panels {
         grid-template-columns: 1fr;
+        gap: 0.75rem;
+        min-height: auto;
+    }
+
+    .demo-app {
+        max-width: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+    }
+
+    .demo-app-header {
+        padding: 0.875rem 1rem;
+    }
+
+    .demo-app-title {
+        font-size: 1rem;
+        gap: 0.5rem;
+    }
+
+    .demo-app-body {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .quick-capture-container {
+        padding: 1rem;
+    }
+
+    .quick-capture-input-wrapper {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .quick-capture-input {
+        font-size: 16px; /* Prevents zoom on iOS */
+        padding: 0.75rem;
+    }
+
+    .quick-capture-btn {
+        width: 100%;
+        padding: 0.875rem;
+    }
+
+    .quick-capture-hint {
+        font-size: 0.75rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.375rem;
+    }
+
+    .demo-panel {
+        min-height: 200px;
+    }
+
+    .demo-panel-header {
+        padding: 0.75rem 1rem;
+    }
+
+    .demo-app-footer {
+        padding: 0.875rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .task-card {
+        padding: 0.75rem;
+    }
+
+    .task-card-title {
+        font-size: 0.875rem;
+    }
+
+    .task-meta-item {
+        font-size: 0.7rem;
+    }
+
+    .task-card-actions {
+        opacity: 1; /* Always show on mobile */
+        margin-top: 0.75rem;
     }
 }
 
