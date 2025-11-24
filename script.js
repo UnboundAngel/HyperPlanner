@@ -2432,3 +2432,570 @@ function loadSampleData() {
     renderDemoTasks();
     showNotification('Sample tasks loaded! Try dragging them between columns.', 'success');
 }
+
+// ===================================
+// Smart Terms Autocomplete
+// ===================================
+
+const smartTerms = [
+    // Context suggestions
+    {term: "@work", category: "context", description: "Work tasks"},
+    {term: "@personal", category: "context", description: "Personal tasks"},
+    {term: "@home", category: "context", description: "Home tasks"},
+    {term: "@gym", category: "context", description: "Fitness tasks"},
+    {term: "@study", category: "context", description: "Study tasks"},
+    {term: "@creative", category: "context", description: "Creative work"},
+    {term: "@errand", category: "context", description: "Errands"},
+    {term: "@focus", category: "context", description: "Deep work"},
+    // Priority
+    {term: "!high", category: "priority", description: "High priority"},
+    {term: "!medium", category: "priority", description: "Medium priority"},
+    {term: "!low", category: "priority", description: "Low priority"},
+    {term: "!urgent", category: "priority", description: "Urgent priority"},
+    // Tags
+    {term: "#meeting", category: "tag", description: "Meeting tag"},
+    {term: "#planning", category: "tag", description: "Planning tag"},
+    {term: "#design", category: "tag", description: "Design tag"},
+    {term: "#coding", category: "tag", description: "Coding tag"},
+    {term: "#health", category: "tag", description: "Health tag"},
+    {term: "#fitness", category: "tag", description: "Fitness tag"},
+    {term: "#reading", category: "tag", description: "Reading tag"},
+    // Time phrases
+    {term: "today", category: "time", description: "Due today"},
+    {term: "tomorrow", category: "time", description: "Due tomorrow"},
+    {term: "next week", category: "time", description: "Due next week"},
+    {term: "eod", category: "time", description: "End of day"},
+    {term: "asap", category: "time", description: "As soon as possible"},
+    {term: "this weekend", category: "time", description: "This weekend"}
+];
+
+let autocompleteActive = false;
+let autocompleteIndex = -1;
+let autocompleteSuggestions = [];
+
+function initSmartAutocomplete() {
+    const input = document.getElementById('quickCaptureInput');
+    if (!input) return;
+
+    // Create autocomplete dropdown
+    const dropdown = document.createElement('div');
+    dropdown.id = 'autocompleteDropdown';
+    dropdown.className = 'autocomplete-dropdown';
+    dropdown.style.display = 'none';
+    input.parentElement.appendChild(dropdown);
+
+    input.addEventListener('input', handleAutocompleteInput);
+    input.addEventListener('keydown', handleAutocompleteKeydown);
+
+    // Close on click outside
+    document.addEventListener('click', (e) => {
+        if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+            hideAutocomplete();
+        }
+    });
+}
+
+function handleAutocompleteInput(e) {
+    const input = e.target;
+    const value = input.value;
+    const cursorPos = input.selectionStart;
+
+    // Get the word being typed
+    const textBeforeCursor = value.substring(0, cursorPos);
+    const match = textBeforeCursor.match(/[@!#][\w-]*$/);
+
+    if (match) {
+        const query = match[0];
+        const prefix = query[0];
+        const searchTerm = query.substring(1).toLowerCase();
+
+        // Filter suggestions
+        autocompleteSuggestions = smartTerms.filter(term => {
+            const matchesPrefix = term.term.startsWith(prefix);
+            const matchesSearch = term.term.toLowerCase().includes(searchTerm) ||
+                                term.description.toLowerCase().includes(searchTerm);
+            return matchesPrefix && matchesSearch;
+        }).slice(0, 5);
+
+        if (autocompleteSuggestions.length > 0) {
+            showAutocomplete(autocompleteSuggestions, input);
+            trackFeatureEngagement('smart_autocomplete_shown');
+        } else {
+            hideAutocomplete();
+        }
+    } else {
+        hideAutocomplete();
+    }
+}
+
+function handleAutocompleteKeydown(e) {
+    if (!autocompleteActive) return;
+
+    if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        autocompleteIndex = Math.min(autocompleteIndex + 1, autocompleteSuggestions.length - 1);
+        updateAutocompleteHighlight();
+    } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        autocompleteIndex = Math.max(autocompleteIndex - 1, 0);
+        updateAutocompleteHighlight();
+    } else if (e.key === 'Enter' && autocompleteIndex >= 0) {
+        e.preventDefault();
+        selectAutocompleteSuggestion(autocompleteIndex);
+    } else if (e.key === 'Escape') {
+        hideAutocomplete();
+    }
+}
+
+function showAutocomplete(suggestions, input) {
+    const dropdown = document.getElementById('autocompleteDropdown');
+    if (!dropdown) return;
+
+    autocompleteActive = true;
+    autocompleteIndex = 0;
+
+    dropdown.innerHTML = suggestions.map((suggestion, index) => `
+        <div class="autocomplete-item ${index === 0 ? 'highlighted' : ''}"
+             data-index="${index}"
+             onclick="selectAutocompleteSuggestion(${index})">
+            <span class="autocomplete-term">${suggestion.term}</span>
+            <span class="autocomplete-description">${suggestion.description}</span>
+        </div>
+    `).join('');
+
+    dropdown.style.display = 'block';
+}
+
+function hideAutocomplete() {
+    const dropdown = document.getElementById('autocompleteDropdown');
+    if (dropdown) {
+        dropdown.style.display = 'none';
+        autocompleteActive = false;
+        autocompleteIndex = -1;
+    }
+}
+
+function updateAutocompleteHighlight() {
+    const items = document.querySelectorAll('.autocomplete-item');
+    items.forEach((item, index) => {
+        if (index === autocompleteIndex) {
+            item.classList.add('highlighted');
+        } else {
+            item.classList.remove('highlighted');
+        }
+    });
+}
+
+function selectAutocompleteSuggestion(index) {
+    const suggestion = autocompleteSuggestions[index];
+    const input = document.getElementById('quickCaptureInput');
+
+    if (!suggestion || !input) return;
+
+    // Replace the partial term with the full suggestion
+    const value = input.value;
+    const cursorPos = input.selectionStart;
+    const textBeforeCursor = value.substring(0, cursorPos);
+    const match = textBeforeCursor.match(/[@!#][\w-]*$/);
+
+    if (match) {
+        const beforeMatch = textBeforeCursor.substring(0, textBeforeCursor.length - match[0].length);
+        const afterCursor = value.substring(cursorPos);
+        input.value = beforeMatch + suggestion.term + ' ' + afterCursor;
+        input.selectionStart = input.selectionEnd = beforeMatch.length + suggestion.term.length + 1;
+    }
+
+    hideAutocomplete();
+    input.focus();
+    trackFeatureEngagement('smart_autocomplete_used');
+
+    // Trigger preview update
+    input.dispatchEvent(new Event('input'));
+}
+
+// ===================================
+// Drag and Drop Functionality
+// ===================================
+
+let draggedTask = null;
+let draggedElement = null;
+
+function initDragAndDrop() {
+    // Will be called after tasks are rendered
+    setupDraggableCards();
+    setupDropZones();
+}
+
+function setupDraggableCards() {
+    const taskCards = document.querySelectorAll('.task-card');
+    taskCards.forEach(card => {
+        card.setAttribute('draggable', 'true');
+        card.addEventListener('dragstart', handleDragStart);
+        card.addEventListener('dragend', handleDragEnd);
+    });
+}
+
+function setupDropZones() {
+    const panels = document.querySelectorAll('.demo-panel-content');
+    panels.forEach(panel => {
+        panel.addEventListener('dragover', handleDragOver);
+        panel.addEventListener('drop', handleDrop);
+        panel.addEventListener('dragenter', handleDragEnter);
+        panel.addEventListener('dragleave', handleDragLeave);
+    });
+}
+
+function handleDragStart(e) {
+    draggedElement = e.target;
+    draggedTask = demoTasks.find(t => t.id === e.target.dataset.id);
+
+    e.target.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', e.target.innerHTML);
+
+    trackFeatureEngagement('drag_started');
+}
+
+function handleDragEnd(e) {
+    e.target.classList.remove('dragging');
+
+    // Remove all drag-over indicators
+    document.querySelectorAll('.demo-panel-content').forEach(panel => {
+        panel.classList.remove('drag-over');
+    });
+}
+
+function handleDragOver(e) {
+    if (e.preventDefault) {
+        e.preventDefault();
+    }
+    e.dataTransfer.dropEffect = 'move';
+    return false;
+}
+
+function handleDragEnter(e) {
+    e.currentTarget.classList.add('drag-over');
+}
+
+function handleDragLeave(e) {
+    if (e.currentTarget === e.target) {
+        e.currentTarget.classList.remove('drag-over');
+    }
+}
+
+function handleDrop(e) {
+    if (e.stopPropagation) {
+        e.stopPropagation();
+    }
+
+    e.currentTarget.classList.remove('drag-over');
+
+    if (!draggedTask) return false;
+
+    // Determine which column was dropped into
+    const panel = e.currentTarget.closest('.demo-panel');
+    const newColumn = panel.dataset.column;
+
+    if (newColumn && draggedTask.column !== newColumn) {
+        // Update task column
+        draggedTask.column = newColumn;
+
+        // Mark as completed if dropped in done column
+        if (newColumn === 'done') {
+            draggedTask.completed = true;
+        } else {
+            draggedTask.completed = false;
+        }
+
+        saveDemoTasks();
+        renderDemoTasks();
+        initDragAndDrop(); // Re-init drag and drop
+
+        showNotification(`Task moved to ${newColumn}!`, 'success');
+        trackFeatureEngagement('drag_completed');
+    }
+
+    return false;
+}
+
+// ===================================
+// Analytics Tracking
+// ===================================
+
+const analyticsData = {
+    session_start: Date.now(),
+    features_engaged: {},
+    view_switches: 0,
+    tasks_created: 0,
+    tasks_completed: 0,
+    theme_changes: 0,
+    drag_and_drops: 0
+};
+
+function trackFeatureEngagement(featureName) {
+    if (!analyticsData.features_engaged[featureName]) {
+        analyticsData.features_engaged[featureName] = 0;
+    }
+    analyticsData.features_engaged[featureName]++;
+
+    // Save to localStorage for demo persistence
+    localStorage.setItem('hyperplanner_demo_analytics', JSON.stringify(analyticsData));
+}
+
+function logAnalytics() {
+    console.log('📊 Demo Analytics:', analyticsData);
+    console.log('⏱️ Session duration:', Math.round((Date.now() - analyticsData.session_start) / 1000), 'seconds');
+    console.log('🎯 Most engaged feature:', getMostEngagedFeature());
+}
+
+function getMostEngagedFeature() {
+    const features = analyticsData.features_engaged;
+    let maxFeature = null;
+    let maxCount = 0;
+
+    for (const [feature, count] of Object.entries(features)) {
+        if (count > maxCount) {
+            maxCount = count;
+            maxFeature = feature;
+        }
+    }
+
+    return maxFeature || 'None';
+}
+
+// ===================================
+// Interactive Tour
+// ===================================
+
+const tourSteps = [
+    {
+        element: '#quickCaptureInput',
+        title: '✨ Smart Capture',
+        message: 'Type naturally! Use @context, !priority, #tags, and dates like "tomorrow 2pm"',
+        position: 'bottom'
+    },
+    {
+        element: '.view-switcher',
+        title: '📊 Multiple Views',
+        message: 'Switch between Kanban, List, and Calendar views. Your choice, your way!',
+        position: 'bottom'
+    },
+    {
+        element: '.demo-theme-toggle',
+        title: '🎨 Theme Lab',
+        message: 'Customize everything! Click here to adjust colors, blur, shadows, and more.',
+        position: 'left'
+    },
+    {
+        element: '.demo-panel:first-child',
+        title: '🔄 Drag & Drop',
+        message: 'Drag tasks between columns to organize your work. It\'s that simple!',
+        position: 'top'
+    }
+];
+
+let currentTourStep = 0;
+let tourActive = false;
+
+function startTour() {
+    if (localStorage.getItem('hyperplanner_tour_completed')) {
+        return;
+    }
+
+    tourActive = true;
+    currentTourStep = 0;
+    showTourStep(0);
+    trackFeatureEngagement('tour_started');
+}
+
+function showTourStep(stepIndex) {
+    // Remove previous tooltip
+    const existingTooltip = document.querySelector('.tour-tooltip');
+    if (existingTooltip) {
+        existingTooltip.remove();
+    }
+
+    if (stepIndex >= tourSteps.length) {
+        endTour();
+        return;
+    }
+
+    const step = tourSteps[stepIndex];
+    const element = document.querySelector(step.element);
+
+    if (!element) {
+        // Skip to next step if element not found
+        showTourStep(stepIndex + 1);
+        return;
+    }
+
+    // Create tooltip
+    const tooltip = document.createElement('div');
+    tooltip.className = 'tour-tooltip';
+    tooltip.innerHTML = `
+        <div class="tour-header">
+            <h4>${step.title}</h4>
+            <button class="tour-close" onclick="endTour()">×</button>
+        </div>
+        <p>${step.message}</p>
+        <div class="tour-footer">
+            <span class="tour-progress">${stepIndex + 1} / ${tourSteps.length}</span>
+            <div class="tour-buttons">
+                ${stepIndex > 0 ? '<button class="btn-tour-prev" onclick="prevTourStep()">← Back</button>' : ''}
+                <button class="btn-tour-next" onclick="nextTourStep()">
+                    ${stepIndex < tourSteps.length - 1 ? 'Next →' : 'Got it!'}
+                </button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(tooltip);
+
+    // Position tooltip
+    positionTooltip(tooltip, element, step.position);
+
+    // Highlight element
+    element.classList.add('tour-highlight');
+
+    // Remove highlight from previous elements
+    document.querySelectorAll('.tour-highlight').forEach(el => {
+        if (el !== element) {
+            el.classList.remove('tour-highlight');
+        }
+    });
+}
+
+function positionTooltip(tooltip, element, position) {
+    const rect = element.getBoundingClientRect();
+    const tooltipRect = tooltip.getBoundingClientRect();
+
+    let top, left;
+
+    switch (position) {
+        case 'bottom':
+            top = rect.bottom + 10;
+            left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+            break;
+        case 'top':
+            top = rect.top - tooltipRect.height - 10;
+            left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+            break;
+        case 'left':
+            top = rect.top + (rect.height / 2) - (tooltipRect.height / 2);
+            left = rect.left - tooltipRect.width - 10;
+            break;
+        case 'right':
+            top = rect.top + (rect.height / 2) - (tooltipRect.height / 2);
+            left = rect.right + 10;
+            break;
+        default:
+            top = rect.bottom + 10;
+            left = rect.left;
+    }
+
+    // Keep tooltip on screen
+    top = Math.max(10, Math.min(top, window.innerHeight - tooltipRect.height - 10));
+    left = Math.max(10, Math.min(left, window.innerWidth - tooltipRect.width - 10));
+
+    tooltip.style.top = top + 'px';
+    tooltip.style.left = left + 'px';
+}
+
+function nextTourStep() {
+    currentTourStep++;
+    if (currentTourStep >= tourSteps.length) {
+        endTour();
+    } else {
+        showTourStep(currentTourStep);
+    }
+}
+
+function prevTourStep() {
+    currentTourStep = Math.max(0, currentTourStep - 1);
+    showTourStep(currentTourStep);
+}
+
+function endTour() {
+    tourActive = false;
+
+    // Remove tooltip
+    const tooltip = document.querySelector('.tour-tooltip');
+    if (tooltip) {
+        tooltip.remove();
+    }
+
+    // Remove all highlights
+    document.querySelectorAll('.tour-highlight').forEach(el => {
+        el.classList.remove('tour-highlight');
+    });
+
+    // Mark tour as completed
+    localStorage.setItem('hyperplanner_tour_completed', 'true');
+    trackFeatureEngagement('tour_completed');
+
+    showNotification('🎉 Tour completed! Enjoy exploring HyperPlanner!', 'success');
+}
+
+// Update openDemoApp to initialize new features
+const originalOpenDemoApp = openDemoApp;
+window.openDemoApp = function() {
+    originalOpenDemoApp();
+
+    // Initialize new features after a short delay
+    setTimeout(() => {
+        initSmartAutocomplete();
+        initDragAndDrop();
+
+        // Start tour if first time
+        setTimeout(() => startTour(), 1000);
+
+        trackFeatureEngagement('demo_opened');
+    }, 300);
+};
+
+// Override renderDemoTasks to re-init drag and drop
+const originalRenderDemoTasks = renderDemoTasks;
+window.renderDemoTasks = function() {
+    originalRenderDemoTasks();
+    // Re-initialize drag and drop after rendering
+    setTimeout(() => initDragAndDrop(), 100);
+};
+
+// Track view switches
+const originalSwitchDemoView = switchDemoView;
+window.switchDemoView = function(viewName) {
+    originalSwitchDemoView(viewName);
+    analyticsData.view_switches++;
+    trackFeatureEngagement(`view_switched_${viewName}`);
+};
+
+// Track theme changes
+const originalApplyDemoTheme = applyDemoTheme;
+window.applyDemoTheme = function(themeName) {
+    originalApplyDemoTheme(themeName);
+    analyticsData.theme_changes++;
+    trackFeatureEngagement(`theme_changed_${themeName}`);
+};
+
+// Track task creation
+const originalAddQuickCapture = addQuickCapture;
+window.addQuickCapture = function() {
+    originalAddQuickCapture();
+    analyticsData.tasks_created++;
+    trackFeatureEngagement('task_created');
+};
+
+// Track task completion
+const originalCompleteTask = completeTask;
+window.completeTask = function(taskId) {
+    originalCompleteTask(taskId);
+    analyticsData.tasks_completed++;
+    trackFeatureEngagement('task_completed');
+};
+
+// Log analytics on demo close
+const originalCloseDemoApp = closeDemoApp;
+window.closeDemoApp = function() {
+    logAnalytics();
+    originalCloseDemoApp();
+};
