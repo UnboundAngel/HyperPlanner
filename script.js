@@ -1961,6 +1961,14 @@ function addQuickCapture() {
 
     const parsed = parseTaskInput(input.value.trim());
 
+    // Determine which column the task should go to
+    let column = 'inbox';
+    if (parsed.dateType === 'today') {
+        column = 'today';
+    } else if (parsed.priority === 'high') {
+        column = 'today';
+    }
+
     // Create task object
     const task = {
         id: Date.now().toString(),
@@ -1970,6 +1978,7 @@ function addQuickCapture() {
         tags: parsed.tags,
         date: parsed.date,
         dateType: parsed.dateType,
+        column: column,
         completed: false,
         createdAt: new Date().toISOString()
     };
@@ -1999,41 +2008,53 @@ function saveDemoTasks() {
 
 // Render demo tasks to panels
 function renderDemoTasks() {
-    const todayTasks = document.getElementById('todayTasks');
     const inboxTasks = document.getElementById('inboxTasks');
-    const upcomingTasks = document.getElementById('upcomingTasks');
+    const todayTasks = document.getElementById('todayTasks');
+    const inProgressTasks = document.getElementById('inProgressTasks');
+    const doneTasks = document.getElementById('doneTasks');
 
-    if (!todayTasks || !inboxTasks || !upcomingTasks) return;
+    if (!inboxTasks || !todayTasks || !inProgressTasks || !doneTasks) return;
 
     // Clear panels
-    todayTasks.innerHTML = '';
     inboxTasks.innerHTML = '';
-    upcomingTasks.innerHTML = '';
+    todayTasks.innerHTML = '';
+    inProgressTasks.innerHTML = '';
+    doneTasks.innerHTML = '';
 
-    // Sort tasks into panels
-    const today = [];
+    // Sort tasks into panels based on column property
     const inbox = [];
-    const upcoming = [];
+    const today = [];
+    const inProgress = [];
+    const done = [];
 
-    demoTasks.filter(t => !t.completed).forEach(task => {
-        if (task.dateType === 'today') {
+    demoTasks.forEach(task => {
+        if (task.column === 'done' || task.completed) {
+            done.push(task);
+        } else if (task.column === 'inprogress') {
+            inProgress.push(task);
+        } else if (task.column === 'today') {
             today.push(task);
-        } else if (task.dateType === 'upcoming') {
-            upcoming.push(task);
         } else {
             inbox.push(task);
         }
     });
 
     // Render each panel
-    today.forEach(task => todayTasks.appendChild(createTaskCard(task)));
     inbox.forEach(task => inboxTasks.appendChild(createTaskCard(task)));
-    upcoming.forEach(task => upcomingTasks.appendChild(createTaskCard(task)));
+    today.forEach(task => todayTasks.appendChild(createTaskCard(task)));
+    inProgress.forEach(task => inProgressTasks.appendChild(createTaskCard(task)));
+    done.forEach(task => doneTasks.appendChild(createTaskCard(task)));
 
     // Update counts
-    document.getElementById('todayCount').textContent = today.length;
-    document.getElementById('inboxCount').textContent = inbox.length;
-    document.getElementById('upcomingCount').textContent = upcoming.length;
+    const inboxCountEl = document.getElementById('inboxCount');
+    const todayCountEl = document.getElementById('todayCount');
+    const inProgressCountEl = document.getElementById('inProgressCount');
+    const doneCountEl = document.getElementById('doneCount');
+
+    if (inboxCountEl) inboxCountEl.textContent = inbox.length;
+    if (todayCountEl) todayCountEl.textContent = today.length;
+    if (inProgressCountEl) inProgressCountEl.textContent = inProgress.length;
+    if (doneCountEl) doneCountEl.textContent = done.length;
 }
 
 // Create task card element
@@ -2132,5 +2153,282 @@ window.startDemo = function() {
     // Open demo app instead of just showing notification
     setTimeout(() => {
         openDemoApp();
+        // Load sample data if it's the first time
+        if (!localStorage.getItem('hyperplanner_demo_initialized')) {
+            loadSampleData();
+            localStorage.setItem('hyperplanner_demo_initialized', 'true');
+        }
     }, 300);
 };
+
+// ===================================
+// Enhanced Demo App Functions
+// ===================================
+
+// Toggle Theme Lab Panel
+function toggleThemePanel() {
+    const themeLab = document.getElementById('demoThemeLab');
+    if (themeLab) {
+        themeLab.classList.toggle('active');
+    }
+}
+
+// Apply Demo Theme
+function applyDemoTheme(themeName) {
+    const root = document.documentElement;
+    const demoApp = document.querySelector('.demo-app');
+
+    // Remove previous theme classes
+    demoApp.classList.remove('theme-glassy', 'theme-midnight', 'theme-neon');
+
+    switch(themeName) {
+        case 'glassy':
+            root.style.setProperty('--primary', '#6366f1');
+            root.style.setProperty('--secondary', '#ec4899');
+            root.style.setProperty('--bg-primary', '#0f0f1a');
+            root.style.setProperty('--bg-secondary', '#1a1a2e');
+            break;
+        case 'midnight':
+            root.style.setProperty('--primary', '#3b82f6');
+            root.style.setProperty('--secondary', '#8b5cf6');
+            root.style.setProperty('--bg-primary', '#000000');
+            root.style.setProperty('--bg-secondary', '#0a0a0a');
+            break;
+        case 'neon':
+            root.style.setProperty('--primary', '#a855f7');
+            root.style.setProperty('--secondary', '#ec4899');
+            root.style.setProperty('--bg-primary', '#0a0a0f');
+            root.style.setProperty('--bg-secondary', '#12121a');
+            break;
+    }
+
+    // Update active state on theme buttons
+    document.querySelectorAll('.theme-preset').forEach(preset => {
+        if (preset.dataset.theme === themeName) {
+            preset.classList.add('active');
+        } else {
+            preset.classList.remove('active');
+        }
+    });
+
+    demoApp.classList.add(`theme-${themeName}`);
+    showNotification(`${themeName.charAt(0).toUpperCase() + themeName.slice(1)} theme applied!`, 'success');
+}
+
+// Adjust Demo Blur
+function adjustDemoBlur(value) {
+    const root = document.documentElement;
+    root.style.setProperty('--blur-md', `${value}px`);
+}
+
+// Adjust Demo Radius
+function adjustDemoRadius(value) {
+    const root = document.documentElement;
+    root.style.setProperty('--radius-md', `${value}px`);
+    root.style.setProperty('--radius-lg', `${parseInt(value) + 4}px`);
+}
+
+// Adjust Demo Shadow
+function adjustDemoShadow(value) {
+    const root = document.documentElement;
+    const shadows = [
+        '0 2px 8px rgba(0, 0, 0, 0.2)',
+        '0 4px 16px rgba(0, 0, 0, 0.4)',
+        '0 8px 32px rgba(0, 0, 0, 0.5)',
+        '0 16px 64px rgba(0, 0, 0, 0.6)'
+    ];
+    root.style.setProperty('--shadow-md', shadows[parseInt(value)]);
+}
+
+// Switch Demo View
+function switchDemoView(viewName) {
+    // Update view buttons
+    document.querySelectorAll('.view-btn').forEach(btn => {
+        if (btn.dataset.view === viewName) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+
+    // Update views
+    document.querySelectorAll('.demo-view').forEach(view => {
+        view.classList.remove('active');
+    });
+
+    const targetView = document.getElementById(`${viewName}View`);
+    if (targetView) {
+        targetView.classList.add('active');
+
+        // Re-render tasks for the new view
+        if (viewName === 'list') {
+            renderListView();
+        } else if (viewName === 'calendar') {
+            renderCalendarView();
+        }
+    }
+}
+
+// Render List View
+function renderListView() {
+    const listContent = document.getElementById('listTasks');
+    if (!listContent) return;
+
+    listContent.innerHTML = '';
+
+    // Get non-completed tasks
+    const activeTasks = demoTasks.filter(t => !t.completed);
+
+    activeTasks.forEach(task => {
+        const card = createTaskCard(task);
+        card.classList.add('list-task-card');
+        listContent.appendChild(card);
+    });
+}
+
+// Render Calendar View
+function renderCalendarView() {
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+
+    // Clear all day containers
+    days.forEach(day => {
+        const dayContainer = document.getElementById(`cal${day}`);
+        if (dayContainer) {
+            dayContainer.innerHTML = '';
+        }
+    });
+
+    // For demo purposes, distribute tasks across the week
+    const activeTasks = demoTasks.filter(t => !t.completed && t.dateType);
+
+    activeTasks.forEach((task, index) => {
+        const dayIndex = index % 5;
+        const dayName = days[dayIndex];
+        const dayContainer = document.getElementById(`cal${dayName}`);
+
+        if (dayContainer) {
+            const miniCard = document.createElement('div');
+            miniCard.className = 'calendar-task-mini';
+            miniCard.style.cssText = `
+                font-size: 0.7rem;
+                padding: 0.375rem 0.5rem;
+                background: var(--glass);
+                border: 1px solid var(--glass-border);
+                border-radius: 4px;
+                color: var(--text-secondary);
+            `;
+            miniCard.textContent = task.title.substring(0, 20) + (task.title.length > 20 ? '...' : '');
+            if (task.priority === 'high') {
+                miniCard.style.borderLeft = '3px solid #ef4444';
+            }
+            dayContainer.appendChild(miniCard);
+        }
+    });
+}
+
+// Load Sample Data
+function loadSampleData() {
+    const sampleTasks = [
+        {
+            id: Date.now() + '-1',
+            title: 'Team standup meeting',
+            context: 'work',
+            priority: 'medium',
+            tags: ['meeting'],
+            date: 'Today 10am',
+            dateType: 'today',
+            column: 'today',
+            completed: false,
+            createdAt: new Date().toISOString()
+        },
+        {
+            id: Date.now() + '-2',
+            title: 'Review Q1 goals and metrics',
+            context: 'work',
+            priority: 'high',
+            tags: ['planning', 'review'],
+            date: 'Tomorrow',
+            dateType: 'upcoming',
+            column: 'inbox',
+            completed: false,
+            createdAt: new Date().toISOString()
+        },
+        {
+            id: Date.now() + '-3',
+            title: 'Finish design mockups for new feature',
+            context: 'creative',
+            priority: 'high',
+            tags: ['design'],
+            date: 'Today',
+            dateType: 'today',
+            column: 'inprogress',
+            completed: false,
+            createdAt: new Date().toISOString()
+        },
+        {
+            id: Date.now() + '-4',
+            title: 'Gym session - leg day',
+            context: 'personal',
+            priority: 'low',
+            tags: ['health', 'fitness'],
+            date: 'Today 6pm',
+            dateType: 'today',
+            column: 'today',
+            completed: false,
+            createdAt: new Date().toISOString()
+        },
+        {
+            id: Date.now() + '-5',
+            title: 'Read 30 pages of current book',
+            context: 'personal',
+            priority: 'low',
+            tags: ['learning', 'reading'],
+            date: null,
+            dateType: null,
+            column: 'inbox',
+            completed: false,
+            createdAt: new Date().toISOString()
+        },
+        {
+            id: Date.now() + '-6',
+            title: 'Customize HyperPlanner theme',
+            context: 'fun',
+            priority: 'medium',
+            tags: ['customize', 'theme'],
+            date: null,
+            dateType: null,
+            column: 'inprogress',
+            completed: false,
+            createdAt: new Date().toISOString()
+        },
+        {
+            id: Date.now() + '-7',
+            title: 'Prepared weekly review template',
+            context: 'work',
+            priority: null,
+            tags: ['template'],
+            date: 'Last week',
+            dateType: null,
+            column: 'done',
+            completed: true,
+            createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
+        },
+        {
+            id: Date.now() + '-8',
+            title: 'Code review for pull request #123',
+            context: 'work',
+            priority: 'high',
+            tags: ['code', 'review'],
+            date: 'Tomorrow',
+            dateType: 'upcoming',
+            column: 'today',
+            completed: false,
+            createdAt: new Date().toISOString()
+        }
+    ];
+
+    demoTasks = sampleTasks;
+    saveDemoTasks();
+    renderDemoTasks();
+    showNotification('Sample tasks loaded! Try dragging them between columns.', 'success');
+}
