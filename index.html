@@ -863,56 +863,206 @@
                     <span>HyperPlanner Demo</span>
                     <span class="demo-badge">Demo Mode</span>
                 </div>
-                <button class="demo-app-close" onclick="closeDemoApp()">&times;</button>
+                <div class="demo-app-actions">
+                    <button class="demo-theme-toggle" onclick="toggleThemePanel()" title="Theme Lab">
+                        🎨
+                    </button>
+                    <button class="demo-app-close" onclick="closeDemoApp()">&times;</button>
+                </div>
+            </div>
+
+            <!-- Theme Lab Sidebar -->
+            <div class="demo-theme-lab" id="demoThemeLab">
+                <div class="theme-lab-header">
+                    <h3>🎨 Theme Lab</h3>
+                    <button class="theme-lab-close" onclick="toggleThemePanel()">×</button>
+                </div>
+                <div class="theme-lab-content">
+                    <div class="theme-lab-section">
+                        <label class="theme-lab-label">Preset Themes</label>
+                        <div class="theme-presets">
+                            <button class="theme-preset active" data-theme="glassy" onclick="applyDemoTheme('glassy')">
+                                <div class="preset-preview glassy-preview"></div>
+                                <span>Glassy</span>
+                            </button>
+                            <button class="theme-preset" data-theme="midnight" onclick="applyDemoTheme('midnight')">
+                                <div class="preset-preview midnight-preview"></div>
+                                <span>Midnight</span>
+                            </button>
+                            <button class="theme-preset" data-theme="neon" onclick="applyDemoTheme('neon')">
+                                <div class="preset-preview neon-preview"></div>
+                                <span>Neon</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="theme-lab-section">
+                        <label class="theme-lab-label">Glass Blur</label>
+                        <input type="range" class="theme-slider" min="0" max="24" value="16" oninput="adjustDemoBlur(this.value)">
+                    </div>
+
+                    <div class="theme-lab-section">
+                        <label class="theme-lab-label">Border Radius</label>
+                        <input type="range" class="theme-slider" min="4" max="24" value="12" oninput="adjustDemoRadius(this.value)">
+                    </div>
+
+                    <div class="theme-lab-section">
+                        <label class="theme-lab-label">Shadow Depth</label>
+                        <input type="range" class="theme-slider" min="0" max="3" value="1" oninput="adjustDemoShadow(this.value)">
+                    </div>
+
+                    <div class="theme-lab-locked">
+                        <div class="locked-header">
+                            <span class="lock-icon">🔒</span>
+                            <span>Full Color Picker</span>
+                        </div>
+                        <p>Unlock custom colors, gradients & export themes with an account</p>
+                        <button class="btn-upgrade" onclick="openSignInModal(); closeDemoApp();">Unlock Everything</button>
+                    </div>
+                </div>
             </div>
 
             <div class="demo-app-body">
-                <!-- Quick Capture Input -->
-                <div class="quick-capture-container">
-                    <div class="quick-capture-label">Quick Capture</div>
-                    <div class="quick-capture-input-wrapper">
-                        <input type="text" class="quick-capture-input" id="quickCaptureInput"
-                               placeholder="Type a task... try: 'meeting tomorrow 2pm @work !high #planning'"
-                               autocomplete="off">
-                        <button class="quick-capture-btn" onclick="addQuickCapture()">Add</button>
+                <!-- View Toolbar -->
+                <div class="demo-toolbar">
+                    <div class="view-switcher">
+                        <button class="view-btn active" data-view="kanban" onclick="switchDemoView('kanban')">
+                            <span class="view-icon">📊</span>
+                            <span class="view-label">Kanban</span>
+                        </button>
+                        <button class="view-btn" data-view="list" onclick="switchDemoView('list')">
+                            <span class="view-icon">📋</span>
+                            <span class="view-label">List</span>
+                        </button>
+                        <button class="view-btn" data-view="calendar" onclick="switchDemoView('calendar')">
+                            <span class="view-icon">📅</span>
+                            <span class="view-label">Calendar</span>
+                        </button>
                     </div>
-                    <div class="quick-capture-preview" id="quickCapturePreview"></div>
-                    <div class="quick-capture-hint">
-                        <span>Syntax:</span>
-                        <code>@context</code> <code>!priority</code> <code>#tag</code> <code>dates (tomorrow, next week, 3pm)</code>
+                    <div class="demo-feature-callout">
+                        <span class="callout-icon">✨</span>
+                        <span>Drag tasks between panels to organize</span>
                     </div>
                 </div>
 
-                <!-- Demo Panels -->
-                <div class="demo-panels">
-                    <div class="demo-panel" id="todayPanel">
-                        <div class="demo-panel-header">
-                            <h3>Today</h3>
-                            <span class="panel-count" id="todayCount">0</span>
+                <!-- Quick Capture Input -->
+                <div class="quick-capture-container">
+                    <div class="quick-capture-label">
+                        Quick Capture
+                        <span class="feature-badge">Try it!</span>
+                    </div>
+                    <div class="quick-capture-input-wrapper">
+                        <input type="text" class="quick-capture-input" id="quickCaptureInput"
+                               placeholder="Type: 'team sync tomorrow 2pm @work !high #meeting'"
+                               autocomplete="off">
+                        <button class="quick-capture-btn" onclick="addQuickCapture()">
+                            <span>Add</span>
+                        </button>
+                    </div>
+                    <div class="quick-capture-preview" id="quickCapturePreview"></div>
+                    <div class="quick-capture-hint">
+                        <span>💡 Smart syntax:</span>
+                        <code>@context</code> <code>!priority</code> <code>#tag</code> <code>dates</code>
+                    </div>
+                </div>
+
+                <!-- Demo Views Container -->
+                <div class="demo-views-container" id="demoViewsContainer">
+                    <!-- Kanban View (Default) -->
+                    <div class="demo-view kanban-view active" id="kanbanView">
+                        <div class="demo-panels kanban-panels">
+                            <div class="demo-panel kanban-column" id="inboxPanel" data-column="inbox">
+                                <div class="demo-panel-header">
+                                    <h3>📥 Inbox</h3>
+                                    <span class="panel-count" id="inboxCount">0</span>
+                                </div>
+                                <div class="demo-panel-content" id="inboxTasks"></div>
+                            </div>
+
+                            <div class="demo-panel kanban-column" id="todayPanel" data-column="today">
+                                <div class="demo-panel-header">
+                                    <h3>⭐ Today</h3>
+                                    <span class="panel-count" id="todayCount">0</span>
+                                </div>
+                                <div class="demo-panel-content" id="todayTasks"></div>
+                            </div>
+
+                            <div class="demo-panel kanban-column" id="inProgressPanel" data-column="inprogress">
+                                <div class="demo-panel-header">
+                                    <h3>🚀 In Progress</h3>
+                                    <span class="panel-count" id="inProgressCount">0</span>
+                                </div>
+                                <div class="demo-panel-content" id="inProgressTasks"></div>
+                            </div>
+
+                            <div class="demo-panel kanban-column" id="donePanel" data-column="done">
+                                <div class="demo-panel-header">
+                                    <h3>✅ Done</h3>
+                                    <span class="panel-count" id="doneCount">0</span>
+                                </div>
+                                <div class="demo-panel-content" id="doneTasks"></div>
+                            </div>
                         </div>
-                        <div class="demo-panel-content" id="todayTasks"></div>
                     </div>
 
-                    <div class="demo-panel" id="inboxPanel">
-                        <div class="demo-panel-header">
-                            <h3>Inbox</h3>
-                            <span class="panel-count" id="inboxCount">0</span>
+                    <!-- List View -->
+                    <div class="demo-view list-view" id="listView">
+                        <div class="list-container">
+                            <div class="list-header">
+                                <h3>All Tasks</h3>
+                                <div class="list-filters">
+                                    <button class="filter-btn active" data-filter="all">All</button>
+                                    <button class="filter-btn" data-filter="today">Today</button>
+                                    <button class="filter-btn" data-filter="high">High Priority</button>
+                                </div>
+                            </div>
+                            <div class="list-content" id="listTasks"></div>
                         </div>
-                        <div class="demo-panel-content" id="inboxTasks"></div>
                     </div>
 
-                    <div class="demo-panel" id="upcomingPanel">
-                        <div class="demo-panel-header">
-                            <h3>Upcoming</h3>
-                            <span class="panel-count" id="upcomingCount">0</span>
+                    <!-- Calendar View -->
+                    <div class="demo-view calendar-view" id="calendarView">
+                        <div class="calendar-container">
+                            <div class="calendar-header">
+                                <h3>This Week</h3>
+                                <div class="calendar-locked">
+                                    🔒 Full calendar with time blocks available in Pro
+                                </div>
+                            </div>
+                            <div class="calendar-preview">
+                                <div class="calendar-day">
+                                    <div class="day-label">Mon</div>
+                                    <div class="day-tasks" id="calMonday"></div>
+                                </div>
+                                <div class="calendar-day">
+                                    <div class="day-label">Tue</div>
+                                    <div class="day-tasks" id="calTuesday"></div>
+                                </div>
+                                <div class="calendar-day">
+                                    <div class="day-label">Wed</div>
+                                    <div class="day-tasks" id="calWednesday"></div>
+                                </div>
+                                <div class="calendar-day">
+                                    <div class="day-label">Thu</div>
+                                    <div class="day-tasks" id="calThursday"></div>
+                                </div>
+                                <div class="calendar-day">
+                                    <div class="day-label">Fri</div>
+                                    <div class="day-tasks" id="calFriday"></div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="demo-panel-content" id="upcomingTasks"></div>
                     </div>
                 </div>
             </div>
 
             <div class="demo-app-footer">
-                <p>This is demo mode - your data is stored locally. <a href="#" onclick="openSignInModal(); closeDemoApp();">Create an account</a> to unlock sync & AI features.</p>
+                <div class="footer-content">
+                    <p>🎯 You're in demo mode - data saved locally.
+                        <a href="#" onclick="openSignInModal(); closeDemoApp();">Create account</a>
+                        to unlock <strong>AI features, sync, templates & advanced automations</strong>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
