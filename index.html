@@ -115,13 +115,13 @@
             <div class="welcome-step" data-step="5">
                 <div class="welcome-icon">🚀</div>
                 <h1 class="welcome-title">You're all set!</h1>
-                <p class="welcome-subtitle">Create an account to unlock all features, or try demo mode first</p>
+                <p class="welcome-subtitle">Try demo mode with full features, or create an account for sync & email notifications</p>
                 <div class="welcome-nav">
                     <button class="btn btn-secondary" onclick="startDemo()">Try Demo First</button>
                     <button class="btn btn-primary" onclick="openSignup()">Create Account</button>
                 </div>
                 <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-tertiary);">
-                    Demo mode includes everything except AI, advanced automations, sync, and templates
+                    Demo mode is fully featured. Account adds device sync and email notifications
                 </p>
             </div>
 
@@ -619,17 +619,18 @@
             <div class="demo-content">
                 <div class="demo-info">
                     <h2>Try It Now—No Signup Required</h2>
-                    <p>Demo mode shows the real product. We're honest about what's locked:</p>
-                    <ul class="demo-locked">
-                        <li><span class="lock-icon">🔒</span> AI suggestions & insights</li>
-                        <li><span class="lock-icon">🔒</span> Advanced automations (webhooks, complex rules)</li>
-                        <li><span class="lock-icon">🔒</span> Template marketplace & sharing</li>
-                        <li><span class="lock-icon">🔒</span> Multi-device sync & cloud backup</li>
+                    <p>Demo mode gives you full access to all HyperPlanner features:</p>
+                    <ul class="demo-features-unlocked">
+                        <li><span class="check-icon">✓</span> Smart natural language capture</li>
+                        <li><span class="check-icon">✓</span> Fully customizable themes & layouts</li>
+                        <li><span class="check-icon">✓</span> Drag-and-drop task management</li>
+                        <li><span class="check-icon">✓</span> Automations & recurring tasks</li>
+                        <li><span class="check-icon">✓</span> All views (Kanban, Calendar, List)</li>
                     </ul>
-                    <p class="demo-unlock">Everything else? Fully unlocked. Test layouts, themes, capture, and local storage. See if HyperPlanner fits your brain.</p>
+                    <p class="demo-unlock">Everything works offline with local storage. Create an account only if you want email notifications and sync across devices.</p>
                     <div class="demo-cta">
                         <button class="btn btn-primary btn-large cta-demo-main">Launch Demo</button>
-                        <p class="demo-note">When you're ready, create an account to unlock everything.</p>
+                        <p class="demo-note">Try it fully featured, no limits. Account optional.</p>
                     </div>
                 </div>
                 <div class="demo-visual">
@@ -646,13 +647,13 @@
                                 <span class="check">✓</span> Theme Lab
                             </div>
                             <div class="demo-feature unlocked">
-                                <span class="check">✓</span> Basic Automations
+                                <span class="check">✓</span> Automations
                             </div>
-                            <div class="demo-feature locked">
-                                <span class="lock">🔒</span> AI Features
+                            <div class="demo-feature unlocked">
+                                <span class="check">✓</span> Natural Language
                             </div>
-                            <div class="demo-feature locked">
-                                <span class="lock">🔒</span> Sync & Cloud
+                            <div class="demo-feature unlocked">
+                                <span class="check">✓</span> All Features
                             </div>
                         </div>
                     </div>
@@ -717,7 +718,7 @@
             <button class="modal-close">&times;</button>
             <div class="modal-header">
                 <h2 id="modalTitle">Welcome Back</h2>
-                <p id="modalSubtitle">Sign in to sync across devices and unlock all features</p>
+                <p id="modalSubtitle">Sign in to sync across devices and enable email notifications</p>
             </div>
             <div class="modal-body">
                 <div class="auth-tabs" id="authTabs">
@@ -911,13 +912,8 @@
                         <input type="range" class="theme-slider" min="0" max="3" value="1" oninput="adjustDemoShadow(this.value)">
                     </div>
 
-                    <div class="theme-lab-locked">
-                        <div class="locked-header">
-                            <span class="lock-icon">🔒</span>
-                            <span>Full Color Picker</span>
-                        </div>
-                        <p>Unlock custom colors, gradients & export themes with an account</p>
-                        <button class="btn-upgrade" onclick="openSignInModal(); closeDemoApp();">Unlock Everything</button>
+                    <div class="theme-lab-info">
+                        <p class="theme-lab-note">💾 Create an account to sync your theme across devices and get email notifications</p>
                     </div>
                 </div>
             </div>
@@ -1025,9 +1021,6 @@
                         <div class="calendar-container">
                             <div class="calendar-header">
                                 <h3>This Week</h3>
-                                <div class="calendar-locked">
-                                    🔒 Full calendar with time blocks available in Pro
-                                </div>
                             </div>
                             <div class="calendar-preview">
                                 <div class="calendar-day">
@@ -1058,9 +1051,9 @@
 
             <div class="demo-app-footer">
                 <div class="footer-content">
-                    <p>🎯 You're in demo mode - data saved locally.
+                    <p>🎯 Demo mode - all features unlocked! Data saved locally.
                         <a href="#" onclick="openSignInModal(); closeDemoApp();">Create account</a>
-                        to unlock <strong>AI features, sync, templates & advanced automations</strong>
+                        for <strong>email notifications and sync across devices</strong>
                     </p>
                 </div>
             </div>

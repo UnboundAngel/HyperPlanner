@@ -1854,21 +1854,137 @@ function initQuickCapture() {
     });
 }
 
-// Parse task input with smart recognition
+// Smart icon/context mapping based on keywords
+const smartContextMapping = {
+    // Fitness & Health
+    'gym': { context: 'fitness', icon: '💪', tags: ['fitness'] },
+    'workout': { context: 'fitness', icon: '🏋️', tags: ['fitness'] },
+    'exercise': { context: 'fitness', icon: '🏃', tags: ['fitness'] },
+    'run': { context: 'fitness', icon: '🏃', tags: ['cardio'] },
+    'yoga': { context: 'fitness', icon: '🧘', tags: ['fitness'] },
+    'meditation': { context: 'wellness', icon: '🧘', tags: ['mindfulness'] },
+
+    // Faith & Spirituality
+    'church': { context: 'faith', icon: '📿', tags: ['faith'] },
+    'prayer': { context: 'faith', icon: '🙏', tags: ['faith'] },
+    'bible': { context: 'faith', icon: '📖', tags: ['faith'] },
+    'worship': { context: 'faith', icon: '⛪', tags: ['faith'] },
+
+    // Work & Professional
+    'meeting': { context: 'work', icon: '👥', tags: ['meeting'] },
+    'call': { context: 'work', icon: '📞', tags: ['meeting'] },
+    'presentation': { context: 'work', icon: '📊', tags: ['work'] },
+    'deadline': { context: 'work', icon: '⏰', tags: ['urgent'] },
+    'code': { context: 'work', icon: '💻', tags: ['coding'] },
+    'review': { context: 'work', icon: '🔍', tags: ['review'] },
+
+    // Study & Learning
+    'study': { context: 'study', icon: '📚', tags: ['study'] },
+    'homework': { context: 'study', icon: '📝', tags: ['study'] },
+    'exam': { context: 'study', icon: '📄', tags: ['exam'] },
+    'class': { context: 'study', icon: '🎓', tags: ['study'] },
+
+    // Personal & Home
+    'grocery': { context: 'errands', icon: '🛒', tags: ['shopping'] },
+    'shopping': { context: 'errands', icon: '🛍️', tags: ['shopping'] },
+    'clean': { context: 'home', icon: '🧹', tags: ['chores'] },
+    'laundry': { context: 'home', icon: '👕', tags: ['chores'] },
+    'cook': { context: 'home', icon: '🍳', tags: ['meal'] },
+    'meal': { context: 'home', icon: '🍽️', tags: ['meal'] },
+
+    // Social & Fun
+    'birthday': { context: 'social', icon: '🎂', tags: ['celebration'] },
+    'party': { context: 'social', icon: '🎉', tags: ['social'] },
+    'date': { context: 'social', icon: '❤️', tags: ['personal'] },
+    'dinner': { context: 'social', icon: '🍷', tags: ['social'] },
+
+    // Creative
+    'write': { context: 'creative', icon: '✍️', tags: ['writing'] },
+    'design': { context: 'creative', icon: '🎨', tags: ['design'] },
+    'music': { context: 'creative', icon: '🎵', tags: ['music'] },
+    'practice': { context: 'creative', icon: '🎸', tags: ['practice'] }
+};
+
+// Parse task input with advanced natural language understanding
 function parseTaskInput(text) {
+    const original = text;
+    const lower = text.toLowerCase();
+
     const result = {
         title: text,
         context: null,
         priority: null,
         tags: [],
         date: null,
-        dateType: null // 'today', 'upcoming', or null for inbox
+        dateType: null,
+        time: null,
+        recurring: null,
+        icon: null
     };
 
-    // Extract @context
-    const contextMatch = text.match(/@(\w+)/g);
+    // Detect recurring patterns FIRST
+    const recurringPatterns = [
+        { pattern: /\bevery\s*day\b|\bdaily\b|\beveryday\b/i, value: 'daily', remove: true },
+        { pattern: /\bevery\s*week\b|\bweekly\b/i, value: 'weekly', remove: true },
+        { pattern: /\bevery\s*month\b|\bmonthly\b/i, value: 'monthly', remove: true },
+        { pattern: /\bevery\s*(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/i, value: 'weekly', day: null, remove: true },
+        { pattern: /\bevery\s*weekday\b/i, value: 'weekdays', remove: true },
+        { pattern: /\bevery\s*weekend\b/i, value: 'weekend', remove: true }
+    ];
+
+    for (const rp of recurringPatterns) {
+        const match = text.match(rp.pattern);
+        if (match) {
+            result.recurring = rp.value;
+            if (match[1]) { // Day of week captured
+                result.recurringDay = match[1].toLowerCase();
+            }
+            if (rp.remove) {
+                result.title = result.title.replace(match[0], '').trim();
+            }
+            break;
+        }
+    }
+
+    // Extract time (at 9pm, at 12:30, at 12, etc.)
+    const timePatterns = [
+        { pattern: /\bat\s*(\d{1,2})\s*(am|pm)\b/i, format: (m) => `${m[1]}${m[2].toLowerCase()}` },
+        { pattern: /\bat\s*(\d{1,2}):(\d{2})\s*(am|pm)?\b/i, format: (m) => `${m[1]}:${m[2]}${m[3] ? m[3].toLowerCase() : ''}` },
+        { pattern: /\bat\s*(\d{1,2})(?!\d|:)\b/i, format: (m) => {
+            const hour = parseInt(m[1]);
+            // Assume 12 is noon, 1-11 without am/pm defaults to pm for convenience
+            return hour === 12 ? '12pm' : `${hour}pm`;
+        }},
+        { pattern: /\b(\d{1,2})\s*(am|pm)\b/i, format: (m) => `${m[1]}${m[2].toLowerCase()}` },
+        { pattern: /\b(\d{1,2}):(\d{2})\s*(am|pm)?\b/i, format: (m) => `${m[1]}:${m[2]}${m[3] ? m[3].toLowerCase() : ''}` }
+    ];
+
+    for (const tp of timePatterns) {
+        const match = text.match(tp.pattern);
+        if (match) {
+            result.time = tp.format(match);
+            result.title = result.title.replace(match[0], '').trim();
+            result.dateType = result.dateType || 'today';
+            break;
+        }
+    }
+
+    // Smart context detection from keywords
+    for (const [keyword, mapping] of Object.entries(smartContextMapping)) {
+        if (lower.includes(keyword)) {
+            result.context = result.context || mapping.context;
+            result.icon = result.icon || mapping.icon;
+            if (mapping.tags && mapping.tags.length > 0) {
+                result.tags.push(...mapping.tags);
+            }
+            break;
+        }
+    }
+
+    // Extract explicit @context (overrides smart detection)
+    const contextMatch = text.match(/@(\w+)/);
     if (contextMatch) {
-        result.context = contextMatch[0].substring(1);
+        result.context = contextMatch[1];
         result.title = result.title.replace(contextMatch[0], '').trim();
     }
 
@@ -1880,41 +1996,69 @@ function parseTaskInput(text) {
         result.title = result.title.replace(priorityMatch[0], '').trim();
     }
 
-    // Extract #tags
+    // Extract #tags (in addition to smart tags)
     const tagMatches = text.match(/#(\w+)/g);
     if (tagMatches) {
-        result.tags = tagMatches.map(t => t.substring(1));
+        const explicitTags = tagMatches.map(t => t.substring(1));
+        result.tags.push(...explicitTags);
         tagMatches.forEach(t => {
             result.title = result.title.replace(t, '').trim();
         });
     }
 
-    // Extract dates
-    const datePatterns = [
-        { pattern: /\btoday\b/i, type: 'today', value: 'Today' },
-        { pattern: /\btomorrow\b/i, type: 'upcoming', value: 'Tomorrow' },
-        { pattern: /\bnext week\b/i, type: 'upcoming', value: 'Next Week' },
-        { pattern: /\bnext month\b/i, type: 'upcoming', value: 'Next Month' },
-        { pattern: /\beod\b/i, type: 'today', value: 'End of Day' },
-        { pattern: /\basap\b/i, type: 'today', value: 'ASAP' },
-        { pattern: /\b(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/i, type: 'upcoming', value: null },
-        { pattern: /\b(\d{1,2})(am|pm)\b/i, type: 'today', value: null },
-        { pattern: /\b(\d{1,2}):(\d{2})\s*(am|pm)?\b/i, type: 'today', value: null },
-        { pattern: /\bin (\d+) (day|days|week|weeks|month|months)\b/i, type: 'upcoming', value: null }
-    ];
+    // Remove duplicate tags
+    result.tags = [...new Set(result.tags)];
 
-    for (const dp of datePatterns) {
-        const match = text.match(dp.pattern);
-        if (match) {
-            result.date = dp.value || match[0];
-            result.dateType = dp.type;
-            result.title = result.title.replace(match[0], '').trim();
-            break;
+    // Extract dates (if not already set by recurring)
+    if (!result.dateType) {
+        const datePatterns = [
+            { pattern: /\btoday\b/i, type: 'today', value: 'Today' },
+            { pattern: /\btomorrow\b/i, type: 'upcoming', value: 'Tomorrow' },
+            { pattern: /\bnext\s*week\b/i, type: 'upcoming', value: 'Next Week' },
+            { pattern: /\bnext\s*month\b/i, type: 'upcoming', value: 'Next Month' },
+            { pattern: /\beod\b/i, type: 'today', value: 'End of Day' },
+            { pattern: /\basap\b/i, type: 'today', value: 'ASAP' },
+            { pattern: /\bthis\s*(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/i, type: 'upcoming', value: null },
+            { pattern: /\bnext\s*(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/i, type: 'upcoming', value: null },
+            { pattern: /\bin\s*(\d+)\s*(day|days|week|weeks|month|months)\b/i, type: 'upcoming', value: null }
+        ];
+
+        for (const dp of datePatterns) {
+            const match = text.match(dp.pattern);
+            if (match) {
+                result.date = dp.value || match[0];
+                result.dateType = dp.type;
+                result.title = result.title.replace(match[0], '').trim();
+                break;
+            }
         }
     }
 
-    // Clean up multiple spaces
+    // Build display date with recurring + time
+    if (result.recurring) {
+        let dateDisplay = result.recurring;
+        if (result.recurringDay) {
+            dateDisplay = `Every ${result.recurringDay}`;
+        }
+        if (result.time) {
+            dateDisplay += ` at ${result.time}`;
+        }
+        result.date = dateDisplay;
+        result.dateType = 'upcoming';
+    } else if (result.time && result.date) {
+        result.date += ` at ${result.time}`;
+    } else if (result.time) {
+        result.date = `Today at ${result.time}`;
+        result.dateType = 'today';
+    }
+
+    // Clean up title
     result.title = result.title.replace(/\s+/g, ' ').trim();
+
+    // If title is too short after parsing, use original
+    if (result.title.length < 2) {
+        result.title = original.replace(/@\w+|!\w+|#\w+/g, '').trim();
+    }
 
     return result;
 }
@@ -1923,7 +2067,14 @@ function parseTaskInput(text) {
 function updatePreview(parsed, previewEl) {
     if (!previewEl) return;
 
-    let html = `<span class="parsed-title">${escapeHtml(parsed.title)}</span>`;
+    let html = '';
+
+    // Add icon if detected
+    if (parsed.icon) {
+        html += `<span class="parsed-icon">${parsed.icon}</span> `;
+    }
+
+    html += `<span class="parsed-title">${escapeHtml(parsed.title)}</span>`;
 
     if (parsed.context) {
         html += `<span class="parsed-context">@${parsed.context}</span>`;
@@ -1939,6 +2090,10 @@ function updatePreview(parsed, previewEl) {
 
     if (parsed.date) {
         html += `<span class="parsed-date">${parsed.date}</span>`;
+    }
+
+    if (parsed.recurring) {
+        html += `<span class="parsed-recurring">🔁 ${parsed.recurring}</span>`;
     }
 
     previewEl.innerHTML = html;
