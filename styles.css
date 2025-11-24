@@ -3651,4 +3651,47 @@ body {
         transform: rotate(90deg);
         align-self: center;
     }
+
+    /* Fix intrusive customize controls on mobile */
+    .customize-controls {
+        left: 0.5rem;
+        bottom: 0.5rem;
+        right: 0.5rem;
+        width: auto;
+        max-width: none;
+        flex-direction: column;
+        padding: 0.75rem;
+        gap: 0.5rem;
+    }
+
+    .customize-controls .control-group {
+        width: 100%;
+    }
+
+    .customize-controls .control-input {
+        justify-content: center;
+    }
+
+    /* Make theme controls start hidden on mobile */
+    .customize-controls {
+        display: none;
+    }
+
+    /* Sidebar fixes for mobile */
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    /* Demo theme lab on mobile */
+    .demo-theme-lab {
+        width: 100%;
+    }
+
+    .demo-theme-lab.active {
+        transform: translateX(0);
+    }
 }

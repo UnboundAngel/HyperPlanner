@@ -2437,45 +2437,79 @@ function loadSampleData() {
 // Smart Terms Autocomplete
 // ===================================
 
-const smartTerms = [
-    // Context suggestions
-    {term: "@work", category: "context", description: "Work tasks"},
-    {term: "@personal", category: "context", description: "Personal tasks"},
-    {term: "@home", category: "context", description: "Home tasks"},
-    {term: "@gym", category: "context", description: "Fitness tasks"},
-    {term: "@study", category: "context", description: "Study tasks"},
-    {term: "@creative", category: "context", description: "Creative work"},
-    {term: "@errand", category: "context", description: "Errands"},
-    {term: "@focus", category: "context", description: "Deep work"},
-    // Priority
-    {term: "!high", category: "priority", description: "High priority"},
-    {term: "!medium", category: "priority", description: "Medium priority"},
-    {term: "!low", category: "priority", description: "Low priority"},
-    {term: "!urgent", category: "priority", description: "Urgent priority"},
-    // Tags
-    {term: "#meeting", category: "tag", description: "Meeting tag"},
-    {term: "#planning", category: "tag", description: "Planning tag"},
-    {term: "#design", category: "tag", description: "Design tag"},
-    {term: "#coding", category: "tag", description: "Coding tag"},
-    {term: "#health", category: "tag", description: "Health tag"},
-    {term: "#fitness", category: "tag", description: "Fitness tag"},
-    {term: "#reading", category: "tag", description: "Reading tag"},
-    // Time phrases
-    {term: "today", category: "time", description: "Due today"},
-    {term: "tomorrow", category: "time", description: "Due tomorrow"},
-    {term: "next week", category: "time", description: "Due next week"},
-    {term: "eod", category: "time", description: "End of day"},
-    {term: "asap", category: "time", description: "As soon as possible"},
-    {term: "this weekend", category: "time", description: "This weekend"}
-];
+let smartTerms = [];
+let smartTermsLoaded = false;
+
+// Load smart terms from actual JSON file
+async function loadSmartTerms() {
+    if (smartTermsLoaded) return;
+
+    try {
+        const response = await fetch('/server/data/smart_terms_seed.json');
+        const terms = await response.json();
+
+        // Convert to autocomplete format
+        smartTerms = terms.map(term => {
+            let category = 'other';
+            let description = term.metadata || '';
+
+            if (term.category === 'context') {
+                category = 'context';
+                description = `Context: ${term.metadata}`;
+            } else if (term.category.startsWith('priority_')) {
+                category = 'priority';
+                description = `Priority: ${term.category.replace('priority_', '')}`;
+            } else if (term.category === 'category_tag') {
+                category = 'tag';
+                description = `Tag: ${term.metadata}`;
+            } else if (term.category === 'time_phrase') {
+                category = 'time';
+                description = `Time: ${term.metadata}`;
+            } else if (term.category === 'macro') {
+                category = 'context';
+                description = `Macro: ${term.metadata}`;
+            }
+
+            return {
+                term: term.term,
+                category: category,
+                description: description
+            };
+        });
+
+        smartTermsLoaded = true;
+        console.log(`✅ Loaded ${smartTerms.length} smart terms`);
+    } catch (error) {
+        console.warn('Could not load smart terms, using fallback:', error);
+        // Use fallback terms
+        smartTerms = [
+            {term: "@work", category: "context", description: "Work tasks"},
+            {term: "@personal", category: "context", description: "Personal tasks"},
+            {term: "@home", category: "context", description: "Home tasks"},
+            {term: "@gym", category: "context", description: "Fitness tasks"},
+            {term: "@study", category: "context", description: "Study tasks"},
+            {term: "@creative", category: "context", description: "Creative work"},
+            {term: "!high", category: "priority", description: "High priority"},
+            {term: "!medium", category: "priority", description: "Medium priority"},
+            {term: "!low", category: "priority", description: "Low priority"},
+            {term: "#meeting", category: "tag", description: "Meeting tag"},
+            {term: "#planning", category: "tag", description: "Planning tag"},
+            {term: "#design", category: "tag", description: "Design tag"}
+        ];
+        smartTermsLoaded = true;
+    }
+}
 
 let autocompleteActive = false;
 let autocompleteIndex = -1;
 let autocompleteSuggestions = [];
 
-function initSmartAutocomplete() {
+async function initSmartAutocomplete() {
     const input = document.getElementById('quickCaptureInput');
     if (!input) return;
+
+    // Load smart terms first
+    await loadSmartTerms();
 
     // Create autocomplete dropdown
     const dropdown = document.createElement('div');
@@ -2866,39 +2900,53 @@ function showTourStep(stepIndex) {
 }
 
 function positionTooltip(tooltip, element, position) {
-    const rect = element.getBoundingClientRect();
-    const tooltipRect = tooltip.getBoundingClientRect();
+    // Scroll element into view first (important for mobile)
+    element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'center'
+    });
 
-    let top, left;
+    // Wait for scroll to complete
+    setTimeout(() => {
+        const rect = element.getBoundingClientRect();
+        const tooltipRect = tooltip.getBoundingClientRect();
 
-    switch (position) {
-        case 'bottom':
-            top = rect.bottom + 10;
-            left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
-            break;
-        case 'top':
-            top = rect.top - tooltipRect.height - 10;
-            left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
-            break;
-        case 'left':
-            top = rect.top + (rect.height / 2) - (tooltipRect.height / 2);
-            left = rect.left - tooltipRect.width - 10;
-            break;
-        case 'right':
-            top = rect.top + (rect.height / 2) - (tooltipRect.height / 2);
-            left = rect.right + 10;
-            break;
-        default:
-            top = rect.bottom + 10;
-            left = rect.left;
-    }
+        let top, left;
 
-    // Keep tooltip on screen
-    top = Math.max(10, Math.min(top, window.innerHeight - tooltipRect.height - 10));
-    left = Math.max(10, Math.min(left, window.innerWidth - tooltipRect.width - 10));
+        // On mobile, always position below
+        const isMobile = window.innerWidth <= 768;
+        const actualPosition = isMobile ? 'bottom' : position;
 
-    tooltip.style.top = top + 'px';
-    tooltip.style.left = left + 'px';
+        switch (actualPosition) {
+            case 'bottom':
+                top = rect.bottom + 10;
+                left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+                break;
+            case 'top':
+                top = rect.top - tooltipRect.height - 10;
+                left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+                break;
+            case 'left':
+                top = rect.top + (rect.height / 2) - (tooltipRect.height / 2);
+                left = rect.left - tooltipRect.width - 10;
+                break;
+            case 'right':
+                top = rect.top + (rect.height / 2) - (tooltipRect.height / 2);
+                left = rect.right + 10;
+                break;
+            default:
+                top = rect.bottom + 10;
+                left = rect.left;
+        }
+
+        // Keep tooltip on screen
+        top = Math.max(10, Math.min(top, window.innerHeight - tooltipRect.height - 10));
+        left = Math.max(10, Math.min(left, window.innerWidth - tooltipRect.width - 10));
+
+        tooltip.style.top = top + 'px';
+        tooltip.style.left = left + 'px';
+    }, 300); // Wait for scroll animation
 }
 
 function nextTourStep() {
