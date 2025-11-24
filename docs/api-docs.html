@@ -1759,61 +1759,6 @@ X-RateLimit-RetryAfter: 45</div>
         </main>
     </div>
 
-    <script>
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                if (href !== '#') {
-                    e.preventDefault();
-                    const target = document.querySelector(href);
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                }
-            });
-        });
-
-        // Copy code blocks on click
-        document.querySelectorAll('.code-block').forEach(block => {
-            block.style.cursor = 'pointer';
-            block.title = 'Click to copy';
-
-            block.addEventListener('click', async () => {
-                const text = block.textContent;
-                try {
-                    await navigator.clipboard.writeText(text);
-
-                    // Visual feedback
-                    const originalBg = block.style.background;
-                    block.style.background = 'rgba(16, 185, 129, 0.2)';
-                    setTimeout(() => {
-                        block.style.background = originalBg;
-                    }, 200);
-                } catch (err) {
-                    console.error('Failed to copy:', err);
-                }
-            });
-        });
-
-        // Highlight current section in sidebar based on scroll
-        const sections = document.querySelectorAll('.doc-section[id]');
-
-        function updateActiveSection() {
-            let currentSection = '';
-
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 100;
-                if (window.scrollY >= sectionTop) {
-                    currentSection = section.getAttribute('id');
-                }
-            });
-        }
-
-        window.addEventListener('scroll', updateActiveSection);
-    </script>
+    <script src="docs.js"></script>
 </body>
 </html>

@@ -315,24 +315,6 @@
         </main>
     </div>
 
-    <script>
-        // Form submission handler
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            // Get form data
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData.entries());
-
-            // In production, this would send to your backend
-            console.log('Form submitted:', data);
-
-            // Show success message
-            alert('Thank you for your message! We\'ll get back to you within 24-48 hours.');
-
-            // Reset form
-            this.reset();
-        });
-    </script>
+    <script src="docs.js"></script>
 </body>
 </html>

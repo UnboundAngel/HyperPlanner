@@ -841,48 +841,6 @@ Smart Capture response:
         </main>
     </div>
 
-    <script>
-        // FAQ accordion functionality
-        document.querySelectorAll('.faq-question').forEach(button => {
-            button.addEventListener('click', () => {
-                button.parentElement.classList.toggle('open');
-            });
-        });
-
-        // Smooth scroll for sidebar links
-        document.querySelectorAll('.sidebar-link[href^="#"]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                const href = link.getAttribute('href');
-                if (href.startsWith('#')) {
-                    e.preventDefault();
-                    const target = document.querySelector(href);
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                }
-            });
-        });
-
-        // Highlight current section in sidebar on scroll
-        const sections = document.querySelectorAll('.doc-section[id]');
-        const sidebarLinks = document.querySelectorAll('.sidebar-link[href^="#"]');
-
-        window.addEventListener('scroll', () => {
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (scrollY >= sectionTop - 200) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            sidebarLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${current}`) {
-                    link.classList.add('active');
-                }
-            });
-        });
-    </script>
+    <script src="docs.js"></script>
 </body>
 </html>
