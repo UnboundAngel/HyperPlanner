@@ -24,9 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const favicon = document.querySelector('link[rel="icon"]');
 
         if (document.hidden) {
-            document.title = '👋 Come back to HyperPlanner!';
-            // Change favicon to waving hand emoji
-            favicon.href = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👋</text></svg>";
+            document.title = 'Come get ur cookie!';
+            // Change favicon to cookie emoji
+            favicon.href = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍪</text></svg>";
         } else {
             document.title = originalTitle;
             favicon.href = originalFavicon;
@@ -1765,7 +1765,7 @@ function openSignInModal() {
 }
 
 function launchDemo() {
-    showNotification('Demo mode would launch here!', 'info');
+    openDemoApp();
 }
 
 // Initialize keyboard shortcuts when DOM is ready
@@ -1790,3 +1790,347 @@ document.querySelectorAll('.btn-primary').forEach(btn => {
         trackEvent('Button', 'Click', btn.textContent);
     });
 });
+
+// ===================================
+// Demo App & Quick Capture System
+// ===================================
+
+// Task storage
+let demoTasks = JSON.parse(localStorage.getItem('hyperplanner_demo_tasks')) || [];
+
+// Open demo app
+function openDemoApp() {
+    const overlay = document.getElementById('demoAppOverlay');
+    if (overlay) {
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+        // Initialize quick capture
+        initQuickCapture();
+
+        // Render existing tasks
+        renderDemoTasks();
+
+        // Focus the input
+        setTimeout(() => {
+            const input = document.getElementById('quickCaptureInput');
+            if (input) input.focus();
+        }, 100);
+    }
+}
+
+// Close demo app
+function closeDemoApp() {
+    const overlay = document.getElementById('demoAppOverlay');
+    if (overlay) {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+// Initialize Quick Capture
+function initQuickCapture() {
+    const input = document.getElementById('quickCaptureInput');
+    const preview = document.getElementById('quickCapturePreview');
+
+    if (!input) return;
+
+    // Live preview as user types
+    input.addEventListener('input', (e) => {
+        const text = e.target.value.trim();
+        if (text.length > 0) {
+            const parsed = parseTaskInput(text);
+            updatePreview(parsed, preview);
+        } else {
+            preview.classList.remove('active');
+        }
+    });
+
+    // Add task on Enter
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && e.target.value.trim()) {
+            addQuickCapture();
+        }
+    });
+}
+
+// Parse task input with smart recognition
+function parseTaskInput(text) {
+    const result = {
+        title: text,
+        context: null,
+        priority: null,
+        tags: [],
+        date: null,
+        dateType: null // 'today', 'upcoming', or null for inbox
+    };
+
+    // Extract @context
+    const contextMatch = text.match(/@(\w+)/g);
+    if (contextMatch) {
+        result.context = contextMatch[0].substring(1);
+        result.title = result.title.replace(contextMatch[0], '').trim();
+    }
+
+    // Extract !priority
+    const priorityMatch = text.match(/!(high|medium|low|urgent)/i);
+    if (priorityMatch) {
+        result.priority = priorityMatch[1].toLowerCase();
+        if (result.priority === 'urgent') result.priority = 'high';
+        result.title = result.title.replace(priorityMatch[0], '').trim();
+    }
+
+    // Extract #tags
+    const tagMatches = text.match(/#(\w+)/g);
+    if (tagMatches) {
+        result.tags = tagMatches.map(t => t.substring(1));
+        tagMatches.forEach(t => {
+            result.title = result.title.replace(t, '').trim();
+        });
+    }
+
+    // Extract dates
+    const datePatterns = [
+        { pattern: /\btoday\b/i, type: 'today', value: 'Today' },
+        { pattern: /\btomorrow\b/i, type: 'upcoming', value: 'Tomorrow' },
+        { pattern: /\bnext week\b/i, type: 'upcoming', value: 'Next Week' },
+        { pattern: /\bnext month\b/i, type: 'upcoming', value: 'Next Month' },
+        { pattern: /\beod\b/i, type: 'today', value: 'End of Day' },
+        { pattern: /\basap\b/i, type: 'today', value: 'ASAP' },
+        { pattern: /\b(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/i, type: 'upcoming', value: null },
+        { pattern: /\b(\d{1,2})(am|pm)\b/i, type: 'today', value: null },
+        { pattern: /\b(\d{1,2}):(\d{2})\s*(am|pm)?\b/i, type: 'today', value: null },
+        { pattern: /\bin (\d+) (day|days|week|weeks|month|months)\b/i, type: 'upcoming', value: null }
+    ];
+
+    for (const dp of datePatterns) {
+        const match = text.match(dp.pattern);
+        if (match) {
+            result.date = dp.value || match[0];
+            result.dateType = dp.type;
+            result.title = result.title.replace(match[0], '').trim();
+            break;
+        }
+    }
+
+    // Clean up multiple spaces
+    result.title = result.title.replace(/\s+/g, ' ').trim();
+
+    return result;
+}
+
+// Update preview display
+function updatePreview(parsed, previewEl) {
+    if (!previewEl) return;
+
+    let html = `<span class="parsed-title">${escapeHtml(parsed.title)}</span>`;
+
+    if (parsed.context) {
+        html += `<span class="parsed-context">@${parsed.context}</span>`;
+    }
+
+    if (parsed.priority) {
+        html += `<span class="parsed-priority ${parsed.priority}">!${parsed.priority}</span>`;
+    }
+
+    parsed.tags.forEach(tag => {
+        html += `<span class="parsed-tag">#${tag}</span>`;
+    });
+
+    if (parsed.date) {
+        html += `<span class="parsed-date">${parsed.date}</span>`;
+    }
+
+    previewEl.innerHTML = html;
+    previewEl.classList.add('active');
+}
+
+// Escape HTML to prevent XSS
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Add task from Quick Capture
+function addQuickCapture() {
+    const input = document.getElementById('quickCaptureInput');
+    const preview = document.getElementById('quickCapturePreview');
+
+    if (!input || !input.value.trim()) return;
+
+    const parsed = parseTaskInput(input.value.trim());
+
+    // Create task object
+    const task = {
+        id: Date.now().toString(),
+        title: parsed.title || input.value.trim(),
+        context: parsed.context,
+        priority: parsed.priority,
+        tags: parsed.tags,
+        date: parsed.date,
+        dateType: parsed.dateType,
+        completed: false,
+        createdAt: new Date().toISOString()
+    };
+
+    // Add to tasks array
+    demoTasks.unshift(task);
+
+    // Save to localStorage
+    saveDemoTasks();
+
+    // Clear input and preview
+    input.value = '';
+    preview.classList.remove('active');
+    preview.innerHTML = '';
+
+    // Re-render tasks
+    renderDemoTasks();
+
+    // Show notification
+    showNotification('Task added!', 'success');
+}
+
+// Save tasks to localStorage
+function saveDemoTasks() {
+    localStorage.setItem('hyperplanner_demo_tasks', JSON.stringify(demoTasks));
+}
+
+// Render demo tasks to panels
+function renderDemoTasks() {
+    const todayTasks = document.getElementById('todayTasks');
+    const inboxTasks = document.getElementById('inboxTasks');
+    const upcomingTasks = document.getElementById('upcomingTasks');
+
+    if (!todayTasks || !inboxTasks || !upcomingTasks) return;
+
+    // Clear panels
+    todayTasks.innerHTML = '';
+    inboxTasks.innerHTML = '';
+    upcomingTasks.innerHTML = '';
+
+    // Sort tasks into panels
+    const today = [];
+    const inbox = [];
+    const upcoming = [];
+
+    demoTasks.filter(t => !t.completed).forEach(task => {
+        if (task.dateType === 'today') {
+            today.push(task);
+        } else if (task.dateType === 'upcoming') {
+            upcoming.push(task);
+        } else {
+            inbox.push(task);
+        }
+    });
+
+    // Render each panel
+    today.forEach(task => todayTasks.appendChild(createTaskCard(task)));
+    inbox.forEach(task => inboxTasks.appendChild(createTaskCard(task)));
+    upcoming.forEach(task => upcomingTasks.appendChild(createTaskCard(task)));
+
+    // Update counts
+    document.getElementById('todayCount').textContent = today.length;
+    document.getElementById('inboxCount').textContent = inbox.length;
+    document.getElementById('upcomingCount').textContent = upcoming.length;
+}
+
+// Create task card element
+function createTaskCard(task) {
+    const card = document.createElement('div');
+    card.className = 'task-card';
+    card.dataset.id = task.id;
+
+    let metaHtml = '';
+
+    if (task.context) {
+        metaHtml += `<span class="task-meta-item context">@${escapeHtml(task.context)}</span>`;
+    }
+
+    if (task.priority) {
+        metaHtml += `<span class="task-meta-item priority-${task.priority}">!${task.priority}</span>`;
+    }
+
+    task.tags.forEach(tag => {
+        metaHtml += `<span class="task-meta-item tag">#${escapeHtml(tag)}</span>`;
+    });
+
+    if (task.date) {
+        metaHtml += `<span class="task-meta-item date">${escapeHtml(task.date)}</span>`;
+    }
+
+    card.innerHTML = `
+        <div class="task-card-title">${escapeHtml(task.title)}</div>
+        <div class="task-card-meta">${metaHtml}</div>
+        <div class="task-card-actions">
+            <button class="task-action-btn complete" onclick="completeTask('${task.id}')">Complete</button>
+            <button class="task-action-btn delete" onclick="deleteTask('${task.id}')">Delete</button>
+        </div>
+    `;
+
+    return card;
+}
+
+// Complete a task
+function completeTask(taskId) {
+    const task = demoTasks.find(t => t.id === taskId);
+    if (task) {
+        task.completed = true;
+        saveDemoTasks();
+        renderDemoTasks();
+        showNotification('Task completed!', 'success');
+    }
+}
+
+// Delete a task
+function deleteTask(taskId) {
+    demoTasks = demoTasks.filter(t => t.id !== taskId);
+    saveDemoTasks();
+    renderDemoTasks();
+    showNotification('Task deleted', 'info');
+}
+
+// Update demo button handlers
+document.addEventListener('DOMContentLoaded', () => {
+    // Update all demo buttons to open the demo app
+    const demoBtns = document.querySelectorAll('.cta-demo, .cta-demo-main, .cta-demo-final, .demo-link');
+    demoBtns.forEach(btn => {
+        btn.removeEventListener('click', () => {});
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openDemoApp();
+        });
+    });
+
+    // Close demo on Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const overlay = document.getElementById('demoAppOverlay');
+            if (overlay && overlay.classList.contains('active')) {
+                closeDemoApp();
+            }
+        }
+    });
+});
+
+// Also update startDemo to open the demo app
+function startDemoOriginal() {
+    // Backup of original startDemo
+}
+
+// Override startDemo to launch demo app
+const originalStartDemo = typeof startDemo === 'function' ? startDemo : null;
+window.startDemo = function() {
+    // Save welcome data
+    localStorage.setItem('hyperplanner_welcome_data', JSON.stringify(welcomeData));
+    localStorage.setItem('hyperplanner_welcome_complete', 'true');
+    localStorage.setItem('hyperplanner_mode', 'demo');
+
+    hideWelcomeScreen();
+
+    // Open demo app instead of just showing notification
+    setTimeout(() => {
+        openDemoApp();
+    }, 300);
+};

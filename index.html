@@ -854,6 +854,69 @@
         </div>
     </div>
 
+    <!-- Demo App Overlay -->
+    <div class="demo-app-overlay" id="demoAppOverlay">
+        <div class="demo-app">
+            <div class="demo-app-header">
+                <div class="demo-app-title">
+                    <span class="logo-icon">◆</span>
+                    <span>HyperPlanner Demo</span>
+                    <span class="demo-badge">Demo Mode</span>
+                </div>
+                <button class="demo-app-close" onclick="closeDemoApp()">&times;</button>
+            </div>
+
+            <div class="demo-app-body">
+                <!-- Quick Capture Input -->
+                <div class="quick-capture-container">
+                    <div class="quick-capture-label">Quick Capture</div>
+                    <div class="quick-capture-input-wrapper">
+                        <input type="text" class="quick-capture-input" id="quickCaptureInput"
+                               placeholder="Type a task... try: 'meeting tomorrow 2pm @work !high #planning'"
+                               autocomplete="off">
+                        <button class="quick-capture-btn" onclick="addQuickCapture()">Add</button>
+                    </div>
+                    <div class="quick-capture-preview" id="quickCapturePreview"></div>
+                    <div class="quick-capture-hint">
+                        <span>Syntax:</span>
+                        <code>@context</code> <code>!priority</code> <code>#tag</code> <code>dates (tomorrow, next week, 3pm)</code>
+                    </div>
+                </div>
+
+                <!-- Demo Panels -->
+                <div class="demo-panels">
+                    <div class="demo-panel" id="todayPanel">
+                        <div class="demo-panel-header">
+                            <h3>Today</h3>
+                            <span class="panel-count" id="todayCount">0</span>
+                        </div>
+                        <div class="demo-panel-content" id="todayTasks"></div>
+                    </div>
+
+                    <div class="demo-panel" id="inboxPanel">
+                        <div class="demo-panel-header">
+                            <h3>Inbox</h3>
+                            <span class="panel-count" id="inboxCount">0</span>
+                        </div>
+                        <div class="demo-panel-content" id="inboxTasks"></div>
+                    </div>
+
+                    <div class="demo-panel" id="upcomingPanel">
+                        <div class="demo-panel-header">
+                            <h3>Upcoming</h3>
+                            <span class="panel-count" id="upcomingCount">0</span>
+                        </div>
+                        <div class="demo-panel-content" id="upcomingTasks"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-app-footer">
+                <p>This is demo mode - your data is stored locally. <a href="#" onclick="openSignInModal(); closeDemoApp();">Create an account</a> to unlock sync & AI features.</p>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
